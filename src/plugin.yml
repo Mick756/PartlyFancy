@@ -1,0 +1,9 @@
+name: PartlyFancy
+main: src.fancy.PartlyFancy
+version: 0.0.1
+description: Give your players the feeling of what really matters-- Fanciness.
+
+commands:
+  partlyfancy:
+    description: Main base command of PartlyFancy.
+    aliases: [fancy, pf, partlyf, pfancy, partly]
