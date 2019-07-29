@@ -1,4 +1,5 @@
-package src.partlyfancy;
+package src;
 
 public class Partlyfancy {
+
 }
