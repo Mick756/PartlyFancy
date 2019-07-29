@@ -1,4 +1,4 @@
-package src.fancy.inventory;
+package fancy.inventory;
 
 public class FancyInventory {
 

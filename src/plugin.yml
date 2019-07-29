@@ -1,7 +1,9 @@
 name: PartlyFancy
-main: src.fancy.PartlyFancy
+main: fancy.PartlyFancy
 version: 0.0.1
 description: Give your players the feeling of what really matters-- Fanciness.
+prefix: PartlyFancy
+author: Mick756
 
 commands:
   partlyfancy:
