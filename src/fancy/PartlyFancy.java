@@ -1,5 +1,6 @@
 package fancy;
 
+import com.sun.istack.internal.NotNull;
 import fancy.command.FancyCommandLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,19 +13,20 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.*;
 
 public class PartlyFancy extends JavaPlugin implements Listener {
 
     private static PartlyFancy instance;
     private static Map<UUID, FancyPlayer> fancyPlayers;
-
-    private static final String DEFAULT_PREFIX = ChatColor.BLUE + "PartlyFancy " + ChatColor.GRAY + ChatColor.BOLD + ">> " + ChatColor.RESET;
+    private static final String configVersion = "0.0.1-BETA";
 
     @Override
     public void onEnable() {
         instance = this;
         fancyPlayers = new HashMap<>();
+        generateConfig();
         getLogger().info("Loading v" + getVersion() + "...");
         registerListeners(this);
     }
@@ -41,9 +43,9 @@ public class PartlyFancy extends JavaPlugin implements Listener {
                 Player player = (Player) sender;
                 int result = FancyCommandLoader.runCommand(player, args);
                 if (result == -1) {
-                    player.sendMessage(getPrefix() + ChatColor.RED + "");
+                    player.sendMessage(getPrefix() + ChatColor.RED + getValue("message.command.not-found", "%"));
                 } else if (result == 0) {
-
+                    player.sendMessage(getPrefix() + ChatColor.RED + getValue("message.command.invalid-usage", "%"));
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "This command is restricted to players.");
@@ -75,8 +77,27 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     }
 
     public static String getPrefix() {
-        // TODO: Make it return another prefix if changed in config
-        return DEFAULT_PREFIX;
+        String prefix = getValue("prefix");
+        return ChatColor.translateAlternateColorCodes('&', getValue("prefix"));
+    }
+
+    public static String getValue(@NotNull String path, String... replacements) {
+        String message = getInstance().getConfig().getString(path);
+        if (message != null) {
+
+            if (replacements.length == 0) {
+                return ChatColor.translateAlternateColorCodes('&', message);
+            } else {
+                for (String replacement : replacements) {
+                    String[] split = replacement.split("-");
+                    message.replaceAll(split[0], split[1]);
+                }
+                return ChatColor.translateAlternateColorCodes('&', message);
+            }
+
+        } else {
+            return "";
+        }
     }
 
     public static Map<UUID, FancyPlayer> getFancyPlayers() {
@@ -86,6 +107,21 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     private void registerListeners(Listener... listeners) {
         for (Listener listener : listeners) {
             Bukkit.getPluginManager().registerEvents(listener, this);
+        }
+    }
+
+    private void generateConfig() {
+        File f = new File(getDataFolder(), "config.yml");
+        if (!f.exists()) {
+            saveDefaultConfig();
+            getLogger().info("New config.yml has been created.");
+        } else {
+            String ver = getConfig().getString("config-version");
+            if (ver != null && !ver.equalsIgnoreCase(configVersion)) {
+                f.renameTo(new File(getDataFolder(), "config.yml.old"));
+                saveDefaultConfig();
+                getLogger().info("Old config was changed to 'config.yml.old'. (REASON: OUTDATED)");
+            }
         }
     }
 }

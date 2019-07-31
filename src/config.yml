@@ -1,0 +1,28 @@
+##-------------------------------------------------------------------------------------------##
+##                                                                                           ##
+##  PartlyFancy by Mick756                                                                   ##
+##                                                                                           ##
+##  Configure the plugin to give you the exact type of fancy you desire.                     ##
+##                                                                                           ##
+##  Color codes: & + 0 (black), 1 (dark blue), 2 (dark green), 3 (dark aqua), 4 (dark red),  ##
+##               5 (dark purple), 6 (gold), 7 (gray), 8 (dark gray), 9 (blue),               ##
+##               a (green), b (aqua), c (red), d (light purple), e (yellow), f (white),      ##
+##               k (magic), l (bold), m (strike through), n (underline),                     ##
+##               o (italic), r (reset)                                                       ##
+##                                                                                           ##
+##-------------------------------------------------------------------------------------------##
+
+## DO NOT TOUCH THIS. It will only break things!
+config-version: '0.0.1-BETA'
+
+## Displayed in front of every message
+prefix: '&9PartlyFancy&7&l >>&r '
+
+## Message Configuration
+## %player% - player name  %cosmetic% - cosmetic
+message:
+  command:
+    not-found: '&cThat command was not found! Type "&b/partlyfancy help&c" for help!'
+    invalid-usage: '&cThe command was entered incorrectly! Type "&b/partlyfancy help&c" for help!'
+  cosmetic:
+    activated: '&eYou activated&b %cosmetic%!'
