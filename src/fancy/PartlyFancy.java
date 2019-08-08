@@ -2,8 +2,10 @@ package fancy;
 
 import com.sun.istack.internal.NotNull;
 import fancy.command.FancyCommandLoader;
+import fancy.util.NBTUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -24,6 +27,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     private static PartlyFancy instance;
     private static Map<UUID, FancyPlayer> fancyPlayers;
     private static final String configVersion = "0.0.1-BETA";
+    public static final String bukkitVersion = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 
     @Override
     public void onEnable() {
@@ -74,6 +78,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
 
         FancyPlayer fp = FancyPlayer.getFancyPlayer(p);
         getFancyPlayers().put(p.getUniqueId(), fp);
+        p.getInventory().addItem(NBTUtil.addNBTStringTag(new ItemStack(Material.SADDLE, 1), "NBT TAG"));
     }
 
     @EventHandler

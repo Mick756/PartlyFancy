@@ -22,7 +22,6 @@ public class FancyPlayer {
      * @param p Player to create object for
      */
     private FancyPlayer(Player p) {
-
         this.playerUUID = p.getUniqueId();
     }
 

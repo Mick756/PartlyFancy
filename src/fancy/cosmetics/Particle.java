@@ -1,8 +1,10 @@
 package fancy.cosmetics;
 
+import fancy.util.ParticleEffect;
+
 public interface Particle extends FancyCosmetic {
 
-    org.bukkit.Particle[] getParticles();
+    ParticleEffect[] getParticles();
 
     ParticleType getType();
 
