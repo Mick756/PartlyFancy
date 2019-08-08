@@ -1,3 +1,3 @@
-# PartlyFancy
+# FullyFancy
 
-A plugin to solve all your cosmetic needs. (In progress)
+A plugin to solve all your cosmetic needs. (but better)
