@@ -1,55 +1,45 @@
 package fancy;
 
 import fancy.cosmetics.FancyCosmetic;
-import fancy.cosmetics.FancyCosmeticType;
+import fancy.cosmetics.Gadget;
+import fancy.cosmetics.Particle;
+import fancy.cosmetics.Pet;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class FancyPlayer {
 
     private UUID playerUUID;
-    private Map<FancyCosmeticType, FancyCosmetic> activeCosmetics;
+    private Particle particleEffect = null;
+    private Gadget gadget = null;
+    private Pet pet = null;
 
     /**
      * PartlyFancy's player object
      * @param p Player to create object for
      */
-    public FancyPlayer(Player p) {
+    private FancyPlayer(Player p) {
 
         this.playerUUID = p.getUniqueId();
-        this.activeCosmetics = new HashMap<>();
     }
 
-    public boolean startCosmetic(FancyCosmetic cosmetic) {
-
-        if (!activeCosmetics.containsKey(cosmetic.type())) {
-            activeCosmetics.put(cosmetic.type(), cosmetic);
-
-            if (cosmetic.start()) {
-                return true;
-            } else {
-                activeCosmetics.remove(cosmetic.type());
-                return false;
-            }
-
+    public void startCosmetic(FancyCosmetic cosmetic) {
+        if (cosmetic == null) {
+            sendMessage(PartlyFancy.getValue("message.cosmetic.invalid"));
+        } else {
+            cosmetic.start();
         }
-
-        return false;
     }
 
-    public boolean stopCosmetic(FancyCosmeticType type) {
-
-        if (activeCosmetics.containsKey(type)) {
-            FancyCosmetic fc = activeCosmetics.get(type);
-            return fc.stop();
+    public void stopCosmetic(FancyCosmetic cosmetic) {
+        if (cosmetic == null) {
+            sendMessage(PartlyFancy.getValue("message.cosmetic.turn-off-inactive"));
+        } else {
+            cosmetic.stop();
         }
-
-        return true;
     }
 
     public void sendMessage(String message) {

@@ -1,8 +1,14 @@
 package fancy.cosmetics;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public interface FancyCosmetic {
+
+    /**
+     * @return Player of cosmetic
+     */
+    Player getPlayer();
 
     /**
      * @return Name of cosmetic item
@@ -10,19 +16,14 @@ public interface FancyCosmetic {
     String name();
 
     /**
-     * @return if able to start
+     * Start cosmetic.
      */
-    boolean start();
+    void start();
 
     /**
-     * @return if able to stop
+     * Stop cosmetic.
      */
-    boolean stop();
-
-    /**
-     * @return type of cosmetic item
-     */
-    FancyCosmeticType type();
+    void stop();
 
     /**
      * @return item to display in selection inventories

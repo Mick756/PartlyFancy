@@ -28,6 +28,8 @@ message:
     page-does-not-exist: '&cThat command page does not exist!'
   cosmetic:
     activated: '&eYou activated&b %cosmetic%!'
+    invalid: '&cSomething went wrong activating that cosmetic.'
+    turn-off-inactive: '&cYou do not have a cosmetic active to turn off!'
 
 ## Sound Configuration
 ## Sounds: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html

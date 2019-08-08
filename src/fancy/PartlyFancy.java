@@ -107,7 +107,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
                 for (String replacement : replacements) {
                     String[] split = replacement.split("-");
                     if (split.length == 2) {
-                        message.replaceAll(split[0], split[1]);
+                        message = message.replaceAll(split[0], split[1]);
                     }
                 }
                 return ChatColor.translateAlternateColorCodes('&', message);
@@ -120,10 +120,11 @@ public class PartlyFancy extends JavaPlugin implements Listener {
 
     public static Sound getSound(@NotNull String path) {
         String sound = getInstance().getConfig().getString(path);
-        if (Sound.valueOf(sound.toUpperCase()) != null) {
+        try {
             return Sound.valueOf(sound.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            return Sound.BLOCK_LEVER_CLICK;
         }
-        return Sound.BLOCK_LEVER_CLICK;
     }
 
     public static Map<UUID, FancyPlayer> getFancyPlayers() {
