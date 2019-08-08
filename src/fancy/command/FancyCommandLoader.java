@@ -20,21 +20,10 @@ public class FancyCommandLoader {
 
     public interface FancyCommand {
 
-        /**
-         * @param player
-         * @param args
-         * @return
-         */
         int run(Player player, String[] args);
 
-        /**
-         * @return first argument.
-         * Ex. /fancy help
-         * command.argument() = "help"
-         */
         String[] subCommands();
 
-        String usage();
 
         Permission permission();
 

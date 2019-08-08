@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 import fancy.command.FancyCommandLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -115,6 +116,14 @@ public class PartlyFancy extends JavaPlugin implements Listener {
         } else {
             return "Error finding requested value at: " + path + ".";
         }
+    }
+
+    public static Sound getSound(@NotNull String path) {
+        String sound = getInstance().getConfig().getString(path);
+        if (Sound.valueOf(sound.toUpperCase()) != null) {
+            return Sound.valueOf(sound.toUpperCase());
+        }
+        return Sound.BLOCK_LEVER_CLICK;
     }
 
     public static Map<UUID, FancyPlayer> getFancyPlayers() {

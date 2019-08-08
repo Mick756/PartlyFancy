@@ -3,9 +3,12 @@ package fancy;
 import fancy.cosmetics.FancyCosmetic;
 import fancy.cosmetics.FancyCosmeticType;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class FancyPlayer {
 
@@ -47,6 +50,10 @@ public class FancyPlayer {
         }
 
         return true;
+    }
+
+    public void sendMessage(String message) {
+        getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
     public Player getPlayer() {

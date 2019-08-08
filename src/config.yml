@@ -25,5 +25,13 @@ message:
     not-found: '&cThat command was not found! Type "&b/partlyfancy help&c" for help!'
     invalid-usage: '&cThe command was entered incorrectly! Type "&b/partlyfancy help&c" for help!'
     no-permission: '&cYou do not have permission to run this command!'
+    page-does-not-exist: '&cThat command page does not exist!'
   cosmetic:
     activated: '&eYou activated&b %cosmetic%!'
+
+## Sound Configuration
+## Sounds: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+sound:
+  inventory:
+    open: 'BLOCK_CHEST_OPEN'
+    close: 'BLOCK_CHEST_CLOSE'
