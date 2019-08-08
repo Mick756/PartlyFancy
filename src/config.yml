@@ -24,5 +24,6 @@ message:
   command:
     not-found: '&cThat command was not found! Type "&b/partlyfancy help&c" for help!'
     invalid-usage: '&cThe command was entered incorrectly! Type "&b/partlyfancy help&c" for help!'
+    no-permission: '&cYou do not have permission to run this command!'
   cosmetic:
     activated: '&eYou activated&b %cosmetic%!'
