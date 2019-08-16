@@ -78,7 +78,9 @@ public class PartlyFancy extends JavaPlugin implements Listener {
 
         FancyPlayer fp = FancyPlayer.getFancyPlayer(p);
         getFancyPlayers().put(p.getUniqueId(), fp);
-        p.getInventory().addItem(NBTUtil.addNBTStringTag(new ItemStack(Material.SADDLE, 1), "NBT TAG"));
+        ItemStack s = NBTUtil.setItemTag(new ItemStack(Material.SADDLE, 1), "open inv", "PartlyFancy");
+        p.getInventory().addItem(s);
+        getLogger().info(NBTUtil.getItemNBTTag(s).toString());
     }
 
     @EventHandler
