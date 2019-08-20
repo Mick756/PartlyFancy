@@ -72,6 +72,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
         return true;
     }
 
+    // Join event to register players and give item.
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
@@ -90,10 +91,12 @@ public class PartlyFancy extends JavaPlugin implements Listener {
         getFancyPlayers().remove(p.getUniqueId());
     }
 
+    // Instance of PartlyFancy JavaPlugin
     public static PartlyFancy getInstance() {
         return instance;
     }
 
+    //
     public static String getVersion() {
         return getInstance().getDescription().getVersion();
     }
@@ -103,6 +106,12 @@ public class PartlyFancy extends JavaPlugin implements Listener {
         return ChatColor.translateAlternateColorCodes('&', getValue("prefix"));
     }
 
+    /**
+     * Retrieve a String value from a path. Does not work with Lists, Booleans, etc.
+     * @param path Path to the config.yml
+     * @param replacements Finds all instances of something and replaces is it. %find%-replace
+     * @return the String found or an error if path value is null.
+     */
     public static String getValue(@NotNull String path, String... replacements) {
         String message = getInstance().getConfig().getString(path);
 

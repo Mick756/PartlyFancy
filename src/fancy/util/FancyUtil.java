@@ -17,7 +17,7 @@ public class FancyUtil {
      * @param amount   integer 0 < amount < 65
      * @param damage   short
      * @param lore     String[] lore in order from top to bottom
-     * @return org.bukkit.inventory.ItemStack with attributes defined
+     * @return         org.bukkit.inventory.ItemStack with attributes defined
      */
     public static ItemStack createItemStack(String name, Material material, Integer amount, Short damage, String... lore) {
         // Safety for creation
@@ -39,10 +39,10 @@ public class FancyUtil {
 
     /**
      * Adds enchantment. Always added using 'unsafe'.
-     * @param stack Input ItemStack
+     * @param stack       Input ItemStack
      * @param enchantment org.bukkit.enchantments.Enchantment
-     * @param level integer
-     * @return ItemStack with added Enchantment (will overwrite pre-existing enchantment)
+     * @param level       integer
+     * @return            ItemStack with added Enchantment (will overwrite pre-existing enchantment)
      */
     public static ItemStack addEnchantment(ItemStack stack, Enchantment enchantment, Integer level) {
 
@@ -56,9 +56,9 @@ public class FancyUtil {
 
     /**
      * Adds multiple enchantments. Always added using 'unsafe'.
-     * @param stack Input ItemStack
+     * @param stack        Input ItemStack
      * @param enchantments <org.bukkit.enchantments.Enchantment, Integer>
-     * @return ItemStack with added Enchantments (will clear pre-existing enchantments)
+     * @return             ItemStack with added Enchantments (will clear pre-existing enchantments)
      */
     public static ItemStack addEnchantments(ItemStack stack, Map<Enchantment, Integer> enchantments) {
 
@@ -72,7 +72,7 @@ public class FancyUtil {
 
     /**
      * @param input A string value
-     * @return true is a number - false is not a number or is not formatted correctly
+     * @return      true is a number - false is not a number or is not formatted correctly
      */
     public static boolean isInteger(String input) {
 
@@ -87,7 +87,7 @@ public class FancyUtil {
 
     /**
      * @param input A string value
-     * @return -1 if not a number - number is input is formatted correctly
+     * @return      -1 if not a number - number is input is formatted correctly
      */
     public static Integer fromString(String input) {
 

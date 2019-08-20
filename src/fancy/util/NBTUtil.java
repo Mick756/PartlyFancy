@@ -36,47 +36,48 @@ public class NBTUtil {
     static {
         VERSION = PartlyFancy.bukkitVersion;
 
-        classCache = new HashMap<String, Class<?>>();
+        classCache = new HashMap<>();
         try {
-            classCache.put("NBTBase", Class.forName("net.minecraft.server." + VERSION + "." + "NBTBase"));
-            classCache.put("NBTTagCompound", Class.forName("net.minecraft.server." + VERSION + "." + "NBTTagCompound"));
-            classCache.put("NBTTagList", Class.forName("net.minecraft.server." + VERSION + "." + "NBTTagList"));
-            classCache.put("NBTBase", Class.forName("net.minecraft.server." + VERSION + "." + "NBTBase"));
-
-            classCache.put("ItemStack", Class.forName("net.minecraft.server." + VERSION + "." + "ItemStack"));
-            classCache.put("CraftItemStack", Class.forName("org.bukkit.craftbukkit." + VERSION + ".inventory." + "CraftItemStack"));
-
-            classCache.put("Entity", Class.forName("net.minecraft.server." + VERSION + "." + "Entity"));
-            classCache.put("CraftEntity", Class.forName("org.bukkit.craftbukkit." + VERSION + ".entity." + "CraftEntity"));
-            classCache.put("EntityLiving", Class.forName("net.minecraft.server." + VERSION + "." + "EntityLiving"));
-
-            classCache.put("CraftWorld", Class.forName("org.bukkit.craftbukkit." + VERSION + "." + "CraftWorld"));
-            classCache.put("CraftBlockState", Class.forName("org.bukkit.craftbukkit." + VERSION + ".block." + "CraftBlockState"));
-            classCache.put("BlockPosition", Class.forName("net.minecraft.server." + VERSION + "." + "BlockPosition"));
-            classCache.put("TileEntity", Class.forName("net.minecraft.server." + VERSION + "." + "TileEntity"));
-            classCache.put("World", Class.forName("net.minecraft.server." + VERSION + "." + "World"));
-
-            classCache.put("TileEntitySkull", Class.forName("net.minecraft.server." + VERSION + "." + "TileEntitySkull"));
+            // NBT
+            classCache.put("NBTBase", Class.forName("net.minecraft.server." + VERSION + ".NBTBase"));
+            classCache.put("NBTTagCompound", Class.forName("net.minecraft.server." + VERSION + ".NBTTagCompound"));
+            classCache.put("NBTTagList", Class.forName("net.minecraft.server." + VERSION + ".NBTTagList"));
+            classCache.put("NBTBase", Class.forName("net.minecraft.server." + VERSION + ".NBTBase"));
+            // ItemStacks
+            classCache.put("ItemStack", Class.forName("net.minecraft.server." + VERSION + ".ItemStack"));
+            classCache.put("CraftItemStack", Class.forName("org.bukkit.craftbukkit." + VERSION + ".inventory.CraftItemStack"));
+            // Entities
+            classCache.put("Entity", Class.forName("net.minecraft.server." + VERSION + ".Entity"));
+            classCache.put("CraftEntity", Class.forName("org.bukkit.craftbukkit." + VERSION + ".entity.CraftEntity"));
+            classCache.put("EntityLiving", Class.forName("net.minecraft.server." + VERSION + ".EntityLiving"));
+            // Blocks
+            classCache.put("CraftWorld", Class.forName("org.bukkit.craftbukkit." + VERSION + ".CraftWorld"));
+            classCache.put("CraftBlockState", Class.forName("org.bukkit.craftbukkit." + VERSION + ".block.CraftBlockState"));
+            classCache.put("BlockPosition", Class.forName("net.minecraft.server." + VERSION + ".BlockPosition"));
+            classCache.put("TileEntity", Class.forName("net.minecraft.server." + VERSION + ".TileEntity"));
+            classCache.put("World", Class.forName("net.minecraft.server." + VERSION + ".World"));
+            // Skulls
+            classCache.put("TileEntitySkull", Class.forName("net.minecraft.server." + VERSION + ".TileEntitySkull"));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        NBTClasses = new HashMap<Class<?>, Class<?>>();
+        NBTClasses = new HashMap<>();
         try {
-            NBTClasses.put(Byte.class, Class.forName("net.minecraft.server." + VERSION + "." + "NBTTagByte"));
-            NBTClasses.put(String.class, Class.forName("net.minecraft.server." + VERSION + "." + "NBTTagString"));
-            NBTClasses.put(Double.class, Class.forName("net.minecraft.server." + VERSION + "." + "NBTTagDouble"));
-            NBTClasses.put(Integer.class, Class.forName("net.minecraft.server." + VERSION + "." + "NBTTagInt"));
-            NBTClasses.put(Long.class, Class.forName("net.minecraft.server." + VERSION + "." + "NBTTagLong"));
-            NBTClasses.put(Short.class, Class.forName("net.minecraft.server." + VERSION + "." + "NBTTagShort"));
-            NBTClasses.put(Float.class, Class.forName("net.minecraft.server." + VERSION + "." + "NBTTagFloat"));
-            NBTClasses.put(Class.forName("[B"), Class.forName("net.minecraft.server." + VERSION + "." + "NBTTagByteArray"));
-            NBTClasses.put(Class.forName("[I"), Class.forName("net.minecraft.server." + VERSION + "." + "NBTTagIntArray"));
+            NBTClasses.put(Byte.class, Class.forName("net.minecraft.server." + VERSION + ".NBTTagByte"));
+            NBTClasses.put(String.class, Class.forName("net.minecraft.server." + VERSION + ".NBTTagString"));
+            NBTClasses.put(Double.class, Class.forName("net.minecraft.server." + VERSION + ".NBTTagDouble"));
+            NBTClasses.put(Integer.class, Class.forName("net.minecraft.server." + VERSION + ".NBTTagInt"));
+            NBTClasses.put(Long.class, Class.forName("net.minecraft.server." + VERSION + ".NBTTagLong"));
+            NBTClasses.put(Short.class, Class.forName("net.minecraft.server." + VERSION + ".NBTTagShort"));
+            NBTClasses.put(Float.class, Class.forName("net.minecraft.server." + VERSION + ".NBTTagFloat"));
+            NBTClasses.put(Class.forName("[B"), Class.forName("net.minecraft.server." + VERSION + ".NBTTagByteArray"));
+            NBTClasses.put(Class.forName("[I"), Class.forName("net.minecraft.server." + VERSION + ".NBTTagIntArray"));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        methodCache = new HashMap<String, Method>();
+        methodCache = new HashMap<>();
         try {
             methodCache.put("get", getNMSClass("NBTTagCompound").getMethod("get", String.class));
             methodCache.put("set", getNMSClass("NBTTagCompound").getMethod("set", String.class, getNMSClass("NBTBase")));
@@ -121,12 +122,7 @@ public class NBTUtil {
 
         try {
             methodCache.put("getTileTag", getNMSClass("TileEntity").getMethod("save", getNMSClass("NBTTagCompound")));
-        } catch (NoSuchMethodException exception) {
-            try {
-                methodCache.put("getTileTag", getNMSClass("TileEntity").getMethod("b", getNMSClass("NBTTagCompound")));
-            } catch (Exception exception2) {
-                exception2.printStackTrace();
-            }
+            methodCache.put("getTileTag", getNMSClass("TileEntity").getMethod("b", getNMSClass("NBTTagCompound")));
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -191,11 +187,11 @@ public class NBTUtil {
     }
 
     private static Method getMethod(String name) {
-        return methodCache.containsKey(name) ? methodCache.get(name) : null;
+        return methodCache.get(name);
     }
 
     private static Constructor<?> getConstructor(Class<?> clazz) {
-        return constructorCache.containsKey(clazz) ? constructorCache.get(clazz) : null;
+        return constructorCache.get(clazz);
     }
 
     private static Class<?> getNMSClass(String name) {
