@@ -29,7 +29,8 @@ message:
   cosmetic:
     activated: '&eYou activated&b %cosmetic%!'
     invalid: '&cSomething went wrong activating that cosmetic.'
-    turn-off-inactive: '&cYou do not have a cosmetic active to turn off!'
+    turn-off-inactive: '&cYou do not have an active cosmetic to turn off!'
+  default: '&cOops, something went wrong, please contact plugin author.'
 
 ## Sound Configuration
 ## Sounds: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html

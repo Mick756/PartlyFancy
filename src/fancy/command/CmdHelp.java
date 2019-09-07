@@ -13,7 +13,7 @@ public class CmdHelp implements FancyCommandLoader.FancyCommand {
             "&7[] optional argument - () alias - <> required argument",
             " ",
             "&e/fancy help(h) [page]&7 - Display the help pages.",
-            "&e/fancy inventory(i)&7 - Open the cosmetic menu."
+            "&e/fancy menu(m)&7 - Open the cosmetic menu."
     };
 
     @Override
