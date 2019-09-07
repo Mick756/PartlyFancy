@@ -8,11 +8,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.UUID;
 
 public class FancyPlayer {
 
     private UUID playerUUID;
+
+    // Stored objects of cosmetics
     private Particle particleEffect = null;
     private Gadget gadget = null;
     private Pet pet = null;
@@ -60,6 +62,47 @@ public class FancyPlayer {
         } else {
             return new FancyPlayer(Bukkit.getPlayer(uuid));
         }
+    }
+
+
+    /*
+    Getters, Setters, and Checks Below
+     */
+
+    public Particle getParticleEffect() {
+        return particleEffect;
+    }
+
+    public void setParticleEffect(Particle particleEffect) {
+        this.particleEffect = particleEffect;
+    }
+
+    public boolean hasParticleEffect() {
+        return (particleEffect == null);
+    }
+
+    public Gadget getGadget() {
+        return gadget;
+    }
+
+    public void setGadget(Gadget gadget) {
+        this.gadget = gadget;
+    }
+
+    public boolean hasGadget() {
+        return (gadget == null);
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
+
+    public boolean hasPet() {
+        return (pet == null);
     }
 
 }

@@ -52,6 +52,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
 
+                // Default command: /partlyfancy help
                 if (args.length == 0) {
                     FancyCommandLoader.runCommand(player, "help");
                     return true;
@@ -59,8 +60,11 @@ public class PartlyFancy extends JavaPlugin implements Listener {
 
                 int result = FancyCommandLoader.runCommand(player, args);
 
+                // Command not found error
                 if (result == -1) {
                     player.sendMessage(getPrefix() + ChatColor.RED + getValue("message.command.not-found", "%player%-" + player.getDisplayName()));
+
+                // Command used incorrectly error
                 } else if (result == 0) {
                     player.sendMessage(getPrefix() + ChatColor.RED + getValue("message.command.invalid-usage", "%player%-" + player.getDisplayName()));
                 }
@@ -96,13 +100,13 @@ public class PartlyFancy extends JavaPlugin implements Listener {
         return instance;
     }
 
-    //
+    // PartlyFancy Version
     public static String getVersion() {
         return getInstance().getDescription().getVersion();
     }
 
+    // Plugin prefix from config.yml
     public static String getPrefix() {
-        String prefix = getValue("prefix");
         return ChatColor.translateAlternateColorCodes('&', getValue("prefix"));
     }
 
