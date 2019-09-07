@@ -27,6 +27,10 @@ public class FancyPlayer {
         this.playerUUID = p.getUniqueId();
     }
 
+    /**
+     * Start a cosmetic.
+     * @param cosmetic A new FancyCosmetic
+     */
     public void startCosmetic(FancyCosmetic cosmetic) {
         if (cosmetic == null) {
             sendMessage(PartlyFancy.getValue("message.cosmetic.invalid"));
@@ -35,6 +39,10 @@ public class FancyPlayer {
         }
     }
 
+    /**
+     * Stop a cosmetic.
+     * @param cosmetic An active cosmetic of the FancyPlayer
+     */
     public void stopCosmetic(FancyCosmetic cosmetic) {
         if (cosmetic == null) {
             sendMessage(PartlyFancy.getValue("message.cosmetic.turn-off-inactive"));
@@ -60,6 +68,12 @@ public class FancyPlayer {
         if (PartlyFancy.getFancyPlayers().containsKey(uuid)) {
             return PartlyFancy.getFancyPlayers().get(uuid);
         } else {
+
+            // Check if a new FancyPlayer can be created
+            if (Bukkit.getPlayer(uuid) == null) {
+                throw new NullPointerException("FancyPlayer creation failed. Player with UUID of " + uuid.toString() + " not found.");
+            }
+
             return new FancyPlayer(Bukkit.getPlayer(uuid));
         }
     }

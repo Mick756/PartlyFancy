@@ -40,8 +40,10 @@ public class FancyCommandLoader {
         return -1;
     }
 
-    public static void addFancyCommand(FancyCommand command) {
-        commands.add(command);
+    public static void addFancyCommand(FancyCommand... fancyCommands) {
+        for (FancyCommand cmd : fancyCommands) {
+            commands.add(cmd);
+        }
     }
 
     public interface FancyCommand {

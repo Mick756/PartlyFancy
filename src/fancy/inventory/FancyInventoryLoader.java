@@ -8,7 +8,9 @@ import org.bukkit.permissions.Permission;
 public class FancyInventoryLoader {
 
     public static boolean openInventory(Player player, FancyInventory inventory) {
+
         if (player.hasPermission(inventory.permission())) {
+
             player.closeInventory();
             player.playSound(player.getLocation(), PartlyFancy.getSound("sound.inventory.open"), 2f, 1f);
             player.openInventory(inventory.getInventory());
