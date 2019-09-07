@@ -144,7 +144,7 @@ public class NBTUtil {
             e.printStackTrace();
         }
 
-        NBTTagFieldCache = new HashMap<Class<?>, Field>();
+        NBTTagFieldCache = new HashMap<>();
         try {
             for (Class<?> clazz : NBTClasses.values()) {
                 Field data = clazz.getDeclaredField("data");
