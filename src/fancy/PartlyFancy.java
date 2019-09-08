@@ -106,9 +106,9 @@ public class PartlyFancy extends JavaPlugin implements Listener {
 
     /**
      * Retrieve a String value from a path. Does not work with Lists, Booleans, etc.
-     * @param path Path to the config.yml
+     * @param path         Path to the config.yml
      * @param replacements Finds all instances of something and replaces is it. %find%-replace
-     * @return the String found or an error if path value is null.
+     * @return             The String found or an error if path value is null. Color codes auto translated from '&'
      */
     public static String getValue(@NotNull String path, String... replacements) {
         String message = getInstance().getConfig().getString(path);
@@ -140,7 +140,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     /**
      * Retrieve a String value from a path. Will take the valueOf(string) from Sound class
      * @param path Path to the config.yml
-     * @return the Sound found or the default sound 'Sound.BLOCK_LEVER_CLICK' if an error occures
+     * @return     The Sound found or the default sound 'Sound.BLOCK_LEVER_CLICK' if an error occures
      */
     public static Sound getSound(@NotNull String path) {
         String sound = getInstance().getConfig().getString(path);

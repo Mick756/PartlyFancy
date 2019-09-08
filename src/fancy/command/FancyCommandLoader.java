@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class FancyCommandLoader {
@@ -21,8 +22,8 @@ public class FancyCommandLoader {
     /**
      * A function to execute command that searches through all available commands
      * @param player Player that ran the command (As you can see, ConsoleSender is NOT permitted)
-     * @param args Arguments to pass into the commands
-     * @return An error ID int (-1 = not found, 0 = used incorrectly, 1 = successful)
+     * @param args   Arguments to pass into the commands
+     * @return       An error ID int (-1 = not found, 0 = used incorrectly, 1 = successful)
      */
     public static int runCommand(Player player, String... args) {
         // Cycle through available commands
@@ -40,10 +41,12 @@ public class FancyCommandLoader {
         return -1;
     }
 
+    /**
+     * Add a fancy command to the registry
+     * @param fancyCommands Add any amount of FancyCommands at once
+     */
     public static void addFancyCommand(FancyCommand... fancyCommands) {
-        for (FancyCommand cmd : fancyCommands) {
-            commands.add(cmd);
-        }
+        Collections.addAll(commands, fancyCommands);
     }
 
     public interface FancyCommand {

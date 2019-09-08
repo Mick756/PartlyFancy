@@ -30,6 +30,8 @@ message:
     activated: '&eYou activated&b %cosmetic%!'
     invalid: '&cSomething went wrong activating that cosmetic.'
     turn-off-inactive: '&cYou do not have an active cosmetic to turn off!'
+  menu:
+    no-permission: '&cYou do not have permission to use this menu!'
   default: '&cOops, something went wrong, please contact plugin author.'
 
 ## Sound Configuration
