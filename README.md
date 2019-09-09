@@ -1,5 +1,4 @@
-# PartlyFancy
-![alt text](https://i.imgur.com/MCTHAKk.jpg "PartlyFancy Heart")
+![alt text](https://imgur.com/Vpvb53q.jpg "PartlyFancy Heart")
 
 > PartlyFancy is currently in development to be the best it can possibly be. For the future, a Premium version might be released on Spigot. This plugin is a lot to keep up with and no help or donation gives me no motivation to do so.
 
