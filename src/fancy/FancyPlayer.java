@@ -1,5 +1,6 @@
 package fancy;
 
+import com.sun.istack.internal.NotNull;
 import fancy.cosmetics.FancyCosmetic;
 import fancy.cosmetics.Gadget;
 import fancy.cosmetics.Particle;
@@ -8,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class FancyPlayer {
@@ -23,7 +25,7 @@ public class FancyPlayer {
      * PartlyFancy's player object
      * @param p Player to create object for
      */
-    private FancyPlayer(Player p) {
+    private FancyPlayer(@NotNull Player p) {
         this.playerUUID = p.getUniqueId();
     }
 
@@ -59,10 +61,20 @@ public class FancyPlayer {
         return Bukkit.getPlayer(this.playerUUID);
     }
 
+    /**
+     * Retrieve a Fancy Player or make a new one if the instance doesn't exist.
+     * @param player Player to create the new instance around.
+     * @return new FancyPlayer object. Will return null if player is found to be offline.
+     */
     public static FancyPlayer getFancyPlayer(Player player) {
         return getFancyPlayer(player.getUniqueId());
     }
 
+    /**
+     * Retrieve a Fancy Player or make a new one if the instance doesn't exist.
+     * @param uuid UUID of the player to create the new instance around.
+     * @return new FancyPlayer object. Will return null if player is found to be offline.
+     */
     public static FancyPlayer getFancyPlayer(UUID uuid) {
 
         if (PartlyFancy.getFancyPlayers().containsKey(uuid)) {
@@ -71,10 +83,17 @@ public class FancyPlayer {
 
             // Check if a new FancyPlayer can be created
             if (Bukkit.getPlayer(uuid) == null) {
-                throw new NullPointerException("FancyPlayer creation failed. Player with UUID of " + uuid.toString() + " not found.");
-            }
+                PartlyFancy.sendConsoleMessage("&cPlayer with UUID of " + uuid.toString() + " was not found to be online.");
+                return null;
+            } else {
 
-            return new FancyPlayer(Bukkit.getPlayer(uuid));
+                try {
+                    return new FancyPlayer(Bukkit.getPlayer(uuid));
+                } catch (NullPointerException ex) {
+                    PartlyFancy.sendConsoleMessage("&cPlayer with UUID of " + uuid.toString() + " was not found to be online.");
+                    return null;
+                }
+            }
         }
     }
 

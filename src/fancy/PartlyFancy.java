@@ -153,6 +153,14 @@ public class PartlyFancy extends JavaPlugin implements Listener {
         }
     }
 
+    /**
+     * Send a quick message to the console.
+     * @param message The message to send
+     */
+    public static void sendConsoleMessage(String message) {
+        getInstance().getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    }
+
     public static Map<UUID, FancyPlayer> getFancyPlayers() {
         return fancyPlayers;
     }
