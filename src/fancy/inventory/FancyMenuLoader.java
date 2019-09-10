@@ -52,5 +52,10 @@ public class FancyMenuLoader {
 
         Permission permission();
 
+        /*
+        Style for the inventory
+         */
+        FancyMenuTheme getTheme();
+
     }
 }
