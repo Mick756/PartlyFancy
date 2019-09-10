@@ -1,6 +1,7 @@
 package fancy.inventory.menus;
 
 import fancy.inventory.FancyMenuLoader;
+import fancy.inventory.FancyMenuTheme;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.Inventory;
@@ -33,6 +34,11 @@ public class MainMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public Permission permission() {
+        return null;
+    }
+
+    @Override
+    public FancyMenuTheme getTheme() {
         return null;
     }
 }
