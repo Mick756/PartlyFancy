@@ -3,6 +3,7 @@ package fancy.util;
 import com.sun.istack.internal.NotNull;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -112,5 +113,49 @@ public class FancyUtil {
             return -1;
         }
 
+    }
+
+    /**
+     * Get an array of ints locating the boarders of any size chest-like inventory. (Does not work for anvils, hoppers, etc.)
+     * @param inv Inventory to trace.
+     * @param omit Omit the center 3 slots at the bottom to allow for menu navigational purposes.
+     * @return Array of ints reflecting the slots of the inventory
+     */
+    public static int[] getInventoryBorder(Inventory inv, boolean omit) {
+        int invSize = inv.getSize();
+        if (invSize >= 9 && invSize <= 54) {
+            if (omit) {
+                switch (invSize) {
+                    case 9:
+                        return new int[]{0, 8};
+                    case 18:
+                        return new int[]{0, 8, 9, 17};
+                    case 27:
+                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 24, 25, 26};
+                    case 36:
+                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 28, 29, 33, 34, 35};
+                    case 45:
+                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 42, 43, 44};
+                    case 54:
+                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 51, 52, 53};
+                }
+            } else {
+                switch (invSize) {
+                    case 9:
+                        return new int[]{0, 8};
+                    case 18:
+                        return new int[]{0, 8, 9, 17};
+                    case 27:
+                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+                    case 36:
+                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
+                    case 45:
+                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
+                    case 54:
+                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+                }
+            }
+        }
+        return new int[]{};
     }
 }

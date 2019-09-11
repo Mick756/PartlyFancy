@@ -6,7 +6,7 @@ import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 
 public enum Particles {
 
-    FLAMES(new String[] { "flame", "flames", "fire" }, ParticleEffect.FLAME, false, false),
+    FLAMES(new String[] { "flame", "fire" }, ParticleEffect.FLAME, false, false),
 
     HAPPY_VILLAGER(new String[] { "happyvillager", "happy_villager", "happy-villager", "happy", "greensparks" }, ParticleEffect.HAPPY_VILLAGER, false, false),
 
@@ -14,23 +14,23 @@ public enum Particles {
 
     REDSTONE(new String[] { "redstone", "dust" }, ParticleEffect.REDSTONE, true, false),
 
-    CRITS(new String[] { "crit", "crits" }, ParticleEffect.CRITS, false, false),
+    CRITS(new String[] { "crit" }, ParticleEffect.CRITS, false, false),
 
-    HEARTS(new String[] { "hearts", "heart" }, ParticleEffect.HEARTS, false, true),
+    HEARTS(new String[] { "heart" }, ParticleEffect.HEARTS, false, true),
 
-    LAVA_DROPS(new String[] { "lava-drops", "lavadrops", "lava_drops", "lavadrop", "lava-drop", "lava_drops" }, ParticleEffect.LAVA_DROPS, false, true),
+    LAVA_DROPS(new String[] { "lava", "lava-drops", "lavadrops", "lavadrop", "lava-drop" }, ParticleEffect.LAVA_DROPS, false, true),
 
     MAGIC_CRITS(new String[] { "magicscrits", "magic-crits", "magic_crits", "mcrits" }, ParticleEffect.MAGIC_CRITS, false, false),
 
-    NOTES(new String[] { "note", "notes", "noteblock" }, ParticleEffect.NOTE, true, false),
+    NOTES(new String[] { "note", "noteblock" }, ParticleEffect.NOTE, true, false),
 
-    SLIME(new String[] { "slime" }, ParticleEffect.SLIME, false, false),
+    SLIME(null, ParticleEffect.SLIME, false, false),
 
-    SMOKE(new String[] { "smoke" }, ParticleEffect.NORMAL_SMOKE, false, false),
+    SMOKE(null, ParticleEffect.NORMAL_SMOKE, false, false),
 
     SPARKS(new String[] { "sparks", "fireworksparks", "firework", "fireworks", "spark" }, ParticleEffect.SPARKS, false, true),
 
-    WATER_DROPS(new String[] { "water-drops", "waterdrops", "water_drops", "waterdrop", "water-drop", "water_drops" }, ParticleEffect.WATER_DROPS, false, true);
+    WATER_DROPS(new String[] { "water", "water-drops", "waterdrops", "waterdrop", "water-drop" }, ParticleEffect.WATER_DROPS, false, true);
 
 
     public String[] altNames;
@@ -68,6 +68,7 @@ public enum Particles {
      */
     public Particles getParticle(String altName) {
         for (Particles p : values()) {
+            if (p.name().equalsIgnoreCase(altName)) return p;
             for (String alt : p.altNames) {
                 if (altName.equalsIgnoreCase(alt)) {
                     return p;
