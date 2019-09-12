@@ -4,7 +4,6 @@ import com.sun.istack.internal.NotNull;
 import fancy.PartlyFancy;
 import fancy.cosmetics.Particle;
 import fancy.util.FancyUtil;
-import fancy.util.ParticleEffect;
 import fancy.util.Particles;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -60,7 +59,7 @@ public class CrownParticle implements Particle {
 
                 double radius = 0.65D;
                 double amount = radius * 64.0D;
-                double inc = (Math.PI * 2) / amount;
+                double inc = (Math.PI * 4) / amount;
                 double angle = i * inc;
 
                 double x = radius * Math.cos(angle);

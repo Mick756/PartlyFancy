@@ -18,7 +18,6 @@ public class FancyUtil {
      * @param name     Name to be displayed
      * @param material org.bukkit.Material
      * @param amount   integer 0 < amount < 65
-     * @param damage   short
      * @param lore     String[] lore in order from top to bottom
      * @return         org.bukkit.inventory.ItemStack with attributes defined
      */
@@ -45,6 +44,8 @@ public class FancyUtil {
         if (lore != null && lore.length != 0) {
             meta.setLore(Arrays.asList(lore));
         }
+
+        itemStack.setItemMeta(meta);
 
         return itemStack;
     }
@@ -123,39 +124,29 @@ public class FancyUtil {
      */
     public static int[] getInventoryBorder(Inventory inv, boolean omit) {
         int invSize = inv.getSize();
-        if (invSize >= 9 && invSize <= 54) {
-            if (omit) {
-                switch (invSize) {
-                    case 9:
-                        return new int[]{0, 8};
-                    case 18:
-                        return new int[]{0, 8, 9, 17};
-                    case 27:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 24, 25, 26};
-                    case 36:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 28, 29, 33, 34, 35};
-                    case 45:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 42, 43, 44};
-                    case 54:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 51, 52, 53};
-                }
-            } else {
-                switch (invSize) {
-                    case 9:
-                        return new int[]{0, 8};
-                    case 18:
-                        return new int[]{0, 8, 9, 17};
-                    case 27:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-                    case 36:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
-                    case 45:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
-                    case 54:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
-                }
-            }
+        switch (invSize) {
+            case 9:
+                return new int[]{0, 8};
+            case 18:
+                return new int[]{0, 8, 9, 17};
+            case 27:
+                if (!omit) {
+                    return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+                } else return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 24, 25, 26};
+            case 36:
+                if (!omit) {
+                    return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
+                } else return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 28, 29, 33, 34, 35};
+            case 45:
+                if (!omit) {
+                    return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
+                } else return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 42, 43, 44};
+            case 54:
+                if (!omit) {
+                    return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+                } else return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 51, 52, 53};
+            default:
+                return new int[]{};
         }
-        return new int[]{};
     }
 }

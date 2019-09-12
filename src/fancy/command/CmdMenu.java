@@ -1,14 +1,15 @@
 package fancy.command;
 
+import fancy.inventory.FancyMenuLoader;
+import fancy.inventory.menus.MainMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 
 public class CmdMenu implements FancyCommandLoader.FancyCommand {
 
     @Override
     public int run(Player player, String[] args) {
-        
+        FancyMenuLoader.openMenu(player, new MainMenu(), true);
         return 0;
     }
 
@@ -19,6 +20,6 @@ public class CmdMenu implements FancyCommandLoader.FancyCommand {
 
     @Override
     public Permission permission() {
-        return new Permission("fancy.command.menu", "PartlyFancy menu command permission.", PermissionDefault.FALSE);
+        return new Permission("fancy.command.menu", "PartlyFancy menu command permission.");
     }
 }

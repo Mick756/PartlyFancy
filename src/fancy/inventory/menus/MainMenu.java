@@ -2,19 +2,19 @@ package fancy.inventory.menus;
 
 import fancy.inventory.FancyMenuLoader;
 import fancy.inventory.FancyMenuTheme;
-import fancy.inventory.themes.StaticTheme;
+import fancy.inventory.themes.Rainbow;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 
 public class MainMenu implements FancyMenuLoader.FancyMenu {
 
     private Inventory inv;
     public MainMenu() {
         this.inv = Bukkit.createInventory(null, 54, this.getName());
+        this.getTheme().apply();
     }
 
     @Override
@@ -29,7 +29,6 @@ public class MainMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public Inventory getInventory() {
-        this.getTheme().apply();
 
         return this.inv;
     }
@@ -41,11 +40,12 @@ public class MainMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public Permission permission() {
-        return new Permission("fancy.menu.main", "Permission to the main fancy menu.", PermissionDefault.FALSE);
+        return new Permission("fancy.menu.main", "Permission to the main fancy menu.");
     }
 
     @Override
     public FancyMenuTheme getTheme() {
-        return new StaticTheme(this, DyeColor.BLUE, true);
+        return new Rainbow(this, new Material[]{ Material.BLUE_STAINED_GLASS_PANE, Material.YELLOW_STAINED_GLASS_PANE, Material.GREEN_STAINED_GLASS_PANE,
+                Material.ORANGE_STAINED_GLASS_PANE, Material.PURPLE_STAINED_GLASS_PANE, Material.LIME_STAINED_GLASS_PANE }, true);
     }
 }

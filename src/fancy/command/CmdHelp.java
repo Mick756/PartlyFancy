@@ -5,7 +5,6 @@ import fancy.PartlyFancy;
 import fancy.util.FancyUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionDefault;
 
 public class CmdHelp implements FancyCommandLoader.FancyCommand {
 
@@ -66,6 +65,6 @@ public class CmdHelp implements FancyCommandLoader.FancyCommand {
 
     @Override
     public Permission permission() {
-        return new Permission("fancy.command.help", "PartlyFancy help command permission", PermissionDefault.TRUE);
+        return new Permission("fancy.command.help", "PartlyFancy help command permission");
     }
 }
