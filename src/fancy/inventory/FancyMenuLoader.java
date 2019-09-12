@@ -1,6 +1,7 @@
 package fancy.inventory;
 
 import fancy.PartlyFancy;
+import fancy.inventory.menus.MainMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.permissions.Permission;
@@ -56,6 +57,5 @@ public class FancyMenuLoader {
         Style for the inventory
          */
         FancyMenuTheme getTheme();
-
     }
 }
