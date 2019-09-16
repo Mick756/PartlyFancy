@@ -17,6 +17,7 @@ public class FancyCommandLoader {
     // Add default commands statically
     static {
         addFancyCommand(new CmdHelp());
+        addFancyCommand(new CmdMenu());
     }
 
     /**

@@ -4,7 +4,6 @@ import com.sun.istack.internal.NotNull;
 import fancy.PartlyFancy;
 import fancy.cosmetics.Particle;
 import fancy.util.FancyUtil;
-import fancy.util.ParticleEffect;
 import fancy.util.Particles;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -58,15 +57,20 @@ public class CrownParticle implements Particle {
             @Override
             public void run() {
 
-                double radius = 0.65D;
-                double amount = radius * 64.0D;
-                double inc = (Math.PI * 2) / amount;
+                if (!getPlayer().isOnline()) {
+                    stop();
+                    return;
+                }
+
+                double radius = 0.7D;
+                double amount = radius * 40.0D;
+                double inc = (Math.PI * 4) / amount;
                 double angle = i * inc;
 
                 double x = radius * Math.cos(angle);
                 double z = radius * Math.sin(angle);
 
-                Vector v = new Vector(x, 2.2D, z);
+                Vector v = new Vector(x, 2.35D, z);
                 Location loc = getPlayer().getLocation().add(v);
 
                 for (Particles particle : getParticles()) {
@@ -80,7 +84,7 @@ public class CrownParticle implements Particle {
                 } else i++;
 
             }
-        }.runTaskTimerAsynchronously(PartlyFancy.getInstance(), 1, interval()).getTaskId();
+        }.runTaskTimerAsynchronously(PartlyFancy.getInstance(), 10, interval()).getTaskId();
     }
 
     @Override

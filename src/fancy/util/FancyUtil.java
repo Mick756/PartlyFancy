@@ -1,6 +1,7 @@
 package fancy.util;
 
 import com.sun.istack.internal.NotNull;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
@@ -8,17 +9,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
 public class FancyUtil {
+
+    public static final Random RANDOM = new Random();
 
     /**
      * Easily create an ItemStack with name, amount, damage, and lore with one method
      * @param name     Name to be displayed
      * @param material org.bukkit.Material
      * @param amount   integer 0 < amount < 65
-     * @param damage   short
      * @param lore     String[] lore in order from top to bottom
      * @return         org.bukkit.inventory.ItemStack with attributes defined
      */
@@ -38,13 +39,20 @@ public class FancyUtil {
 
         // Display name
         if (name != null && name.length() != 0) {
-            meta.setDisplayName(name);
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
         }
 
         // Lore
         if (lore != null && lore.length != 0) {
-            meta.setLore(Arrays.asList(lore));
+            List<String> loreLines = new ArrayList<>();
+
+            Arrays.asList(lore).forEach(line -> {
+                loreLines.add(ChatColor.translateAlternateColorCodes('&', line));
+            });
+            meta.setLore(loreLines);
         }
+
+        itemStack.setItemMeta(meta);
 
         return itemStack;
     }
@@ -123,39 +131,52 @@ public class FancyUtil {
      */
     public static int[] getInventoryBorder(Inventory inv, boolean omit) {
         int invSize = inv.getSize();
-        if (invSize >= 9 && invSize <= 54) {
-            if (omit) {
-                switch (invSize) {
-                    case 9:
-                        return new int[]{0, 8};
-                    case 18:
-                        return new int[]{0, 8, 9, 17};
-                    case 27:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 24, 25, 26};
-                    case 36:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 28, 29, 33, 34, 35};
-                    case 45:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 42, 43, 44};
-                    case 54:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 51, 52, 53};
-                }
-            } else {
-                switch (invSize) {
-                    case 9:
-                        return new int[]{0, 8};
-                    case 18:
-                        return new int[]{0, 8, 9, 17};
-                    case 27:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
-                    case 36:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
-                    case 45:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
-                    case 54:
-                        return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
-                }
-            }
+        switch (invSize) {
+            case 9:
+                return new int[]{0, 8};
+            case 18:
+                return new int[]{0, 8, 9, 17};
+            case 27:
+                if (!omit) {
+                    return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
+                } else return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 24, 25, 26};
+            case 36:
+                if (!omit) {
+                    return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
+                } else return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 28, 29, 33, 34, 35};
+            case 45:
+                if (!omit) {
+                    return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
+                } else return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 42, 43, 44};
+            case 54:
+                if (!omit) {
+                    return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
+                } else return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 51, 52, 53};
+            default:
+                return new int[]{};
         }
-        return new int[]{};
+    }
+
+    /**
+     * Generates a random {@link Integer}.
+     *
+     * @param minimum the minimum value of the generated value.
+     * @param maximum the maximum value of the generated value.
+     * @return a randomly generated {@link Integer} in the defined range.
+     * @see #RANDOM
+     */
+    public static int generateRandomInteger(int minimum, int maximum) {
+        return minimum + (int) (RANDOM.nextDouble() * ((maximum - minimum) + 1));
+    }
+
+
+    /**
+     * @param value the value which should be checked.
+     * @param max   the maximum value.
+     * @param min   the minimum value
+     * @return the calculated value.
+     */
+    public static int getMaxOrMin(int value, int max, int min) {
+        return value >= max ? max : (value <= min ? min : value);
     }
 }
