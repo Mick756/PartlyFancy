@@ -10,6 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Random;
 
 public class FancyUtil {
 
@@ -148,5 +149,30 @@ public class FancyUtil {
             default:
                 return new int[]{};
         }
+    }
+
+    public static final Random RANDOM = new Random();
+
+    /**
+     * Generates a random {@link Integer}.
+     *
+     * @param minimum the minimum value of the generated value.
+     * @param maximum the maximum value of the generated value.
+     * @return a randomly generated {@link Integer} in the defined range.
+     * @see #RANDOM
+     */
+    public static int generateRandomInteger(int minimum, int maximum) {
+        return minimum + (int) (RANDOM.nextDouble() * ((maximum - minimum) + 1));
+    }
+
+
+    /**
+     * @param value the value which should be checked.
+     * @param max   the maximum value.
+     * @param min   the minimum value
+     * @return the calculated value.
+     */
+    public static int getMaxOrMin(int value, int max, int min) {
+        return value >= max ? max : (value <= min ? min : value);
     }
 }

@@ -4,11 +4,13 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.sun.istack.internal.NotNull;
 import fancy.PartlyFancy;
+import fancy.util.particlelib.ParticleConstants;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.libs.org.apache.commons.codec.binary.Base64;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -165,13 +167,13 @@ public class NBTUtil {
         }
     }
 
-    private static Class<?> getNBTTag(Class<?> primitiveType) {
+    public static Class<?> getNBTTag(Class<?> primitiveType) {
         if (NBTClasses.containsKey(primitiveType))
             return NBTClasses.get(primitiveType);
         return primitiveType;
     }
 
-    private static Object getNBTVar(Object object) {
+    public static Object getNBTVar(Object object) {
         if (object == null) {
             return null;
         }
@@ -186,15 +188,73 @@ public class NBTUtil {
         return null;
     }
 
-    private static Method getMethod(String name) {
+    public static Method getMethod(String name) {
         return methodCache.get(name);
     }
 
-    private static Constructor<?> getConstructor(Class<?> clazz) {
+    public static Method getMethod(Class targetClass, String methodName, Class<?>... parameterTypes) {
+        try {
+            return targetClass.getMethod(methodName, parameterTypes);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static Constructor<?> getConstructor(Class<?> clazz) {
         return constructorCache.get(clazz);
     }
 
-    private static Class<?> getNMSClass(String name) {
+    public static Field getField(Class targetClass, String fieldName, boolean declared) {
+        try {
+            return declared ? targetClass.getDeclaredField(fieldName) : targetClass.getField(fieldName);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static Object getMinecraftKey(String key) {
+        if (key == null)
+            return null;
+        try {
+            return ParticleConstants.MINECRAFT_KEY_CONSTRUCTOR.newInstance(key);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static Class<?> getCraftBukkitClass(String path) {
+        try {
+            return Class.forName("org.bukkit.craftbukkit." + PartlyFancy.bukkitVersion + "." + path);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static Constructor getConstructor(Class targetClass, Class... parameterTypes) {
+        try {
+            return targetClass.getConstructor(parameterTypes);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static Object readField(Class targetClass, String fieldName, Object object) {
+        if (targetClass == null || fieldName == null)
+            return null;
+        return readField(getField(targetClass, fieldName, false), object);
+    }
+
+    public static Object readField(Field field, Object object) {
+        if (field == null)
+            return null;
+        try {
+            return field.get(object);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static Class<?> getNMSClass(String name) {
         if (classCache.containsKey(name)) {
             return classCache.get(name);
         }
@@ -207,7 +267,32 @@ public class NBTUtil {
         }
     }
 
-    private static String getMatch(String string, String regex) {
+    public static Object getPlayerHandle(Player player) {
+        if (player == null || player.getClass() != ParticleConstants.CRAFT_PLAYER_CLASS)
+            return null;
+        try {
+            return ParticleConstants.CRAFT_PLAYER_GET_HANDLE_METHOD.invoke(player);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static Object getPlayerConnection(Player target) {
+        try {
+            return readField(ParticleConstants.ENTITY_PLAYER_PLAYER_CONNECTION_FIELD, getPlayerHandle(target));
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static void sendPacket(Player player, Object packet) {
+        try {
+            ParticleConstants.PLAYER_CONNECTION_SEND_PACKET_METHOD.invoke(getPlayerConnection(player), packet);
+        } catch (Exception ignored) {
+        }
+    }
+
+    public static String getMatch(String string, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(string);
         if (matcher.find()) {
@@ -823,7 +908,7 @@ public class NBTUtil {
         return object;
     }
 
-    private static void setTag(Object tag, Object value, Object... keys) throws Exception {
+    public static void setTag(Object tag, Object value, Object... keys) throws Exception {
         Object notCompound;
         if (value != null) {
             if (getNMSClass("NBTTagList").isInstance(value) || getNMSClass("NBTTagCompound").isInstance(value)) {
@@ -886,7 +971,7 @@ public class NBTUtil {
         }
     }
 
-    private static NBTCompound getNBTTag(Object tag, Object... keys) throws Exception {
+    public static NBTCompound getNBTTag(Object tag, Object... keys) throws Exception {
         Object compound = tag;
 
         for (Object key : keys) {
@@ -901,7 +986,7 @@ public class NBTUtil {
         return new NBTCompound(compound);
     }
 
-    private static Object getTag(Object tag, Object... keys) throws Exception {
+    public static Object getTag(Object tag, Object... keys) throws Exception {
         if (keys.length == 0) {
             return getTags(tag);
         }
@@ -931,7 +1016,7 @@ public class NBTUtil {
     }
 
     @SuppressWarnings("unchecked")
-    private static Object getTags(Object tag) {
+    public static Object getTags(Object tag) {
         Map<Object, Object> tags = new HashMap<Object, Object>();
         try {
             if (getNMSClass("NBTTagCompound").isInstance(tag)) {
