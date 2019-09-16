@@ -1,6 +1,5 @@
 package fancy.cosmetics;
 
-import fancy.util.ParticleEffect;
 import fancy.util.Particles;
 
 public interface Particle extends FancyCosmetic {
@@ -12,6 +11,6 @@ public interface Particle extends FancyCosmetic {
     int interval();
 
     enum ParticleType {
-        CROWN, SPIRAL, SPIKE, AURA;
+        CROWN, SPIRAL, SPIKE, AURA
     }
 }

@@ -1,9 +1,10 @@
-package fancy.inventory.themes;
+package fancy.menu.themes;
 
 import fancy.PartlyFancy;
-import fancy.inventory.FancyMenuLoader;
-import fancy.inventory.FancyMenuTheme;
+import fancy.menu.FancyMenuLoader;
+import fancy.menu.FancyMenuTheme;
 import fancy.util.FancyUtil;
+import fancy.util.NBTUtil;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -41,7 +42,7 @@ public class Rainbow implements FancyMenuTheme {
                 int[] slots = FancyUtil.getInventoryBorder(host.getInventory(), true);
                 if (slots.length > 0) {
                     for (int slot : slots) {
-                        ItemStack borderItem = FancyUtil.createItemStack(items[new Random().nextInt(items.length)], 1, " ", null);
+                        ItemStack borderItem = NBTUtil.setItemTag(FancyUtil.createItemStack(items[new Random().nextInt(items.length)], 1, " ", null), "null", "ce");
                         host.getInventory().setItem(slot, borderItem);
                     }
                 }

@@ -213,10 +213,12 @@ public enum ParticleEffect {
     }
 
     public void display(Location location, float offsetX, float offsetY, float offsetZ, float speed, int amount, ParticleData data, Collection<? extends Player> players) {
-        if (!isCorrectData(data))
+        if (!isCorrectData(data)) {
             return;
-        if (data != null)
+        }
+        if (data != null) {
             data.setEffect(this);
+        }
         ParticlePacket packet = new ParticlePacket(this, offsetX, offsetY, offsetZ, speed, amount, data);
         Object nmsPacket = packet.createPacket(location);
         players.forEach(player -> NBTUtil.sendPacket(player, nmsPacket));

@@ -123,8 +123,11 @@ public class NBTUtil {
         }
 
         try {
-            methodCache.put("getTileTag", getNMSClass("TileEntity").getMethod("save", getNMSClass("NBTTagCompound")));
-            methodCache.put("getTileTag", getNMSClass("TileEntity").getMethod("b", getNMSClass("NBTTagCompound")));
+            if (VERSION.contains("1_12") || VERSION.contains("1_13") || VERSION.contains("1_14")) {
+                methodCache.put("getTileTag", getNMSClass("TileEntity").getMethod("save", getNMSClass("NBTTagCompound")));
+            } else {
+                methodCache.put("getTileTag", getNMSClass("TileEntity").getMethod("b", getNMSClass("NBTTagCompound")));
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
         }

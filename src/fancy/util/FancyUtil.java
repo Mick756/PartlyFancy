@@ -1,6 +1,7 @@
 package fancy.util;
 
 import com.sun.istack.internal.NotNull;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
@@ -8,11 +9,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class FancyUtil {
+
+    public static final Random RANDOM = new Random();
 
     /**
      * Easily create an ItemStack with name, amount, damage, and lore with one method
@@ -38,12 +39,17 @@ public class FancyUtil {
 
         // Display name
         if (name != null && name.length() != 0) {
-            meta.setDisplayName(name);
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
         }
 
         // Lore
         if (lore != null && lore.length != 0) {
-            meta.setLore(Arrays.asList(lore));
+            List<String> loreLines = new ArrayList<>();
+
+            Arrays.asList(lore).forEach(line -> {
+                loreLines.add(ChatColor.translateAlternateColorCodes('&', line));
+            });
+            meta.setLore(loreLines);
         }
 
         itemStack.setItemMeta(meta);
@@ -150,8 +156,6 @@ public class FancyUtil {
                 return new int[]{};
         }
     }
-
-    public static final Random RANDOM = new Random();
 
     /**
      * Generates a random {@link Integer}.

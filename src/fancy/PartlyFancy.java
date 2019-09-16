@@ -3,6 +3,7 @@ package fancy;
 import com.sun.istack.internal.NotNull;
 import fancy.command.FancyCommandLoader;
 import fancy.cosmetics.particles.CrownParticle;
+import fancy.util.NBTUtil;
 import fancy.util.Particles;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,8 +13,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -81,8 +84,19 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        new CrownParticle(p, Particles.FLAMES, Particles.HEARTS).start();
+        new CrownParticle(p, Particles.SPARKS).start();
 
+
+    }
+
+    @EventHandler
+    public void onInvClick(InventoryClickEvent e) {
+        if (e.getCurrentItem() != null && e.getView().getTitle().contains("Main Menu")) {
+            ItemStack s = e.getCurrentItem();
+            if (NBTUtil.getItemTag(s, "ce") != null) {
+                e.setCancelled(true);
+            }
+        }
     }
 
     // Quit event to save and unload player data if enabled.

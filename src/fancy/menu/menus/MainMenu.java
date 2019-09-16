@@ -1,8 +1,8 @@
-package fancy.inventory.menus;
+package fancy.menu.menus;
 
-import fancy.inventory.FancyMenuLoader;
-import fancy.inventory.FancyMenuTheme;
-import fancy.inventory.themes.Rainbow;
+import fancy.menu.FancyMenuLoader;
+import fancy.menu.FancyMenuTheme;
+import fancy.menu.themes.Rainbow;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,9 +12,12 @@ import org.bukkit.permissions.Permission;
 public class MainMenu implements FancyMenuLoader.FancyMenu {
 
     private Inventory inv;
-    public MainMenu() {
+
+    public MainMenu() {}
+
+    public MainMenu(boolean theme) {
         this.inv = Bukkit.createInventory(null, 54, this.getName());
-        this.getTheme().apply();
+        if (theme) this.getTheme().apply();
     }
 
     @Override

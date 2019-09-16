@@ -1,10 +1,13 @@
-package fancy.inventory;
+package fancy.menu;
 
 import fancy.PartlyFancy;
-import fancy.inventory.menus.MainMenu;
+import fancy.menu.menus.MainMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.permissions.Permission;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class FancyMenuLoader {
 
@@ -34,6 +37,8 @@ public class FancyMenuLoader {
 
     public interface FancyMenu {
 
+        static List<FancyMenu> menus = Arrays.asList(new FancyMenu[]{new MainMenu()});
+
         /*
         Inventory Id
          */
@@ -57,5 +62,19 @@ public class FancyMenuLoader {
         Style for the inventory
          */
         FancyMenuTheme getTheme();
+
+        static FancyMenu getFromId(int id) {
+            for (FancyMenu m : menus) {
+                if (m.inventoryId().equals(id)) {
+                    return m;
+                }
+            }
+            return new MainMenu();
+        }
+
+        static void registerFancyMenu(FancyMenu m) {
+            menus.add(m);
+        }
+
     }
 }

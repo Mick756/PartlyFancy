@@ -1,7 +1,7 @@
 package fancy.command;
 
-import fancy.inventory.FancyMenuLoader;
-import fancy.inventory.menus.MainMenu;
+import fancy.menu.FancyMenuLoader;
+import fancy.menu.menus.MainMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
@@ -9,7 +9,7 @@ public class CmdMenu implements FancyCommandLoader.FancyCommand {
 
     @Override
     public int run(Player player, String[] args) {
-        FancyMenuLoader.openMenu(player, new MainMenu(), true);
+        FancyMenuLoader.openMenu(player, new MainMenu(true), true);
         return 0;
     }
 

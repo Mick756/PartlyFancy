@@ -54,7 +54,7 @@ public class ParticleConstants {
 
     // Initialization
     static {
-        version = Integer.valueOf(PartlyFancy.bukkitVersion.substring(0, PartlyFancy.bukkitVersion.lastIndexOf("_")).replace("_", ".").substring(2));
+        version = Integer.valueOf(PartlyFancy.bukkitVersion.substring(0, PartlyFancy.bukkitVersion.lastIndexOf("_")).replace("_", ".").substring(2).replace(".", ""));
 
         // Classes
         ITEM_STACK_CLASS = NBTUtil.getNMSClass("ItemStack");

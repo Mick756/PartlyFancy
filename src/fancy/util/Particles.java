@@ -1,41 +1,48 @@
 package fancy.util;
 
 import com.sun.istack.internal.NotNull;
+import fancy.util.particlelib.ParticleEffect;
+import fancy.util.particlelib.data.color.RegularColor;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
+
+import java.awt.*;
+import java.util.Random;
+
 
 public enum Particles {
 
-    FLAMES(new String[] { "flame", "fire" }, Particle.FLAME, false, false),
+    FLAMES(new String[] { "flame", "fire" }, ParticleEffect.FLAME, false, false),
 
-    HAPPY_VILLAGER(new String[] { "happyvillager", "happy_villager", "happy-villager", "happy", "greensparks" }, Particle.VILLAGER_HAPPY, false, false),
+    HAPPY_VILLAGER(new String[] { "happyvillager", "happy_villager", "happy-villager", "happy", "greensparks" }, ParticleEffect.VILLAGER_HAPPY, false, false),
 
-    ANGRY_VILLAGER(new String[] { "angryvillager", "angry_villager", "angry-villager", "angry" }, Particle.VILLAGER_ANGRY, false, false),
+    ANGRY_VILLAGER(new String[] { "angryvillager", "angry_villager", "angry-villager", "angry" }, ParticleEffect.VILLAGER_ANGRY, false, false),
 
-    REDSTONE(new String[] { "redstone", "dust" }, Particle.REDSTONE, true, false),
+    REDSTONE(new String[] { "redstone", "dust" }, ParticleEffect.REDSTONE, true, false),
 
-    CRITS(new String[] { "crit" }, Particle.CRIT, false, false),
+    MOB_SPELL(new String[] { "spell", "bubbles" }, ParticleEffect.SPELL_MOB, true, false),
 
-    HEARTS(new String[] { "heart" }, Particle.HEART, false, true),
+    CRITS(new String[] { "crit" }, ParticleEffect.CRIT, false, false),
 
-    LAVA_DROPS(new String[] { "lava", "lava-drops", "lavadrops", "lavadrop", "lava-drop" }, Particle.DRIP_LAVA, false, true),
+    HEARTS(new String[] { "heart" }, ParticleEffect.HEART, false, true),
 
-    MAGIC_CRITS(new String[] { "magicscrits", "magic-crits", "magic_crits", "mcrits" }, Particle.CRIT_MAGIC, false, false),
+    LAVA_DROPS(new String[] { "lava", "lava-drops", "lavadrops", "lavadrop", "lava-drop" }, ParticleEffect.DRIP_LAVA, false, true),
 
-    NOTES(new String[] { "note", "noteblock" }, Particle.NOTE, true, false),
+    MAGIC_CRITS(new String[] { "magicscrits", "magic-crits", "magic_crits", "mcrits" }, ParticleEffect.CRIT_MAGIC, false, false),
 
-    SLIME(null, Particle.SLIME, false, false),
+    NOTES(new String[] { "note", "noteblock" }, ParticleEffect.NOTE, true, false),
 
-    SMOKE(null, Particle.SMOKE_NORMAL, false, false),
+    SLIME(null, ParticleEffect.SLIME, false, false),
 
-    SPARKS(new String[] { "sparks", "fireworksparks", "firework", "fireworks", "spark" }, Particle.FIREWORKS_SPARK, false, true),
+    SMOKE(null, ParticleEffect.SMOKE_NORMAL, false, false),
 
-    WATER_DROPS(new String[] { "water", "water-drops", "waterdrops", "waterdrop", "water-drop" }, Particle.DRIP_WATER, false, true);
+    SPARKS(new String[] { "sparks", "fireworksparks", "firework", "fireworks", "spark" }, ParticleEffect.FIREWORKS_SPARK, false, true),
+
+    WATER_DROPS(new String[] { "water", "water-drops", "waterdrops", "waterdrop", "water-drop" }, ParticleEffect.DRIP_WATER, false, true);
 
 
     public String[] altNames;
-    public Particle effect;
+    public ParticleEffect effect;
     public boolean colorable;
     public boolean spam;
 
@@ -46,7 +53,7 @@ public enum Particles {
      * @param colorable If the particle has different colors to appear as
      * @param spam If the particle is either large or widely disbursed
      */
-    Particles(@Nullable String[] altNames, @NotNull Particle effect, @NotNull boolean colorable, @NotNull boolean spam) {
+    Particles(@Nullable String[] altNames, @NotNull ParticleEffect effect, @NotNull boolean colorable, @NotNull boolean spam) {
         this.altNames = altNames;
         this.effect = effect;
         this.colorable = colorable;
@@ -56,10 +63,17 @@ public enum Particles {
     /**
      * Display the particle at a specific location
      * @param loc Location to display particle
-     * @param amount Amount of the particle to display. (If particle is spammy, amount fixed to 2)
+     * @param amt Amount of the particle to display. (If particle is spammy, amount fixed to 2)
      */
-    public void display(Location loc, int amount) {
-        loc.getWorld().spawnParticle(this.effect, loc, amount, 0 , 0, 0, null);
+    public void display(Location loc, int amt) {
+        int amount = (this.spam ? 2 : amt);
+        if (this.colorable) {
+            Random r = FancyUtil.RANDOM;
+            RegularColor c = new RegularColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+            this.effect.display(loc, 0, 0, 0, 0, amount, c);
+        } else {
+            this.effect.display(loc);
+        }
     }
 
     /**

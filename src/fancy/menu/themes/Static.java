@@ -1,8 +1,9 @@
-package fancy.inventory.themes;
+package fancy.menu.themes;
 
-import fancy.inventory.FancyMenuLoader;
-import fancy.inventory.FancyMenuTheme;
+import fancy.menu.FancyMenuLoader;
+import fancy.menu.FancyMenuTheme;
 import fancy.util.FancyUtil;
+import fancy.util.NBTUtil;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,7 +32,8 @@ public class Static implements FancyMenuTheme {
     public void apply() {
 
         while (this.host.getInventory().getViewers().size() > 0) {
-            ItemStack borderItem = FancyUtil.createItemStack(this.item, 1, " ", null);
+            ItemStack borderItem = NBTUtil.setItemTag(FancyUtil.createItemStack(this.item, 1, " ", null), "null", "ce");
+
 
             int[] slots = FancyUtil.getInventoryBorder(this.host.getInventory(), true);
             if (slots.length > 0) {

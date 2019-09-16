@@ -1,4 +1,4 @@
-package fancy.inventory;
+package fancy.menu;
 
 public interface FancyMenuTheme {
 
