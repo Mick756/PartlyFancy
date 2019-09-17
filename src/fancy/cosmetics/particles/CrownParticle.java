@@ -63,7 +63,7 @@ public class CrownParticle implements Particle {
                 }
 
                 double radius = 0.7D;
-                double amount = radius * 40.0D;
+                double amount = radius * 30.0D;
                 double inc = (Math.PI * 4) / amount;
                 double angle = i * inc;
 

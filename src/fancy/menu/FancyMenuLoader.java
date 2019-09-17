@@ -1,15 +1,25 @@
 package fancy.menu;
 
 import fancy.PartlyFancy;
+import fancy.menu.menus.CrownMenu;
 import fancy.menu.menus.MainMenu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.permissions.Permission;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FancyMenuLoader {
+
+    public static List<FancyMenu> menus = new ArrayList<>();
+
+    static {
+
+        registerFancyMenu(new MainMenu());
+        registerFancyMenu(new CrownMenu());
+
+    }
 
     /**
      * Open a Fancy Menu. Automatically checks if player has permission and plays sound if true.
@@ -35,9 +45,28 @@ public class FancyMenuLoader {
         return false;
     }
 
-    public interface FancyMenu {
+    public static void closeMenu(Player player, boolean sound) {
+        player.closeInventory();
 
-        static List<FancyMenu> menus = Arrays.asList(new FancyMenu[]{new MainMenu()});
+        if (sound) {
+            player.playSound(player.getLocation(), PartlyFancy.getSound("sound.inventory.close"), 2f, 1f);
+        }
+    }
+
+    public static void registerFancyMenu(FancyMenu m) {
+        menus.add(m);
+    }
+
+    public static FancyMenu getFromId(int id) {
+        for (FancyMenu m : menus) {
+            if (m.inventoryId() == id) {
+                return m;
+            }
+        }
+        return null;
+    }
+
+    public interface FancyMenu {
 
         /*
         Inventory Id
@@ -62,19 +91,6 @@ public class FancyMenuLoader {
         Style for the inventory
          */
         FancyMenuTheme getTheme();
-
-        static FancyMenu getFromId(int id) {
-            for (FancyMenu m : menus) {
-                if (m.inventoryId().equals(id)) {
-                    return m;
-                }
-            }
-            return new MainMenu();
-        }
-
-        static void registerFancyMenu(FancyMenu m) {
-            menus.add(m);
-        }
 
     }
 }

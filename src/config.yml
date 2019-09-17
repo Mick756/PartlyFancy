@@ -32,7 +32,28 @@ message:
     turn-off-inactive: '&cYou do not have an active cosmetic to turn off!'
   menu:
     no-permission: '&cYou do not have permission to use this menu!'
-  default: '&cOops, something went wrong, please contact plugin author.'
+    not-found: '&cA menu was not found corresponding to that id. Contact mod author about this error.'
+  default: '&cOops, something went wrong, please contact plugin author with stacktrace.'
+
+## Menu Configuration
+## Items: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+## Themes:
+## 'RAINBOW' - an array of items is required
+## 'STATIC' - a single item is expected
+menu:
+  main:
+    theme: 'RAINBOW'
+    items:
+      - 'BLUE_STAINED_GLASS_PANE'
+      - 'YELLOW_STAINED_GLASS_PANE'
+      - 'GREEN_STAINED_GLASS_PANE'
+      - 'ORANGE_STAINED_GLASS_PANE'
+      - 'PURPLE_STAINED_GLASS_PANE'
+      - 'LIME_STAINED_GLASS_PANE'
+  crown:
+    theme: 'STATIC'
+    items: 'YELLOW_STAINED_GLASS_PANE'
+
 
 ## Sound Configuration
 ## Sounds: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
