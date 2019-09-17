@@ -404,13 +404,27 @@ public class NBTUtil {
             if (getMethod("hasTag").invoke(stack).equals(true)) {
                 tag = getMethod("getTag").invoke(stack);
             } else {
-                tag = getNMSClass("NBTTagCompound").newInstance();
+                return null;
             }
 
             return getTag(tag, keys);
         } catch (Exception exception) {
             exception.printStackTrace();
             return null;
+        }
+    }
+
+    public static boolean hasTag(ItemStack item) {
+        if (item == null) {
+            return false;
+        }
+        try {
+            Object stack = null;
+            stack = getMethod("asNMSCopy").invoke(null, item);
+            return (getMethod("hasTag").invoke(stack).equals(true));
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return false;
         }
     }
 

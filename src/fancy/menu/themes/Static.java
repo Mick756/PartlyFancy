@@ -31,15 +31,24 @@ public class Static implements FancyMenuTheme {
     @Override
     public void apply() {
 
-        while (this.host.getInventory().getViewers().size() > 0) {
-            ItemStack borderItem = NBTUtil.setItemTag(FancyUtil.createItemStack(this.item, 1, " ", null), "null", "ce");
+        clear();
 
+        ItemStack borderItem = NBTUtil.setItemTag(FancyUtil.createItemStack(this.item, 1, " ", null), "null", "PartlyFancy");
 
-            int[] slots = FancyUtil.getInventoryBorder(this.host.getInventory(), true);
-            if (slots.length > 0) {
-                for (int slot : slots) {
-                    this.host.getInventory().setItem(slot, borderItem);
-                }
+        int[] slots = FancyUtil.getInventoryBorder(this.host.getInventory(), true);
+        if (slots.length > 0) {
+            for (int slot : slots) {
+                this.host.getInventory().setItem(slot, borderItem);
+            }
+        }
+    }
+
+    @Override
+    public void clear() {
+        int[] slots = FancyUtil.getInventoryBorder(this.host.getInventory(), true);
+        if (slots.length > 0) {
+            for (int slot : slots) {
+                this.host.getInventory().setItem(slot, null);
             }
         }
     }
