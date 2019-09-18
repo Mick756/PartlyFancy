@@ -2,13 +2,9 @@ package fancy;
 
 import com.sun.istack.internal.NotNull;
 import fancy.command.FancyCommandLoader;
-import fancy.cosmetics.particles.CrownParticle;
 import fancy.menu.events.MenuEvents;
-import fancy.util.NBTUtil;
-import fancy.util.Particles;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,7 +13,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -86,9 +81,6 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        new CrownParticle(p, Particles.HEARTS).start();
-
-        p.getInventory().addItem(NBTUtil.setItemTag(new ItemStack(Material.DIAMOND), 0, "PartlyFancy", "openinv"));
     }
 
     // Quit event to save and unload player data if enabled.

@@ -1,6 +1,7 @@
 package fancy.menu;
 
 import fancy.PartlyFancy;
+import fancy.menu.menus.AuraMenu;
 import fancy.menu.menus.CrownMenu;
 import fancy.menu.menus.MainMenu;
 import org.bukkit.entity.Player;
@@ -18,6 +19,7 @@ public class FancyMenuLoader {
 
         registerFancyMenu(new MainMenu());
         registerFancyMenu(new CrownMenu());
+        registerFancyMenu(new AuraMenu());
 
     }
 

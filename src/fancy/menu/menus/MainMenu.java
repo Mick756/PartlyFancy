@@ -1,5 +1,7 @@
 package fancy.menu.menus;
 
+import fancy.cosmetics.particles.AuraParticle;
+import fancy.cosmetics.particles.CrownParticle;
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.FancyMenuTheme;
 import fancy.util.FancyUtil;
@@ -33,8 +35,14 @@ public class MainMenu implements FancyMenuLoader.FancyMenu {
     public Inventory getInventory() {
         inv.setItem(20,
                 NBTUtil.setItemTag(
-                        FancyUtil.createItemStack(Material.GOLDEN_CARROT, 1, "&bCrown Particle", null, "&7A simply, yet beyond fancy crown."),
+                        CrownParticle.item(),
                         1,
+                        "PartlyFancy", "openinv"
+                ));
+        inv.setItem(22,
+                NBTUtil.setItemTag(
+                        AuraParticle.item(),
+                        2,
                         "PartlyFancy", "openinv"
                 ));
         inv.setItem(49,

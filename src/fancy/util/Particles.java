@@ -2,8 +2,10 @@ package fancy.util;
 
 import com.sun.istack.internal.NotNull;
 import fancy.util.particlelib.ParticleEffect;
+import fancy.util.particlelib.data.color.NoteColor;
 import fancy.util.particlelib.data.color.RegularColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
 
 import java.awt.*;
@@ -12,39 +14,41 @@ import java.util.Random;
 
 public enum Particles {
 
-    FLAMES(new String[] { "flame", "fire" }, ParticleEffect.FLAME, false, false),
+    FLAMES(new String[] { "flame", "fire" }, ParticleEffect.FLAME, false, false, Material.BLAZE_POWDER, "&7Not angry, just heated."),
 
-    HAPPY_VILLAGER(new String[] { "happyvillager", "happy_villager", "happy-villager", "happy", "greensparks" }, ParticleEffect.VILLAGER_HAPPY, false, false),
+    HAPPY_VILLAGER(new String[] { "happyvillager", "happy-villager", "happy", "greensparks" }, ParticleEffect.VILLAGER_HAPPY, false, false, Material.EMERALD, "&7Show how happy you are."),
 
-    ANGRY_VILLAGER(new String[] { "angryvillager", "angry_villager", "angry-villager", "angry" }, ParticleEffect.VILLAGER_ANGRY, false, false),
+    ANGRY_VILLAGER(new String[] { "angryvillager", "angry-villager", "angry" }, ParticleEffect.VILLAGER_ANGRY, false, false, Material.MAGMA_CREAM, "&7Or how angry..."),
 
-    REDSTONE(new String[] { "redstone", "dust" }, ParticleEffect.REDSTONE, true, false),
+    REDSTONE(new String[] { "redstone", "dust" }, ParticleEffect.REDSTONE, true, false, Material.REDSTONE, "&7A burst of color."),
 
-    MOB_SPELL(new String[] { "spell", "bubbles" }, ParticleEffect.SPELL_MOB, true, false),
+    MOB_SPELL(new String[] { "spell", "bubbles" }, ParticleEffect.SPELL_MOB, true, false, Material.POTION, "&7Like a rainbow bubble bath."),
 
-    CRITS(new String[] { "crit" }, ParticleEffect.CRIT, false, false),
+//    CRITS(new String[] { "crit" }, ParticleEffect.CRIT, false, false, Material.WOODEN_SWORD, "&7Wow, don't be so critical."),
 
-    HEARTS(new String[] { "heart" }, ParticleEffect.HEART, false, true),
+    HEARTS(new String[] { "heart" }, ParticleEffect.HEART, false, true, Material.ARROW, "&7You give me love kernels."),
 
-    LAVA_DROPS(new String[] { "lava", "lava-drops", "lavadrops", "lavadrop", "lava-drop" }, ParticleEffect.DRIP_LAVA, false, true),
+    LAVA_DROPS(new String[] { "lava", "lava-drops", "lavadrops", "lavadrop", "lava-drop" }, ParticleEffect.DRIP_LAVA, false, true, Material.LAVA_BUCKET, "&7Droplet like its hot."),
 
-    MAGIC_CRITS(new String[] { "magicscrits", "magic-crits", "magic_crits", "mcrits" }, ParticleEffect.CRIT_MAGIC, false, false),
+    MAGIC_CRITS(new String[] { "magicscrits", "magic-crits", "magic_crits", "mcrits" }, ParticleEffect.CRIT_MAGIC, false, false, Material.DIAMOND_SWORD, "&7How shiny these are."),
 
-    NOTES(new String[] { "note", "noteblock" }, ParticleEffect.NOTE, true, false),
+//    NOTES(new String[] { "note", "noteblock" }, ParticleEffect.NOTE, true, false, Material.NOTE_BLOCK, "&7You like.. music?"),
 
-    SLIME(null, ParticleEffect.SLIME, false, false),
+//    SLIME(null, ParticleEffect.SLIME, false, false, Material.SLIME_BALL, "&7Not sticky, but slimy."),
 
-    SMOKE(null, ParticleEffect.SMOKE_NORMAL, false, false),
+//    SMOKE(null, ParticleEffect.SMOKE_NORMAL, false, false, Material.GUNPOWDER, "&7This kind isn't bad for you."),
 
-    SPARKS(new String[] { "sparks", "fireworksparks", "firework", "fireworks", "spark" }, ParticleEffect.FIREWORKS_SPARK, false, true),
+    SPARKS(new String[] { "sparks", "fireworksparks", "firework", "fireworks", "spark" }, ParticleEffect.FIREWORKS_SPARK, false, true, Material.FIREWORK_ROCKET, "&7You're not shorting out."),
 
-    WATER_DROPS(new String[] { "water", "water-drops", "waterdrops", "waterdrop", "water-drop" }, ParticleEffect.DRIP_WATER, false, true);
+    WATER_DROPS(new String[] { "water", "water-drops", "waterdrops", "waterdrop", "water-drop" }, ParticleEffect.DRIP_WATER, false, true, Material.WATER_BUCKET, "&7Water from above... so rain?");
 
 
     public String[] altNames;
     public ParticleEffect effect;
     public boolean colorable;
     public boolean spam;
+    public Material item;
+    public String description;
 
     /**
      * Bridge between ParticleEffect and the PartlyFancy display
@@ -53,11 +57,13 @@ public enum Particles {
      * @param colorable If the particle has different colors to appear as
      * @param spam If the particle is either large or widely disbursed
      */
-    Particles(@Nullable String[] altNames, @NotNull ParticleEffect effect, @NotNull boolean colorable, @NotNull boolean spam) {
+    Particles(@Nullable String[] altNames, @NotNull ParticleEffect effect, @NotNull boolean colorable, @NotNull boolean spam, @NotNull Material item, @NotNull String description) {
         this.altNames = altNames;
         this.effect = effect;
         this.colorable = colorable;
         this.spam = spam;
+        this.item = item;
+        this.description = description;
     }
 
     /**
@@ -67,10 +73,12 @@ public enum Particles {
      */
     public void display(Location loc, int amt) {
         int amount = (this.spam ? 2 : amt);
-        if (this.colorable) {
-            Random r = FancyUtil.RANDOM;
+        Random r = FancyUtil.RANDOM;
+        if (this.colorable && this.effect != ParticleEffect.NOTE) {
             RegularColor c = new RegularColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
             this.effect.display(loc, 0, 0, 0, 0, amount, c);
+        } else if (this.colorable && this.effect == ParticleEffect.NOTE) {
+            this.effect.display(loc, 0, 0, 0, 0, amount, NoteColor.random());
         } else {
             this.effect.display(loc);
         }

@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class CrownParticle implements Particle {
+public class AuraParticle implements Particle {
 
     private boolean enabled;
     private Player player;
@@ -20,11 +20,11 @@ public class CrownParticle implements Particle {
     private int i;
 
     /**
-     * A crown affect is a basic ring over a player's head
+     * An aura affect is a basic ring over a player's head
      * @param player Player to attach effect to
      * @param effects Particles to be displayed
      */
-    public CrownParticle(@NotNull Player player, @NotNull Particles... effects) {
+    public AuraParticle(@NotNull Player player, @NotNull Particles... effects) {
         this.enabled = true;
         this.player = player;
         this.effects = effects;
@@ -38,7 +38,7 @@ public class CrownParticle implements Particle {
 
     @Override
     public ParticleType getType() {
-        return ParticleType.CROWN;
+        return ParticleType.AURA;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class CrownParticle implements Particle {
 
     @Override
     public String name() {
-        return "Crown Particle";
+        return "Aura Particle";
     }
 
     @Override
@@ -70,18 +70,25 @@ public class CrownParticle implements Particle {
                 double x = radius * Math.cos(angle);
                 double z = radius * Math.sin(angle);
 
-                Vector v = new Vector(x, 2.35D, z);
-                Location loc = getPlayer().getLocation().add(v);
+                double y = 2.35;
 
-                for (Particles particle : getParticles()) {
-                    if (particle != null) {
-                        particle.display(loc, 5);
+                while (y > 0) {
+
+                    Location loc = getPlayer().getLocation().add(new Vector(x, y, z));
+
+                    for (Particles particle : getParticles()) {
+                        if (particle != null) {
+                            particle.display(loc, 5);
+                        }
                     }
+
+                    y -= .75;
                 }
 
-                if (i >= (amount - 1.0D)) {
+                if (i >= amount - 1.0D) {
                     i = 0;
-                } else i++;
+                    y = 2.35;
+                } else i += 1;
 
             }
         }.runTaskTimer(PartlyFancy.getInstance(), 10, interval());
@@ -101,11 +108,11 @@ public class CrownParticle implements Particle {
 
         // Diamond item with name Crown Particle
         return FancyUtil.createItemStack(
-                Material.DIAMOND,
+                Material.GOLDEN_CARROT,
                 1,
-                "&bCrown Particle",
+                "&bAura Particle",
                 null,
-                "&7A simple, yet beyond fancy crown.");
+                "&7Be covered by your own power.");
 
     }
 }

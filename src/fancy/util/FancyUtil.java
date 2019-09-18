@@ -158,11 +158,42 @@ public class FancyUtil {
     }
 
     /**
-     * Generates a random {@link Integer}.
+     * Generate the Particle items for use in menus
+     * @param nbt_key Key specifying which particle effect. Ex. 'crown_particle'
+     * @return A list of all the items
+     */
+    public static List<ItemStack> generateParticleItems(String nbt_key) {
+
+        List<ItemStack> items = new ArrayList<>();
+        Object[] keys = new Object[]{"PartlyFancy", nbt_key};
+
+        for (Particles particle : Particles.values()) {
+
+            String name;
+
+            if (particle.name().contains("_")) {
+
+                String[] split = particle.name().split("_");
+                name = (split[0].substring(0, 1).toUpperCase() + split[0].substring(1).toLowerCase()) + " " + (split[1].substring(0, 1).toUpperCase() + split[1].substring(1).toLowerCase());
+
+            } else {
+
+                name = (particle.name().substring(0, 1).toUpperCase() + particle.name().substring(1).toLowerCase());
+            }
+
+            ItemStack stack = NBTUtil.setItemTag(createItemStack(particle.item, 1, "&b" + name, null, particle.description), particle.name(), keys);
+            items.add(stack);
+
+        }
+        return items;
+    }
+
+    /**
+     * Generates a random number.
      *
      * @param minimum the minimum value of the generated value.
      * @param maximum the maximum value of the generated value.
-     * @return a randomly generated {@link Integer} in the defined range.
+     * @return a randomly generated int in the defined range.
      * @see #RANDOM
      */
     public static int generateRandomInteger(int minimum, int maximum) {
