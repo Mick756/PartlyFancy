@@ -1,7 +1,6 @@
 package fancy.cosmetics;
 
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public interface FancyCosmetic {
 
@@ -25,9 +24,5 @@ public interface FancyCosmetic {
      */
     void stop();
 
-    /**
-     * @return item to display in selection inventories
-     */
-    ItemStack item();
 
 }

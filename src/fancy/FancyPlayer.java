@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class FancyPlayer {
@@ -17,39 +16,48 @@ public class FancyPlayer {
     private UUID playerUUID;
 
     // Stored objects of cosmetics
-    private Particle particleEffect = null;
-    private Gadget gadget = null;
-    private Pet pet = null;
+    public Particle particleEffect;
+    public Gadget gadget;
+    public Pet pet;
 
     /**
      * PartlyFancy's player object
      * @param p Player to create object for
      */
     private FancyPlayer(@NotNull Player p) {
+        this.particleEffect = null;
+        this.gadget = null;
+        this.pet = null;
         this.playerUUID = p.getUniqueId();
+        PartlyFancy.getFancyPlayers().put(this.playerUUID, this);
     }
 
     /**
      * Start a cosmetic.
      * @param cosmetic A new FancyCosmetic
      */
-    public void startCosmetic(FancyCosmetic cosmetic) {
-        if (cosmetic == null) {
-            sendMessage(PartlyFancy.getValue("message.cosmetic.invalid"));
+    public void startParticle(FancyCosmetic cosmetic) {
+        if (this.particleEffect == null) {
+            if (cosmetic == null) {
+                sendMessage(PartlyFancy.getValue("message.cosmetic.invalid", "%player%-" + getPlayer().getDisplayName()));
+            } else {
+                this.particleEffect = ((Particle) cosmetic);
+                this.particleEffect.start();
+            }
         } else {
-            cosmetic.start();
+            sendMessage(PartlyFancy.getValue("message.cosmetic.already-in-use", "%player%-" + getPlayer().getDisplayName()));
         }
     }
 
     /**
      * Stop a cosmetic.
-     * @param cosmetic An active cosmetic of the FancyPlayer
      */
-    public void stopCosmetic(FancyCosmetic cosmetic) {
-        if (cosmetic == null) {
-            sendMessage(PartlyFancy.getValue("message.cosmetic.turn-off-inactive"));
+    public void stopParticle() {
+        if (this.particleEffect == null) {
+            sendMessage(PartlyFancy.getValue("message.cosmetic.turn-off-inactive", "%player%-" + getPlayer().getDisplayName()));
         } else {
-            cosmetic.stop();
+            this.particleEffect.stop();
+            this.particleEffect = null;
         }
     }
 
@@ -96,46 +104,4 @@ public class FancyPlayer {
             }
         }
     }
-
-
-    /*
-    Getters, Setters, and Checks Below
-     */
-
-    public Particle getParticleEffect() {
-        return particleEffect;
-    }
-
-    public void setParticleEffect(Particle particleEffect) {
-        this.particleEffect = particleEffect;
-    }
-
-    public boolean hasParticleEffect() {
-        return (particleEffect == null);
-    }
-
-    public Gadget getGadget() {
-        return gadget;
-    }
-
-    public void setGadget(Gadget gadget) {
-        this.gadget = gadget;
-    }
-
-    public boolean hasGadget() {
-        return (gadget == null);
-    }
-
-    public Pet getPet() {
-        return pet;
-    }
-
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
-
-    public boolean hasPet() {
-        return (pet == null);
-    }
-
 }

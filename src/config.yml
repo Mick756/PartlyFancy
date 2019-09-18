@@ -30,6 +30,7 @@ message:
     activated: '&eYou activated&b %cosmetic%!'
     invalid: '&cSomething went wrong activating that cosmetic.'
     turn-off-inactive: '&cYou do not have an active cosmetic to turn off!'
+    already-in-use: '&cYou already have a particle in use.'
   menu:
     no-permission: '&cYou do not have permission to use this menu!'
     not-found: '&cA menu was not found corresponding to that id. Contact mod author about this error.'
@@ -53,6 +54,9 @@ menu:
   crown:
     theme: 'STATIC'
     items: 'YELLOW_STAINED_GLASS_PANE'
+  aura:
+    theme: 'STATIC'
+    items: 'PURPLE_STAINED_GLASS_PANE'
 
 
 ## Sound Configuration
