@@ -4,6 +4,7 @@ import fancy.FancyPlayer;
 import fancy.PartlyFancy;
 import fancy.cosmetics.particles.AuraParticle;
 import fancy.cosmetics.particles.CrownParticle;
+import fancy.cosmetics.particles.WingsParticle;
 import fancy.menu.FancyMenuLoader;
 import fancy.util.NBTUtil;
 import fancy.util.Particles;
@@ -74,6 +75,21 @@ public class MenuEvents implements Listener {
                     }
 
                     AuraParticle aura = new AuraParticle(p, Particles.valueOf(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).toUpperCase().replaceAll(" ", "_")));
+
+                    fp.startParticle(aura);
+
+                    FancyMenuLoader.closeMenu(p, true);
+
+                    // PartlyFancy item that does not meet any checks previously (ex. border glass)
+                }  else if (NBTUtil.getItemTag(item, "PartlyFancy", "wings_particle") != null) {
+
+                    e.setCancelled(true);
+
+                    if (fp.particleEffect != null) {
+                        fp.stopParticle();
+                    }
+
+                    WingsParticle aura = new WingsParticle(p, Particles.valueOf(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).toUpperCase().replaceAll(" ", "_")));
 
                     fp.startParticle(aura);
 

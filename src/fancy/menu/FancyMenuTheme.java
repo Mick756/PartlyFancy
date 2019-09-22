@@ -64,6 +64,7 @@ public interface FancyMenuTheme {
 
                 String matName = PartlyFancy.getValue(path + ".items");
                 if (matName != null) {
+
                         try {
                             Static s = new Static(m, Material.valueOf(matName.toUpperCase()), true);
                             return s;

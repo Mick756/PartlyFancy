@@ -106,7 +106,6 @@ public class AuraParticle implements Particle {
 
     public static ItemStack item() {
 
-        // Diamond item with name Crown Particle
         return FancyUtil.createItemStack(
                 Material.GOLDEN_CARROT,
                 1,

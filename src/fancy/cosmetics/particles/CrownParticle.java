@@ -99,7 +99,6 @@ public class CrownParticle implements Particle {
 
     public static ItemStack item() {
 
-        // Diamond item with name Crown Particle
         return FancyUtil.createItemStack(
                 Material.DIAMOND,
                 1,

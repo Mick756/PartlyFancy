@@ -57,6 +57,9 @@ menu:
   aura:
     theme: 'STATIC'
     items: 'PURPLE_STAINED_GLASS_PANE'
+  wings:
+    theme: 'STATIC'
+    items: 'GREEN_STAINED_GLASS_PANE'
 
 
 ## Sound Configuration
