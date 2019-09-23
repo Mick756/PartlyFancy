@@ -11,6 +11,6 @@ public interface Particle extends FancyCosmetic {
     int interval();
 
     enum ParticleType {
-        CROWN, SPIRAL, SPIKE, AURA
+        CROWN, SPIRAL, SPIKE, AURA, SCAN, WINGS, ORB
     }
 }

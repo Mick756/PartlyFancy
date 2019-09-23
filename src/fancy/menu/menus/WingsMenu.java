@@ -13,18 +13,18 @@ import org.bukkit.permissions.Permission;
 
 import java.util.List;
 
-public class AuraMenu implements FancyMenuLoader.FancyMenu {
+public class WingsMenu implements FancyMenuLoader.FancyMenu {
 
     private Inventory inv;
 
-    public AuraMenu() {
+    public WingsMenu() {
         this.inv = Bukkit.createInventory(null, 54, this.getName());
         this.getTheme().apply();
     }
 
     @Override
     public Integer inventoryId() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class AuraMenu implements FancyMenuLoader.FancyMenu {
     @Override
     public Inventory getInventory() {
 
-        List<ItemStack> items = FancyUtil.generateParticleItems("aura_particle");
+        List<ItemStack> items = FancyUtil.generateParticleItems("wings_particle");
 
         int index = 0;
         for (int i = 20; i < 34; i++) {
@@ -67,16 +67,16 @@ public class AuraMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public String getName() {
-        return ChatColor.BLACK + "Fancy Aura Menu";
+        return ChatColor.BLACK + "Fancy Wings Menu";
     }
 
     @Override
     public Permission permission() {
-        return new Permission("fancy.menu.aura", "Permission to the aura fancy menu.");
+        return new Permission("fancy.menu.crown", "Permission to the wings fancy menu.");
     }
 
     @Override
     public FancyMenuTheme getTheme() {
-        return FancyMenuTheme.parseTheme(this, "menu.aura");
+        return FancyMenuTheme.parseTheme(this, "menu.wings");
     }
 }

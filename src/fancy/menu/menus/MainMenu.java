@@ -2,6 +2,8 @@ package fancy.menu.menus;
 
 import fancy.cosmetics.particles.AuraParticle;
 import fancy.cosmetics.particles.CrownParticle;
+import fancy.cosmetics.particles.OrbParticle;
+import fancy.cosmetics.particles.WingsParticle;
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.FancyMenuTheme;
 import fancy.util.FancyUtil;
@@ -33,16 +35,28 @@ public class MainMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public Inventory getInventory() {
-        inv.setItem(20,
+        inv.setItem(10,
                 NBTUtil.setItemTag(
                         CrownParticle.item(),
                         1,
                         "PartlyFancy", "openinv"
                 ));
-        inv.setItem(22,
+        inv.setItem(13,
                 NBTUtil.setItemTag(
                         AuraParticle.item(),
                         2,
+                        "PartlyFancy", "openinv"
+                ));
+        inv.setItem(16,
+                NBTUtil.setItemTag(
+                        WingsParticle.item(),
+                        3,
+                        "PartlyFancy", "openinv"
+                ));
+        inv.setItem(29,
+                NBTUtil.setItemTag(
+                        OrbParticle.item(),
+                        4,
                         "PartlyFancy", "openinv"
                 ));
         inv.setItem(49,
@@ -51,6 +65,7 @@ public class MainMenu implements FancyMenuLoader.FancyMenu {
                         "null",
                         "PartlyFancy", "close"
                 ));
+
         return this.inv;
     }
 

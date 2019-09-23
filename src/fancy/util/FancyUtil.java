@@ -2,11 +2,14 @@ package fancy.util;
 
 import com.sun.istack.internal.NotNull;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -125,9 +128,9 @@ public class FancyUtil {
 
     /**
      * Get an array of ints locating the boarders of any size chest-like inventory. (Does not work for anvils, hoppers, etc.)
-     * @param inv Inventory to trace.
+     * @param inv  Inventory to trace.
      * @param omit Omit the center 3 slots at the bottom to allow for menu navigational purposes.
-     * @return Array of ints reflecting the slots of the inventory
+     * @return     Array of ints reflecting the slots of the inventory
      */
     public static int[] getInventoryBorder(Inventory inv, boolean omit) {
         int invSize = inv.getSize();
@@ -160,7 +163,7 @@ public class FancyUtil {
     /**
      * Generate the Particle items for use in menus
      * @param nbt_key Key specifying which particle effect. Ex. 'crown_particle'
-     * @return A list of all the items
+     * @return        A list of all the items
      */
     public static List<ItemStack> generateParticleItems(String nbt_key) {
 
@@ -193,7 +196,7 @@ public class FancyUtil {
      *
      * @param minimum the minimum value of the generated value.
      * @param maximum the maximum value of the generated value.
-     * @return a randomly generated int in the defined range.
+     * @return        a randomly generated int in the defined range.
      * @see #RANDOM
      */
     public static int generateRandomInteger(int minimum, int maximum) {
@@ -205,9 +208,70 @@ public class FancyUtil {
      * @param value the value which should be checked.
      * @param max   the maximum value.
      * @param min   the minimum value
-     * @return the calculated value.
+     * @return      the calculated value.
      */
     public static int getMaxOrMin(int value, int max, int min) {
         return value >= max ? max : (value <= min ? min : value);
+    }
+
+    /**
+     * Rotate a current vector at a certain angle around the y-axis
+     * @param v     The vector to rotate
+     * @param angle The angle to rotate by
+     * @return      A vector rotated from the other
+     */
+    public static Vector rotateAroundAxisY(Vector v, double angle) {
+        double cos = Math.cos(angle);
+        double sin = Math.sin(angle);
+        double x = v.getX() * cos + v.getZ() * sin;
+        double z = v.getX() * -sin + v.getZ() * cos;
+        return v.setX(x).setZ(z);
+    }
+
+    /**
+     * Get the back of a location
+     * @param loc Relative location
+     * @return    A vector
+     */
+    public static Vector getBackVector(Location loc) {
+        float newZ = (float)(loc.getZ() + 1.0f * Math.sin(Math.toRadians(loc.getYaw() + 90.0F)));
+        float newX = (float)(loc.getX() + 1.0f * Math.cos(Math.toRadians(loc.getYaw() + 90.0F)));
+        return new Vector(newX - loc.getX(), 0.0f, newZ - loc.getZ());
+    }
+
+    /**
+     * Get the cardinal direction a player is looking
+     * @param player Player to check
+     * @return       A string of the direction Ex. 'NE'
+     */
+    public static String getCardinalDirection(Player player) {
+        double rotation = (player.getLocation().getYaw() - 90.0F) % 360.0F;
+        if (rotation < 0.0D) {
+            rotation += 360.0D;
+        }
+        return (337.5D <= rotation) && (rotation < 360.0D) ? "N" : (292.5D <= rotation) && (rotation < 337.5D) ? "NW" : (247.5D <= rotation) && (rotation < 292.5D) ? "W" : (202.5D <= rotation) && (rotation < 247.5D) ? "SW" : (157.5D <= rotation) && (rotation < 202.5D) ? "S" : (112.5D <= rotation) && (rotation < 157.5D) ? "SE" : (67.5D <= rotation) && (rotation < 112.5D) ? "E" : (22.5D <= rotation) && (rotation < 67.5D) ? "NE" : (0.0D <= rotation) && (rotation < 22.5D) ? "N" : null;
+    }
+
+    /**
+     * Get a vector that points from a starting location to the final.
+     * @param first  Starting location
+     * @param second Ending location
+     * @return       A vector
+     */
+    public static Vector getVector(Location first, Location second) {
+        Vector from = new Vector(first.getX(), first.getY(), first.getZ());
+        Vector to = new Vector(second.getX(), second.getY(), second.getZ());
+        return to.subtract(from);
+    }
+
+    private static double deg_to_rad = Math.PI/180;
+    public static Vector rotateVectorDegree(Vector v, double degrees) {
+        return rotateVectorRadians(v, degrees * deg_to_rad);
+    }
+
+    public static Vector rotateVectorRadians(Vector v, double radians) {
+        double ca = Math.cos(radians);
+        double sa = Math.sin(radians);
+        return new Vector(ca*v.getX() - sa*v.getZ(), v.getY(), sa*v.getX() + ca*v.getZ());
     }
 }
