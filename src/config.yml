@@ -60,6 +60,9 @@ menu:
   wings:
     theme: 'STATIC'
     items: 'GREEN_STAINED_GLASS_PANE'
+  orb:
+    theme: 'STATIC'
+    items: 'LIME_STAINED_GLASS_PANE'
 
 
 ## Sound Configuration

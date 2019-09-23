@@ -263,4 +263,15 @@ public class FancyUtil {
         Vector to = new Vector(second.getX(), second.getY(), second.getZ());
         return to.subtract(from);
     }
+
+    private static double deg_to_rad = Math.PI/180;
+    public static Vector rotateVectorDegree(Vector v, double degrees) {
+        return rotateVectorRadians(v, degrees * deg_to_rad);
+    }
+
+    public static Vector rotateVectorRadians(Vector v, double radians) {
+        double ca = Math.cos(radians);
+        double sa = Math.sin(radians);
+        return new Vector(ca*v.getX() - sa*v.getZ(), v.getY(), sa*v.getX() + ca*v.getZ());
+    }
 }

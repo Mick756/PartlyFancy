@@ -1,10 +1,7 @@
 package fancy.menu;
 
 import fancy.PartlyFancy;
-import fancy.menu.menus.AuraMenu;
-import fancy.menu.menus.CrownMenu;
-import fancy.menu.menus.MainMenu;
-import fancy.menu.menus.WingsMenu;
+import fancy.menu.menus.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.permissions.Permission;
@@ -22,6 +19,7 @@ public class FancyMenuLoader {
         registerFancyMenu(new CrownMenu());
         registerFancyMenu(new AuraMenu());
         registerFancyMenu(new WingsMenu());
+        registerFancyMenu(new OrbMenu());
 
     }
 

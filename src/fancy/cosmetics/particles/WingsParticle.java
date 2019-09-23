@@ -52,7 +52,7 @@ public class WingsParticle implements Particle  {
 
     @Override
     public ParticleType getType() {
-        return ParticleType.CROWN;
+        return ParticleType.WINGS;
     }
 
     @Override
