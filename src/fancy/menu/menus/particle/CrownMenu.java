@@ -1,4 +1,4 @@
-package fancy.menu.menus;
+package fancy.menu.menus.particle;
 
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.FancyMenuTheme;
@@ -13,18 +13,18 @@ import org.bukkit.permissions.Permission;
 
 import java.util.List;
 
-public class WingsMenu implements FancyMenuLoader.FancyMenu {
+public class CrownMenu implements FancyMenuLoader.FancyMenu {
 
     private Inventory inv;
 
-    public WingsMenu() {
+    public CrownMenu() {
         this.inv = Bukkit.createInventory(null, 54, this.getName());
         this.getTheme().apply();
     }
 
     @Override
     public Integer inventoryId() {
-        return 3;
+        return FancyMenuLoader.FancyMenuIds.PARTICLE_CROWN.getId();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class WingsMenu implements FancyMenuLoader.FancyMenu {
     @Override
     public Inventory getInventory() {
 
-        List<ItemStack> items = FancyUtil.generateParticleItems("wings_particle");
+        List<ItemStack> items = FancyUtil.generateParticleItems("crown_particle");
 
         int index = 0;
         for (int i = 20; i < 34; i++) {
@@ -51,7 +51,7 @@ public class WingsMenu implements FancyMenuLoader.FancyMenu {
         inv.setItem(48,
                 NBTUtil.setItemTag(
                         FancyUtil.createItemStack(Material.ARROW, 1, "&cGo Back", null, "&7Go back a menu.."),
-                        0,
+                        FancyMenuLoader.FancyMenuIds.PARTICLE.getId(),
                         "PartlyFancy", "goback"
                 ));
 
@@ -67,16 +67,16 @@ public class WingsMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public String getName() {
-        return ChatColor.BLACK + "Fancy Wings Menu";
+        return ChatColor.BLACK + "Fancy Crown Menu";
     }
 
     @Override
     public Permission permission() {
-        return new Permission("fancy.menu.crown", "Permission to the wings fancy menu.");
+        return new Permission("fancy.menu.crown", "Permission to the main fancy menu.");
     }
 
     @Override
     public FancyMenuTheme getTheme() {
-        return FancyMenuTheme.parseTheme(this, "menu.wings");
+        return FancyMenuTheme.parseTheme(this, "menu.crown");
     }
 }

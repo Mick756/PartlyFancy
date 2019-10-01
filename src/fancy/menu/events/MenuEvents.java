@@ -44,7 +44,7 @@ public class MenuEvents implements Listener {
                         value = NBTUtil.getItemTag(item, "PartlyFancy", "goback");
                     }
 
-                    FancyMenuLoader.FancyMenu inv = FancyMenuLoader.getFromId(Integer.parseInt(value.toString()));
+                    FancyMenuLoader.FancyMenu inv = FancyMenuLoader.getFromId((int) value);
 
                     if (inv.getInventory() == null) {
                         p.sendMessage(PartlyFancy.getValue("message.menu.not-found", "%id%-" + value.toString()));

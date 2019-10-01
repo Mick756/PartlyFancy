@@ -1,15 +1,22 @@
 package fancy.util;
 
 import com.sun.istack.internal.NotNull;
+import fancy.FancyPlayer;
 import fancy.util.particlelib.ParticleEffect;
 import fancy.util.particlelib.data.color.NoteColor;
 import fancy.util.particlelib.data.color.RegularColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.libs.jline.internal.Nullable;
+import org.bukkit.entity.Player;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import static java.util.stream.Collectors.toCollection;
 
 
 public enum Particles {
@@ -64,6 +71,33 @@ public enum Particles {
         this.spam = spam;
         this.item = item;
         this.description = description;
+    }
+
+    /**
+     * Display the particle at a specific location
+     * @param fp FancyPlayer attached to the particle display event
+     * @param loc Location to display particle
+     * @param amt Amount of the particle to display. (If particle is spammy, amount fixed to 2)
+     */
+    public void display(FancyPlayer fp, Location loc, int amt) {
+        int amount = (this.spam ? 2 : amt);
+
+        List<Player> playersToShowTo = Bukkit.getOnlinePlayers().stream().collect(toCollection(ArrayList::new));
+
+        if (!fp.canSeeOwnParticles) {
+            playersToShowTo.remove(fp.getPlayer());
+        }
+
+
+        Random r = FancyUtil.RANDOM;
+        if (this.colorable && this.effect != ParticleEffect.NOTE) {
+            RegularColor c = new RegularColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+            this.effect.display(loc, 0, 0, 0, 0, amount, c, playersToShowTo);
+        } else if (this.colorable && this.effect == ParticleEffect.NOTE) {
+            this.effect.display(loc, 0, 0, 0, 0, amount, NoteColor.random(), playersToShowTo);
+        } else {
+            this.effect.display(loc, playersToShowTo);
+        }
     }
 
     /**

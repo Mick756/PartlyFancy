@@ -2,30 +2,25 @@ package fancy.menu.themes;
 
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.FancyMenuTheme;
+import fancy.menu.themes.types.Static;
 import fancy.util.FancyUtil;
 import fancy.util.NBTUtil;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class Static implements FancyMenuTheme {
+public class Solid implements FancyMenuTheme, Static {
 
     private FancyMenuLoader.FancyMenu host;
     private Material item;
 
-    /**
-     * Create new theme object for an inventory
-     * @param hostInventory Inventory to host this
-     * @param material
-     * @param omit
-     */
-    public Static(FancyMenuLoader.FancyMenu hostInventory, Material material, boolean omit) {
-        this.host = hostInventory;
-        this.item = material;
+    private boolean init;
+    public Solid(boolean init) {
+        this.init = init;
     }
 
     @Override
     public String name() {
-        return "STATIC";
+        return "SOLID";
     }
 
     @Override
@@ -54,7 +49,24 @@ public class Static implements FancyMenuTheme {
     }
 
     @Override
-    public boolean isStatic() {
-        return true;
+    public Material item() {
+        return this.item;
+    }
+
+    @Override
+    public FancyMenuTheme setItem(Material item) {
+        this.item = item;
+        return this;
+    }
+
+    @Override
+    public FancyMenuLoader.FancyMenu menu() {
+        return this.host;
+    }
+
+    @Override
+    public FancyMenuTheme setMenu(FancyMenuLoader.FancyMenu menu) {
+        this.host = menu;
+        return this;
     }
 }

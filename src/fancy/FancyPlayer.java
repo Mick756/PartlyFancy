@@ -20,6 +20,9 @@ public class FancyPlayer {
     public Gadget gadget;
     public Pet pet;
 
+    //Settings
+    public boolean canSeeOwnParticles;
+
     /**
      * PartlyFancy's player object
      * @param p Player to create object for
@@ -29,6 +32,7 @@ public class FancyPlayer {
         this.gadget = null;
         this.pet = null;
         this.playerUUID = p.getUniqueId();
+        this.canSeeOwnParticles = false;
         PartlyFancy.getFancyPlayers().put(this.playerUUID, this);
     }
 

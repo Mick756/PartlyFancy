@@ -8,7 +8,8 @@ public interface Particle extends FancyCosmetic {
 
     ParticleType getType();
 
-    int interval();
+
+    void run(double... steps);
 
     enum ParticleType {
         CROWN, SPIRAL, SPIKE, AURA, SCAN, WINGS, ORB

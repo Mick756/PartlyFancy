@@ -1,6 +1,7 @@
 package fancy.cosmetics.particles;
 
 import com.sun.istack.internal.NotNull;
+import fancy.FancyPlayer;
 import fancy.PartlyFancy;
 import fancy.cosmetics.Particle;
 import fancy.util.FancyUtil;
@@ -12,7 +13,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WingsParticle implements Particle  {
+
+    public static List<FancyPlayer> wingParticleUsers = new ArrayList<>();
+    public static int interval = 15;
 
     private static boolean X = true;
     private static boolean o = false;
@@ -28,10 +35,28 @@ public class WingsParticle implements Particle  {
             { o, o, o, X, X, o, o, o, o, o, o, X, X, X, o, o, o, o },
     };
 
-    private boolean enabled;
+    static {
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+
+                if (wingParticleUsers.size() > 0) {
+
+                    for (FancyPlayer fp : wingParticleUsers) {
+
+                        fp.particleEffect.run(-1);
+
+                    }
+                }
+
+            }
+
+        }.runTaskTimer(PartlyFancy.getInstance(), 0, interval);
+    }
+
     private Player player;
     private Particles[] effects;
-    private int i;
 
     /**
      * A crown affect is a basic ring over a player's head
@@ -39,10 +64,8 @@ public class WingsParticle implements Particle  {
      * @param effects Particles to be displayed
      */
     public WingsParticle(@NotNull Player player, @NotNull Particles... effects) {
-        this.enabled = true;
         this.player = player;
         this.effects = effects;
-        this.i = 0;
     }
 
     @Override
@@ -66,69 +89,61 @@ public class WingsParticle implements Particle  {
     }
 
     @Override
-    public void start() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
+    public void run(double... step) {
+        Location loc = getPlayer().getLocation();
+        double space = 0.2D;
+        double defX;
+        double x = defX = loc.getX() - space * shape[0].length / 2.0D + space;
+        double y = loc.clone().getY() + 2.0D;
+        double angle = -(loc.getYaw() + 180.0F) / 60.0F;
 
-                if (!getPlayer().isOnline() || !enabled) {
-                    stop();
-                    return;
-                }
+        angle += (loc.getYaw() < -180.0F ? 3.25D : 2.985D);
 
-                Location location = getPlayer().getLocation();
-                double space = 0.2D;
-                double defX;
-                double x = defX = location.getX() - space * shape[0].length / 2.0D + space;
-                double y = location.clone().getY() + 2.0D;
-                double angle = -(location.getYaw() + 180.0F) / 60.0F;
+        for (int i = 0; i < shape.length; i++) {
 
-                angle += (location.getYaw() < -180.0F ? 3.25D : 2.985D);
+            for (int j = 0; j < shape[i].length; j++) {
 
-                for (int i = 0; i < shape.length; i++) {
+                if (shape[i][j]) {
+                    Location target = loc.clone();
+                    target.setX(x);
+                    target.setY(y);
 
-                    for (int j = 0; j < shape[i].length; j++) {
+                    Vector v = target.toVector().subtract(loc.toVector());
+                    Vector v2 = FancyUtil.getBackVector(loc);
 
-                        if (shape[i][j]) {
-                            Location target = location.clone();
-                            target.setX(x);
-                            target.setY(y);
+                    v = FancyUtil.rotateAroundAxisY(v, angle);
+                    v2.setY(0).multiply(-0.3D);
+                    loc.add(v);
+                    loc.add(v2);
 
-                            Vector v = target.toVector().subtract(location.toVector());
-                            Vector v2 = FancyUtil.getBackVector(location);
-
-                            v = FancyUtil.rotateAroundAxisY(v, angle);
-                            v2.setY(0).multiply(-0.2D);
-                            location.add(v);
-                            location.add(v2);
-
-                            for (Particles particle : getParticles()) {
-                                if (particle != null) {
-                                    particle.display(location, 5);
-                                }
-                            }
-
-                            location.subtract(v2);
-                            location.subtract(v);
+                    for (Particles particle : getParticles()) {
+                        if (particle != null) {
+                            particle.display(FancyPlayer.getFancyPlayer(this.getPlayer()), loc, 5);
                         }
-                        x += space;
                     }
-                    y -= space;
-                    x = defX;
 
+                    loc.subtract(v2);
+                    loc.subtract(v);
                 }
+                x += space;
             }
-        }.runTaskTimer(PartlyFancy.getInstance(), 10, interval());
+            y -= space;
+            x = defX;
+        }
     }
 
     @Override
-    public int interval() {
-        return 16;
+    public void start() {
+
+        wingParticleUsers.add(FancyPlayer.getFancyPlayer(this.getPlayer()));
+
     }
 
     @Override
     public void stop() {
-        this.enabled = false;
+
+        wingParticleUsers.remove(FancyPlayer.getFancyPlayer(this.getPlayer()));
+
     }
 
     public static ItemStack item() {

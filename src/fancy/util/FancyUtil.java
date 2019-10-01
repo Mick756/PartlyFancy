@@ -40,22 +40,24 @@ public class FancyUtil {
 
         ItemMeta meta = itemStack.getItemMeta();
 
-        // Display name
-        if (name != null && name.length() != 0) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+        if (meta != null) {
+            // Display name
+            if (name != null && name.length() != 0) {
+                meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+            }
+
+            // Lore
+            if (lore != null && lore.length != 0) {
+                List<String> loreLines = new ArrayList<>();
+
+                Arrays.asList(lore).forEach(line -> {
+                    loreLines.add(ChatColor.translateAlternateColorCodes('&', line));
+                });
+                meta.setLore(loreLines);
+            }
+
+            itemStack.setItemMeta(meta);
         }
-
-        // Lore
-        if (lore != null && lore.length != 0) {
-            List<String> loreLines = new ArrayList<>();
-
-            Arrays.asList(lore).forEach(line -> {
-                loreLines.add(ChatColor.translateAlternateColorCodes('&', line));
-            });
-            meta.setLore(loreLines);
-        }
-
-        itemStack.setItemMeta(meta);
 
         return itemStack;
     }

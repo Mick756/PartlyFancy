@@ -1,6 +1,7 @@
 package fancy.cosmetics.particles;
 
 import com.sun.istack.internal.NotNull;
+import fancy.FancyPlayer;
 import fancy.PartlyFancy;
 import fancy.cosmetics.Particle;
 import fancy.util.FancyUtil;
@@ -12,9 +13,33 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OrbParticle implements Particle {
 
-    private boolean enabled;
+    public static List<FancyPlayer> orbParticleUsers = new ArrayList<>();
+    public static int interval = 15;
+
+    static {
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+
+                if (orbParticleUsers.size() > 0) {
+
+                    for (FancyPlayer fp : orbParticleUsers) {
+
+                        fp.particleEffect.run(-1);
+
+                    }
+                }
+            }
+
+        }.runTaskTimer(PartlyFancy.getInstance(), 0, interval);
+    }
+
     private Player player;
     private Particles[] effects;
 
@@ -24,7 +49,6 @@ public class OrbParticle implements Particle {
      * @param effects Particles to be displayed
      */
     public OrbParticle(@NotNull Player player, @NotNull Particles... effects) {
-        this.enabled = true;
         this.player = player;
         this.effects = effects;
     }
@@ -51,48 +75,41 @@ public class OrbParticle implements Particle {
 
     @Override
     public void start() {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
 
-                if (!getPlayer().isOnline() || !enabled) {
-                    stop();
-                    return;
-                }
+        orbParticleUsers.add(FancyPlayer.getFancyPlayer(this.getPlayer()));
 
-                double radius = 1.2D;
-                double amount = radius * 30.0D;
-                double inc = (Math.PI * 4) / amount;
-
-                for (int i = 0; i < 180; i++) {
-
-                    double angle = i * inc;
-
-                    double x = radius * Math.cos(angle);
-                    double z = radius * Math.sin(angle);
-
-                    Vector v = FancyUtil.rotateVectorDegree(new Vector(x, z + 1, 0), (i * 18));
-                    Location loc = getPlayer().getLocation().add(v);
-
-                    for (Particles particle : getParticles()) {
-                        if (particle != null) {
-                            particle.display(loc, 5);
-                        }
-                    }
-                }
-
-            }
-        }.runTaskTimer(PartlyFancy.getInstance(), 10, interval());
     }
 
     @Override
-    public int interval() {
-        return 15;
+    public void run(double... step) {
+
+        double radius = 1.2D;
+        double amount = radius * 30.0D;
+        double inc = (Math.PI * 4) / amount;
+
+        for (int i = 0; i < 180; i++) {
+
+            double angle = i * inc;
+
+            double x = radius * Math.cos(angle);
+            double z = radius * Math.sin(angle);
+
+            Vector v = FancyUtil.rotateVectorDegree(new Vector(x, z + 1, 0), (i * 18)).multiply(1.3f);
+            Location loc = getPlayer().getLocation().add(v);
+
+            for (Particles particle : getParticles()) {
+                if (particle != null) {
+                    particle.display(FancyPlayer.getFancyPlayer(this.getPlayer()), loc, 5);
+                }
+            }
+        }
     }
 
     @Override
     public void stop() {
-        this.enabled = false;
+
+        orbParticleUsers.remove(FancyPlayer.getFancyPlayer(this.getPlayer()));
+
     }
 
     public static ItemStack item() {
