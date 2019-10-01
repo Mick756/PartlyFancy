@@ -1,4 +1,4 @@
-package fancy.menu.menus;
+package fancy.menu.menus.particle;
 
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.FancyMenuTheme;
@@ -8,20 +8,23 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
 
-public class MainMenu implements FancyMenuLoader.FancyMenu {
+import java.util.List;
+
+public class WingsMenu implements FancyMenuLoader.FancyMenu {
 
     private Inventory inv;
 
-    public MainMenu() {
+    public WingsMenu() {
         this.inv = Bukkit.createInventory(null, 54, this.getName());
         this.getTheme().apply();
     }
 
     @Override
     public Integer inventoryId() {
-        return FancyMenuLoader.FancyMenuIds.MAIN.getId();
+        return FancyMenuLoader.FancyMenuIds.PARTICLE_WINGS.getId();
     }
 
     @Override
@@ -31,23 +34,32 @@ public class MainMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public Inventory getInventory() {
-        inv.setItem(20,
+
+        List<ItemStack> items = FancyUtil.generateParticleItems("wings_particle");
+
+        int index = 0;
+        for (int i = 20; i < 34; i++) {
+
+            inv.setItem(i, items.get(index));
+
+            index++;
+            if (i == 24) {
+                i = 28;
+            }
+        }
+
+        inv.setItem(48,
                 NBTUtil.setItemTag(
-                        FancyUtil.createItemStack(Material.BREWING_STAND, 1, "&bParticle Effects", null, "&7Open up the particle effects."),
+                        FancyUtil.createItemStack(Material.ARROW, 1, "&cGo Back", null, "&7Go back a menu.."),
                         FancyMenuLoader.FancyMenuIds.PARTICLE.getId(),
-                        "PartlyFancy", "openinv"
+                        "PartlyFancy", "goback"
                 ));
+
         inv.setItem(49,
                 NBTUtil.setItemTag(
                         FancyUtil.createItemStack(Material.BARRIER, 1, "&cClose Menu", null, "&7Close this menu.."),
                         "null",
                         "PartlyFancy", "close"
-                ));
-        inv.setItem(50,
-                NBTUtil.setItemTag(
-                        FancyUtil.createItemStack(Material.COMPARATOR, 1, "&aYour Settings", null, "&7Open the settings menu.."),
-                        FancyMenuLoader.FancyMenuIds.SETTINGS.getId(),
-                        "PartlyFancy", "openinv"
                 ));
 
         return this.inv;
@@ -55,16 +67,16 @@ public class MainMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public String getName() {
-        return ChatColor.BLACK + "Fancy Main Menu";
+        return ChatColor.BLACK + "Fancy Wings Menu";
     }
 
     @Override
     public Permission permission() {
-        return new Permission("fancy.menu.main", "Permission to the main fancy menu.");
+        return new Permission("fancy.menu.crown", "Permission to the wings fancy menu.");
     }
 
     @Override
     public FancyMenuTheme getTheme() {
-        return FancyMenuTheme.parseTheme(this, "menu.main");
+        return FancyMenuTheme.parseTheme(this, "menu.wings");
     }
 }

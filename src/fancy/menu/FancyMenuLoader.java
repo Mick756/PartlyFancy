@@ -1,7 +1,15 @@
 package fancy.menu;
 
 import fancy.PartlyFancy;
-import fancy.menu.menus.*;
+import fancy.menu.menus.MainMenu;
+import fancy.menu.menus.ParticleMenu;
+import fancy.menu.menus.SettingsMenu;
+import fancy.menu.menus.particle.AuraMenu;
+import fancy.menu.menus.particle.CrownMenu;
+import fancy.menu.menus.particle.OrbMenu;
+import fancy.menu.menus.particle.WingsMenu;
+import fancy.menu.themes.Rainbow;
+import fancy.menu.themes.Solid;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.permissions.Permission;
@@ -12,10 +20,20 @@ import java.util.List;
 public class FancyMenuLoader {
 
     public static List<FancyMenu> menus = new ArrayList<>();
+    public static List<FancyMenuTheme> themes = new ArrayList<>();
 
     static {
 
+        //Themes
+        addTheme(new Solid(true));
+        addTheme(new Rainbow(true));
+
+        // Main Menus
         registerFancyMenu(new MainMenu());
+        registerFancyMenu(new ParticleMenu());
+        registerFancyMenu(new SettingsMenu());
+
+        // Particle Menus
         registerFancyMenu(new CrownMenu());
         registerFancyMenu(new AuraMenu());
         registerFancyMenu(new WingsMenu());
@@ -55,8 +73,32 @@ public class FancyMenuLoader {
         }
     }
 
+    public enum FancyMenuIds {
+
+        MAIN(1), PARTICLE(2), SETTINGS(3),
+
+        PARTICLE_CROWN(20), PARTICLE_AURA(21), PARTICLE_ORB(22), PARTICLE_WINGS(23);
+
+        int id;
+        FancyMenuIds(int id) {
+            this.id = id;
+        }
+
+        public String getIdString() {
+            return Integer.toString(id);
+        }
+
+        public int getId() {
+            return id;
+        }
+    }
+
     public static void registerFancyMenu(FancyMenu m) {
         menus.add(m);
+    }
+
+    static void addTheme(FancyMenuTheme theme) {
+        themes.add(theme);
     }
 
     public static FancyMenu getFromId(int id) {
@@ -95,4 +137,5 @@ public class FancyMenuLoader {
         FancyMenuTheme getTheme();
 
     }
+
 }

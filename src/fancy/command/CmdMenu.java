@@ -13,7 +13,7 @@ public class CmdMenu implements FancyCommandLoader.FancyCommand {
         FancyPlayer fancyPlayer = FancyPlayer.getFancyPlayer(player);
 
         if (player.hasPermission(permission())) {
-            FancyMenuLoader.openMenu(player, FancyMenuLoader.getFromId(0), true);
+            FancyMenuLoader.openMenu(player, FancyMenuLoader.getFromId(FancyMenuLoader.FancyMenuIds.MAIN.getId()), true);
             return 1;
         } else {
             fancyPlayer.sendMessage(PartlyFancy.getValue("message.command.no-permission",

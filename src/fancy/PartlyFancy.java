@@ -88,6 +88,8 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event) {
         Player p = event.getPlayer();
 
+        FancyPlayer.getFancyPlayer(p).stopParticle();
+
         getFancyPlayers().remove(p.getUniqueId());
     }
 

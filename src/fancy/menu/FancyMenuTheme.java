@@ -2,16 +2,16 @@ package fancy.menu;
 
 import fancy.PartlyFancy;
 import fancy.menu.themes.Rainbow;
-import fancy.menu.themes.Static;
+import fancy.menu.themes.Solid;
+import fancy.menu.themes.types.MultiColor;
+import fancy.menu.themes.types.Static;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface FancyMenuTheme {
-
-    List<FancyMenuTheme> themes = new ArrayList<>();
-
     /*
     Name for config.yml specification
      */
@@ -21,13 +21,19 @@ public interface FancyMenuTheme {
 
     void clear();
 
-    /*
-    If the theme involves moving parts, or is it still
-     */
-    boolean isStatic();
+    FancyMenuLoader.FancyMenu menu();
 
-    static void addTheme(FancyMenuTheme theme) {
-        themes.add(theme);
+    FancyMenuTheme setMenu(FancyMenuLoader.FancyMenu menu);
+
+
+
+    static FancyMenuTheme getTheme(FancyMenuLoader.FancyMenu m, String value) {
+        for (FancyMenuTheme theme : FancyMenuLoader.themes) {
+            if (theme.name().equalsIgnoreCase(value)) {
+                return theme.setMenu(m);
+            }
+        }
+        return null;
     }
 
     /**
@@ -37,17 +43,19 @@ public interface FancyMenuTheme {
      */
     static FancyMenuTheme parseTheme(FancyMenuLoader.FancyMenu m, String path) {
 
-        String theme = PartlyFancy.getValue(path + ".theme");
+        FancyMenuTheme theme = getTheme(m, PartlyFancy.getValue(path + ".theme"));
 
-        switch (theme) {
+        if (theme != null) {
 
-            case "RAINBOW":
+            if (theme instanceof MultiColor) {
 
                 List<String> matNames = (List<String>) PartlyFancy.getListValue(path + ".items");
+
                 if (matNames != null) {
                     List<Material> materials = new ArrayList<>();
 
                     for (String matName : matNames) {
+
                         try {
                             materials.add(Material.valueOf(matName.toUpperCase()));
                         } catch (Exception ex) {
@@ -55,28 +63,25 @@ public interface FancyMenuTheme {
                         }
                     }
 
-                    return new Rainbow(m, materials, true);
-                } else {
-                    break;
+                    return new Rainbow(true).setItems(materials).setMenu(m);
                 }
-
-            case "STATIC":
+            } else if (theme instanceof Static) {
 
                 String matName = PartlyFancy.getValue(path + ".items");
+
                 if (matName != null) {
 
-                        try {
-                            Static s = new Static(m, Material.valueOf(matName.toUpperCase()), true);
-                            return s;
-                        } catch (Exception ex) {
-                            PartlyFancy.getInstance().getLogger().severe("Error in configuration. " + matName + " at " + path + ".items is not a valid material.");
-                        }
-                } else {
-                    break;
+                    try {
+                        return new Solid(true).setItem(Material.valueOf(matName.toUpperCase())).setMenu(m);
+                    } catch (Exception ex) {
+                        PartlyFancy.getInstance().getLogger().severe("Error in configuration. " + matName + " at " + path + ".items is not a valid material.");
+                    }
                 }
-
+            }
+        } else {
+            Bukkit.getLogger().info("Null ");
         }
-        return new Static(m, Material.AIR, true);
+        return new Solid(true).setItem(Material.AIR).setMenu(m);
     }
 
 }

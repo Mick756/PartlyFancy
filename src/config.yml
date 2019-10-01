@@ -46,22 +46,28 @@ menu:
     theme: 'RAINBOW'
     items:
       - 'BLUE_STAINED_GLASS_PANE'
-      - 'YELLOW_STAINED_GLASS_PANE'
       - 'GREEN_STAINED_GLASS_PANE'
-      - 'ORANGE_STAINED_GLASS_PANE'
       - 'PURPLE_STAINED_GLASS_PANE'
+  particle:
+    theme: 'RAINBOW'
+    items:
+      - 'YELLOW_STAINED_GLASS_PANE'
+      - 'ORANGE_STAINED_GLASS_PANE'
       - 'LIME_STAINED_GLASS_PANE'
+  settings:
+    theme: 'SOLID'
+    items: 'LIME_STAINED_GLASS_PANE'
   crown:
-    theme: 'STATIC'
+    theme: 'SOLID'
     items: 'YELLOW_STAINED_GLASS_PANE'
   aura:
-    theme: 'STATIC'
+    theme: 'SOLID'
     items: 'PURPLE_STAINED_GLASS_PANE'
   wings:
-    theme: 'STATIC'
+    theme: 'SOLID'
     items: 'GREEN_STAINED_GLASS_PANE'
   orb:
-    theme: 'STATIC'
+    theme: 'SOLID'
     items: 'LIME_STAINED_GLASS_PANE'
 
 
