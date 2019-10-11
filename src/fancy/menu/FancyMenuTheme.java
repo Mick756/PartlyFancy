@@ -1,7 +1,6 @@
 package fancy.menu;
 
 import fancy.PartlyFancy;
-import fancy.menu.themes.Rainbow;
 import fancy.menu.themes.Solid;
 import fancy.menu.themes.types.MultiColor;
 import fancy.menu.themes.types.Static;
@@ -25,12 +24,12 @@ public interface FancyMenuTheme {
 
     FancyMenuTheme setMenu(FancyMenuLoader.FancyMenu menu);
 
+    FancyMenuTheme newInstance();
 
-
-    static FancyMenuTheme getTheme(FancyMenuLoader.FancyMenu m, String value) {
+    static FancyMenuTheme getTheme(String value) {
         for (FancyMenuTheme theme : FancyMenuLoader.themes) {
             if (theme.name().equalsIgnoreCase(value)) {
-                return theme.setMenu(m);
+                return theme.newInstance();
             }
         }
         return null;
@@ -43,7 +42,7 @@ public interface FancyMenuTheme {
      */
     static FancyMenuTheme parseTheme(FancyMenuLoader.FancyMenu m, String path) {
 
-        FancyMenuTheme theme = getTheme(m, PartlyFancy.getValue(path + ".theme"));
+        FancyMenuTheme theme = getTheme(PartlyFancy.getValue(path + ".theme"));
 
         if (theme != null) {
 
@@ -54,16 +53,21 @@ public interface FancyMenuTheme {
                 if (matNames != null) {
                     List<Material> materials = new ArrayList<>();
 
-                    for (String matName : matNames) {
+                    try {
 
-                        try {
+                        for (String matName : matNames) {
+
                             materials.add(Material.valueOf(matName.toUpperCase()));
-                        } catch (Exception ex) {
-                            PartlyFancy.getInstance().getLogger().severe("Error in configuration. " + matName + " at " + path + ".items is not a valid material.");
                         }
+
+                       FancyMenuTheme foundTheme = ((MultiColor) theme).setItems(materials).setMenu(m);
+
+                        return foundTheme;
+
+                    } catch (Exception ex) {
+                        PartlyFancy.getInstance().getLogger().severe("Error in configuration. At " + path + ".items is not a valid material.");
                     }
 
-                    return new Rainbow(true).setItems(materials).setMenu(m);
                 }
             } else if (theme instanceof Static) {
 
@@ -72,16 +76,14 @@ public interface FancyMenuTheme {
                 if (matName != null) {
 
                     try {
-                        return new Solid(true).setItem(Material.valueOf(matName.toUpperCase())).setMenu(m);
+                        return ((Static) theme).setItem(Material.valueOf(matName.toUpperCase())).setMenu(m);
                     } catch (Exception ex) {
                         PartlyFancy.getInstance().getLogger().severe("Error in configuration. " + matName + " at " + path + ".items is not a valid material.");
                     }
                 }
             }
-        } else {
-            Bukkit.getLogger().info("Null ");
         }
-        return new Solid(true).setItem(Material.AIR).setMenu(m);
+        return new Solid().setItem(Material.AIR).setMenu(m);
     }
 
 }

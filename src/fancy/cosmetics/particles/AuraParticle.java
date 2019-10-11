@@ -20,7 +20,7 @@ public class AuraParticle implements Particle {
 
     public static List<FancyPlayer> auraParticleUsers = new ArrayList<>();
 
-    public static int interval = 3;
+    private static int interval = 3;
     private static double radius = 0.7D;
     private static double amount = radius * 30.0D;
     private static double inc = (Math.PI * 4) / amount;

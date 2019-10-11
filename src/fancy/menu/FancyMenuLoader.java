@@ -9,6 +9,7 @@ import fancy.menu.menus.particle.CrownMenu;
 import fancy.menu.menus.particle.OrbMenu;
 import fancy.menu.menus.particle.WingsMenu;
 import fancy.menu.themes.Rainbow;
+import fancy.menu.themes.Snake;
 import fancy.menu.themes.Solid;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -25,8 +26,9 @@ public class FancyMenuLoader {
     static {
 
         //Themes
-        addTheme(new Solid(true));
-        addTheme(new Rainbow(true));
+        addTheme(new Solid());
+        addTheme(new Rainbow());
+        addTheme(new Snake());
 
         // Main Menus
         registerFancyMenu(new MainMenu());
@@ -71,6 +73,8 @@ public class FancyMenuLoader {
         if (sound) {
             player.playSound(player.getLocation(), PartlyFancy.getSound("sound.inventory.close"), 2f, 1f);
         }
+
+        player.updateInventory();
     }
 
     public enum FancyMenuIds {

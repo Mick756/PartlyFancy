@@ -81,6 +81,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
+
     }
 
     // Quit event to save and unload player data if enabled.
@@ -88,7 +89,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event) {
         Player p = event.getPlayer();
 
-        FancyPlayer.getFancyPlayer(p).stopParticle();
+        FancyPlayer.getFancyPlayer(p).stopParticle(false);
 
         getFancyPlayers().remove(p.getUniqueId());
     }
@@ -120,7 +121,9 @@ public class PartlyFancy extends JavaPlugin implements Listener {
         if (message != null) {
 
             if (replacements.length == 0) {
+
                 return ChatColor.translateAlternateColorCodes('&', message);
+
             } else {
 
                 for (String replacement : replacements) {
@@ -144,7 +147,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     /**
      * Retrieve a List value from a path.
      * @param path         Path to the config.yml
-     * @return             The String found or an error if path value is null. Color codes auto translated from '&'
+     * @return             The List found or an error if path value is null.
      */
     public static List<?> getListValue(@NotNull String path) {
         List<?> list = getInstance().getConfig().getList(path);
@@ -192,10 +195,12 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     /**
      * Generates a config. If one already exists, a version check occurs. If version is found
      * to be out of date, the old config will have the new extension of .old and a new config
-     * file will be created taking the place of config.yml.
+     * file will be created taking the place of the old config.
      */
     private void generateConfig() {
+
         File f = new File(getDataFolder(), "config.yml");
+
         if (!f.exists()) {
 
             saveDefaultConfig();
