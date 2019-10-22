@@ -68,7 +68,7 @@ public class WingsMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public Permission permission() {
-        return new Permission("fancy.menu.crown", "Permission to the wings fancy menu.");
+        return new Permission("fancy.menu.wings", "Permission to the wings fancy menu.");
     }
 
     @Override

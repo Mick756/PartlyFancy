@@ -72,7 +72,6 @@ public class ParticlePacket {
         try {
             ParticleData data = getParticleData();
             ParticleEffect effect = getParticle();
-            Constructor packetConstructor = ParticleConstants.PACKET_PLAY_OUT_WORLD_PARTICLES_CONSTRUCTOR;
             int version = ParticleConstants.version;
             if (effect == null || effect.getFieldName().equals("NONE"))
                 return null;

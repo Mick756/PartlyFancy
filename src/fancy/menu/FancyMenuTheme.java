@@ -4,7 +4,6 @@ import fancy.PartlyFancy;
 import fancy.menu.themes.Solid;
 import fancy.menu.themes.types.MultiColor;
 import fancy.menu.themes.types.Static;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ public interface FancyMenuTheme {
      */
     static FancyMenuTheme parseTheme(FancyMenuLoader.FancyMenu m, String path) {
 
-        FancyMenuTheme theme = getTheme(PartlyFancy.getValue(path + ".theme"));
+        FancyMenuTheme theme = getTheme(PartlyFancy.getStringValue(path + ".theme"));
 
         if (theme != null) {
 
@@ -71,7 +70,7 @@ public interface FancyMenuTheme {
                 }
             } else if (theme instanceof Static) {
 
-                String matName = PartlyFancy.getValue(path + ".items");
+                String matName = PartlyFancy.getStringValue(path + ".items");
 
                 if (matName != null) {
 

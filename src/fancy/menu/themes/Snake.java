@@ -11,28 +11,12 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Random;
-
 public class Snake implements FancyMenuTheme, Static, Cloneable {
 
     private FancyMenuLoader.FancyMenu host;
     private int task;
-
-
-    int[][] positions =
-            {
-                    {0, 9, 18, 27}, {1, 0, 9, 18}, {2, 1, 0, 9}, {3, 2, 1, 0},
-                    {4, 3, 2, 1}, {5, 4, 3, 2}, {6, 5, 4, 3}, {7, 6, 5, 4},
-                    {8, 7, 6, 5}, {17, 8, 7, 6}, {26, 17, 8, 7},
-                    {35, 26, 17, 8}, {44, 35, 26, 17}, {53, 44, 35, 26},
-                    {52, 53, 44, 35}, {51, 52, 53, 44}, {47, 51, 52, 53},
-                    {46, 47, 51, 52}, {45, 46, 47, 51}, {36, 45, 46, 47},
-                    {27, 36, 45, 46}, {18, 27, 36, 45}, {9, 18, 27, 36}
-
-            };
-
-
     private Material item;
+    int[][] positions = {{0, 9, 18, 27}, {1, 0, 9, 18}, {2, 1, 0, 9}, {3, 2, 1, 0}, {4, 3, 2, 1}, {5, 4, 3, 2}, {6, 5, 4, 3}, {7, 6, 5, 4}, {8, 7, 6, 5}, {17, 8, 7, 6}, {26, 17, 8, 7}, {35, 26, 17, 8}, {44, 35, 26, 17}, {53, 44, 35, 26}, {52, 53, 44, 35}, {51, 52, 53, 44}, {47, 51, 52, 53}, {46, 47, 51, 52}, {45, 46, 47, 51}, {36, 45, 46, 47}, {27, 36, 45, 46}, {18, 27, 36, 45}, {9, 18, 27, 36}};
 
     public Snake() { }
 
@@ -47,7 +31,6 @@ public class Snake implements FancyMenuTheme, Static, Cloneable {
         clear();
 
         int[] slots = FancyUtil.getInventoryBorder(this.host.getInventory(), true);
-
 
         task = new BukkitRunnable() {
 

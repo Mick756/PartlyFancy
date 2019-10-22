@@ -11,6 +11,7 @@ import fancy.menu.menus.particle.WingsMenu;
 import fancy.menu.themes.Rainbow;
 import fancy.menu.themes.Snake;
 import fancy.menu.themes.Solid;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.permissions.Permission;
@@ -41,6 +42,12 @@ public class FancyMenuLoader {
         registerFancyMenu(new WingsMenu());
         registerFancyMenu(new OrbMenu());
 
+
+        for (FancyMenu menu : menus) {
+
+            Bukkit.getPluginManager().addPermission(menu.permission());
+
+        }
     }
 
     /**
@@ -62,7 +69,7 @@ public class FancyMenuLoader {
             player.openInventory(inventory.getInventory());
             return true;
         } else {
-            player.sendMessage(PartlyFancy.getValue("message.menu.no-permission", "%player%-" + player.getDisplayName(), "%permission%-" + inventory.permission().getName()));
+            player.sendMessage(PartlyFancy.getStringValue("message.menu.no-permission", "%player%-" + player.getDisplayName(), "%permission%-" + inventory.permission().getName()));
         }
         return false;
     }

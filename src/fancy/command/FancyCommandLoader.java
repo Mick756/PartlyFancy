@@ -1,5 +1,6 @@
 package fancy.command;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
@@ -18,6 +19,13 @@ public class FancyCommandLoader {
     static {
         addFancyCommand(new CmdHelp());
         addFancyCommand(new CmdMenu());
+        addFancyCommand(new CmdPermissions());
+
+        for (FancyCommand command : commands) {
+
+            Bukkit.getPluginManager().addPermission(command.permission());
+
+        }
     }
 
     /**

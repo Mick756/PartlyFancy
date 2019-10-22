@@ -68,7 +68,7 @@ public class CrownMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public Permission permission() {
-        return new Permission("fancy.menu.crown", "Permission to the main fancy menu.");
+        return new Permission("fancy.menu.crown", "Permission to the crown fancy menu.");
     }
 
     @Override

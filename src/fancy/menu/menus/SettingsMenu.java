@@ -57,7 +57,7 @@ public class SettingsMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public Permission permission() {
-        return new Permission("fancy.menu.particle", "Permission to the particle settings menu.");
+        return new Permission("fancy.menu.settings", "Permission to the particle settings menu.");
     }
 
     @Override

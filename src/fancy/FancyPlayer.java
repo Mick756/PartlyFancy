@@ -43,13 +43,13 @@ public class FancyPlayer {
     public void startParticle(FancyCosmetic cosmetic, boolean msg) {
         if (this.particleEffect == null) {
             if (cosmetic == null) {
-                if (msg) sendMessage(PartlyFancy.getValue("message.cosmetic.invalid", "%player%-" + getPlayer().getDisplayName()));
+                if (msg) sendMessage(true, PartlyFancy.getStringValue("message.cosmetic.invalid", "%player%-" + getPlayer().getDisplayName()));
             } else {
                 this.particleEffect = ((Particle) cosmetic);
                 this.particleEffect.start();
             }
         } else {
-            if (msg) sendMessage(PartlyFancy.getValue("message.cosmetic.already-in-use", "%player%-" + getPlayer().getDisplayName()));
+            if (msg) sendMessage(true, PartlyFancy.getStringValue("message.cosmetic.already-in-use", "%player%-" + getPlayer().getDisplayName()));
         }
     }
 
@@ -58,7 +58,7 @@ public class FancyPlayer {
      */
     public void stopParticle(boolean msg) {
         if (this.particleEffect == null) {
-            if (msg) sendMessage(PartlyFancy.getValue("message.cosmetic.turn-off-inactive", "%player%-" + getPlayer().getDisplayName()));
+            if (msg) sendMessage(true, PartlyFancy.getStringValue("message.cosmetic.turn-off-inactive", "%player%-" + getPlayer().getDisplayName()));
         } else {
             this.particleEffect.stop();
             this.particleEffect = null;
@@ -69,11 +69,11 @@ public class FancyPlayer {
 
         stopParticle(false);
 
-        sendMessage("&cYou turned off all your cosmetic abilities!");
+        sendMessage(true, "&cYou turned off all your cosmetic abilities!");
     }
 
-    public void sendMessage(String message) {
-        getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    public void sendMessage(boolean prefix, String message) {
+        getPlayer().sendMessage((prefix ? PartlyFancy.getPrefix() : "") + ChatColor.translateAlternateColorCodes('&', message));
     }
 
     public Player getPlayer() {

@@ -68,7 +68,7 @@ public class OrbMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public Permission permission() {
-        return new Permission("fancy.menu.orb", "Permission to the scan fancy menu.");
+        return new Permission("fancy.menu.orb", "Permission to the orb fancy menu.");
     }
 
     @Override

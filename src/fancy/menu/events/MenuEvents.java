@@ -47,7 +47,7 @@ public class MenuEvents implements Listener {
                     FancyMenuLoader.FancyMenu inv = FancyMenuLoader.getFromId((int) value);
 
                     if (inv.getInventory() == null) {
-                        p.sendMessage(PartlyFancy.getValue("message.menu.not-found", "%id%-" + value.toString()));
+                        p.sendMessage(PartlyFancy.getStringValue("message.menu.not-found", "%id%-" + value.toString()));
                     } else {
                         FancyMenuLoader.openMenu(p, inv, true);
                     }
@@ -115,17 +115,15 @@ public class MenuEvents implements Listener {
                     // Can view own particles setting
                 } else if (NBTUtil.getItemTag(item, "PartlyFancy", "changeParticleViewSetting") != null) {
 
-                    e.setCancelled(true );
+                    e.setCancelled(true);
 
                     fp.canSeeOwnParticles = !fp.canSeeOwnParticles;
 
                     if (fp.canSeeOwnParticles) {
-                        fp.sendMessage("&aYou can now see your own particles.");
+                        fp.sendMessage(true, "&aYou can now see your own particles.");
                     } else {
-                        fp.sendMessage("&cYou can no longer see your own particles.");
+                        fp.sendMessage(true,"&cYou can no longer see your own particles.");
                     }
-
-                    FancyMenuLoader.closeMenu(fp.getPlayer(), true);
 
                 } else if (NBTUtil.getItemTag(item, "PartlyFancy", "close") != null) {
 
