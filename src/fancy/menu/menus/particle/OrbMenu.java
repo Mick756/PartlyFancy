@@ -2,6 +2,7 @@ package fancy.menu.menus.particle;
 
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.FancyMenuTheme;
+import fancy.menu.menus.MenuItemConstant;
 import fancy.util.FancyUtil;
 import fancy.util.NBTUtil;
 import org.bukkit.Bukkit;
@@ -55,12 +56,7 @@ public class OrbMenu implements FancyMenuLoader.FancyMenu {
                         "PartlyFancy", "goback"
                 ));
 
-        inv.setItem(49,
-                NBTUtil.setItemTag(
-                        FancyUtil.createItemStack(Material.BARRIER, 1, "&cClose Menu", null, "&7Close this menu.."),
-                        "null",
-                        "PartlyFancy", "close"
-                ));
+        inv.setItem(49, MenuItemConstant.CLOSE_MENU.getItem());
 
         return this.inv;
     }
@@ -72,7 +68,7 @@ public class OrbMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public Permission permission() {
-        return new Permission("fancy.menu.orb", "Permission to the scan fancy menu.");
+        return new Permission("fancy.menu.orb", "Permission to the orb fancy menu.");
     }
 
     @Override

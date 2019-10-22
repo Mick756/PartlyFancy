@@ -65,12 +65,7 @@ public class ParticleMenu implements FancyMenuLoader.FancyMenu {
                         FancyMenuLoader.FancyMenuIds.MAIN.getId(),
                         "PartlyFancy", "goback"
                 ));
-        inv.setItem(49,
-                NBTUtil.setItemTag(
-                        FancyUtil.createItemStack(Material.BARRIER, 1, "&cClose Menu", null, "&7Close this menu.."),
-                        "null",
-                        "PartlyFancy", "close"
-                ));
+        inv.setItem(49, MenuItemConstant.CLOSE_MENU.getItem());
 
         return this.inv;
     }

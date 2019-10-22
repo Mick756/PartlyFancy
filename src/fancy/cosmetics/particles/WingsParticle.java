@@ -19,7 +19,8 @@ import java.util.List;
 public class WingsParticle implements Particle  {
 
     public static List<FancyPlayer> wingParticleUsers = new ArrayList<>();
-    public static int interval = 15;
+
+    private static int interval = 15;
 
     private static boolean X = true;
     private static boolean o = false;

@@ -37,12 +37,8 @@ public class MainMenu implements FancyMenuLoader.FancyMenu {
                         FancyMenuLoader.FancyMenuIds.PARTICLE.getId(),
                         "PartlyFancy", "openinv"
                 ));
-        inv.setItem(49,
-                NBTUtil.setItemTag(
-                        FancyUtil.createItemStack(Material.BARRIER, 1, "&cClose Menu", null, "&7Close this menu.."),
-                        "null",
-                        "PartlyFancy", "close"
-                ));
+        inv.setItem(48, MenuItemConstant.TURN_OFF_ALL.getItem());
+        inv.setItem(49, MenuItemConstant.CLOSE_MENU.getItem());
         inv.setItem(50,
                 NBTUtil.setItemTag(
                         FancyUtil.createItemStack(Material.COMPARATOR, 1, "&aYour Settings", null, "&7Open the settings menu.."),

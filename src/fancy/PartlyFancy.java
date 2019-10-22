@@ -2,6 +2,7 @@ package fancy;
 
 import com.sun.istack.internal.NotNull;
 import fancy.command.FancyCommandLoader;
+import fancy.menu.FancyMenuLoader;
 import fancy.menu.events.MenuEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -38,6 +39,9 @@ public class PartlyFancy extends JavaPlugin implements Listener {
         getLogger().info("Loading v" + getVersion() + "...");
         registerListeners(this, new MenuEvents());
 
+        new FancyCommandLoader();
+        new FancyMenuLoader();
+
     }
 
     @Override
@@ -54,7 +58,11 @@ public class PartlyFancy extends JavaPlugin implements Listener {
 
                 // Default command: /partlyfancy help
                 if (args.length == 0) {
-                    FancyCommandLoader.runCommand(player, "help");
+                    if (getBooleanValue("open-menu-on-default")) {
+                        FancyCommandLoader.runCommand(player, "menu");
+                    } else {
+                        FancyCommandLoader.runCommand(player, "help");
+                    }
                     return true;
                 }
 
@@ -62,11 +70,11 @@ public class PartlyFancy extends JavaPlugin implements Listener {
 
                 // Command not found error
                 if (result == -1) {
-                    player.sendMessage(getPrefix() + ChatColor.RED + getValue("message.command.not-found", "%player%-" + player.getDisplayName()));
+                    player.sendMessage(getPrefix() + ChatColor.RED + getStringValue("message.command.not-found", "%player%-" + player.getDisplayName()));
 
                 // Command used incorrectly error
                 } else if (result == 0) {
-                    player.sendMessage(getPrefix() + ChatColor.RED + getValue("message.command.invalid-usage", "%player%-" + player.getDisplayName()));
+                    player.sendMessage(getPrefix() + ChatColor.RED + getStringValue("message.command.invalid-usage", "%player%-" + player.getDisplayName()));
                 }
 
             } else {
@@ -81,6 +89,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
+
     }
 
     // Quit event to save and unload player data if enabled.
@@ -88,7 +97,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event) {
         Player p = event.getPlayer();
 
-        FancyPlayer.getFancyPlayer(p).stopParticle();
+        FancyPlayer.getFancyPlayer(p).stopParticle(false);
 
         getFancyPlayers().remove(p.getUniqueId());
     }
@@ -105,7 +114,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
 
     // Plugin prefix from config.yml
     public static String getPrefix() {
-        return ChatColor.translateAlternateColorCodes('&', getValue("prefix"));
+        return ChatColor.translateAlternateColorCodes('&', getStringValue("prefix"));
     }
 
     /**
@@ -114,13 +123,15 @@ public class PartlyFancy extends JavaPlugin implements Listener {
      * @param replacements Finds all instances of something and replaces is it. %find%-replace
      * @return             The String found or an error if path value is null. Color codes auto translated from '&'
      */
-    public static String getValue(@NotNull String path, String... replacements) {
+    public static String getStringValue(@NotNull String path, String... replacements) {
         String message = getInstance().getConfig().getString(path);
 
         if (message != null) {
 
             if (replacements.length == 0) {
+
                 return ChatColor.translateAlternateColorCodes('&', message);
+
             } else {
 
                 for (String replacement : replacements) {
@@ -144,11 +155,21 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     /**
      * Retrieve a List value from a path.
      * @param path         Path to the config.yml
-     * @return             The String found or an error if path value is null. Color codes auto translated from '&'
+     * @return             The List found or an error if path value is null.
      */
     public static List<?> getListValue(@NotNull String path) {
         List<?> list = getInstance().getConfig().getList(path);
         return (list == null ? null : list);
+    }
+
+    /**
+     * Retrieve a Boolean value from a path.
+     * @param path         Path to the config.yml
+     * @return             The List found or an error if path value is null.
+     */
+    public static Boolean getBooleanValue(@NotNull String path) {
+        Boolean bool = getInstance().getConfig().getBoolean(path);
+        return (bool == null ? false : bool);
     }
 
     /**
@@ -192,10 +213,12 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     /**
      * Generates a config. If one already exists, a version check occurs. If version is found
      * to be out of date, the old config will have the new extension of .old and a new config
-     * file will be created taking the place of config.yml.
+     * file will be created taking the place of the old config.
      */
     private void generateConfig() {
+
         File f = new File(getDataFolder(), "config.yml");
+
         if (!f.exists()) {
 
             saveDefaultConfig();

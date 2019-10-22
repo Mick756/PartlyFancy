@@ -18,6 +18,9 @@ config-version: '0.0.1-BETA'
 ## Displayed in front of every message
 prefix: '&9PartlyFancy&7&l >>&r '
 
+## Open the fancy menu instead of the help page when running '/partlyfancy' with no arguments.
+open-menu-on-default: true
+
 ## Message Configuration
 ## %player% - player name  %cosmetic% - cosmetic
 message:

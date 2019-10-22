@@ -19,7 +19,12 @@ import java.util.List;
 public class OrbParticle implements Particle {
 
     public static List<FancyPlayer> orbParticleUsers = new ArrayList<>();
-    public static int interval = 15;
+
+
+    private static double radius = 1.2D;
+    private static double amount = radius * 30.0D;
+    private static double inc = (Math.PI * 4) / amount;
+    private static int interval = 15;
 
     static {
         new BukkitRunnable() {
@@ -83,9 +88,6 @@ public class OrbParticle implements Particle {
     @Override
     public void run(double... step) {
 
-        double radius = 1.2D;
-        double amount = radius * 30.0D;
-        double inc = (Math.PI * 4) / amount;
 
         for (int i = 0; i < 180; i++) {
 
@@ -94,7 +96,7 @@ public class OrbParticle implements Particle {
             double x = radius * Math.cos(angle);
             double z = radius * Math.sin(angle);
 
-            Vector v = FancyUtil.rotateVectorDegree(new Vector(x, z + 1, 0), (i * 18)).multiply(1.3f);
+            Vector v = FancyUtil.rotateVectorDegree(new Vector(x, z + 1, 0), (i * 18)).multiply(1.3F);
             Location loc = getPlayer().getLocation().add(v);
 
             for (Particles particle : getParticles()) {

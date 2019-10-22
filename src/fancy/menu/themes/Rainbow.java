@@ -14,16 +14,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 import java.util.Random;
 
-public class Rainbow implements FancyMenuTheme, MultiColor {
+public class Rainbow implements FancyMenuTheme, MultiColor, Cloneable {
 
     private FancyMenuLoader.FancyMenu host;
     private List<Material> items;
     private int task;
 
-    private boolean init;
-    public Rainbow(boolean init) {
-        this.init = init;
-    };
+    public Rainbow() { }
 
     @Override
     public String name() {
@@ -35,14 +32,15 @@ public class Rainbow implements FancyMenuTheme, MultiColor {
 
         clear();
 
+        int[] slots = FancyUtil.getInventoryBorder(host.getInventory(), true);
+
         task = new BukkitRunnable() {
             @Override
             public void run() {
 
-                int[] slots = FancyUtil.getInventoryBorder(host.getInventory(), true);
                 if (slots.length > 0) {
                     for (int slot : slots) {
-                        ItemStack borderItem = NBTUtil.setItemTag(FancyUtil.createItemStack( items.get( new Random().nextInt( items.size() ) ), 1, " ", null), "null", "PartlyFancy");
+                        ItemStack borderItem = NBTUtil.setItemTag(FancyUtil.createItemStack( items.get( new Random().nextInt( items.size() ) ), 1, " ", null), "null", "PartlyFancy", "border");
                         host.getInventory().setItem(slot, borderItem);
                     }
                 }
@@ -77,5 +75,20 @@ public class Rainbow implements FancyMenuTheme, MultiColor {
     public FancyMenuTheme setMenu(FancyMenuLoader.FancyMenu menu) {
         this.host = menu;
         return this;
+    }
+
+    @Override
+    public FancyMenuTheme newInstance() {
+        return (FancyMenuTheme) this.clone();
+    }
+
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (Exception ex) {
+            return null;
+        }
+
     }
 }

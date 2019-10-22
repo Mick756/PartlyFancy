@@ -47,7 +47,7 @@ public class MenuEvents implements Listener {
                     FancyMenuLoader.FancyMenu inv = FancyMenuLoader.getFromId((int) value);
 
                     if (inv.getInventory() == null) {
-                        p.sendMessage(PartlyFancy.getValue("message.menu.not-found", "%id%-" + value.toString()));
+                        p.sendMessage(PartlyFancy.getStringValue("message.menu.not-found", "%id%-" + value.toString()));
                     } else {
                         FancyMenuLoader.openMenu(p, inv, true);
                     }
@@ -58,63 +58,89 @@ public class MenuEvents implements Listener {
                     e.setCancelled(true);
 
                     if (fp.particleEffect != null) {
-                        fp.stopParticle();
+                        fp.stopParticle(true);
                     }
 
                     CrownParticle crown = new CrownParticle(p, Particles.valueOf(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).toUpperCase().replaceAll(" ", "_")));
 
-                    fp.startParticle(crown);
+                    fp.startParticle(crown, true);
 
                     FancyMenuLoader.closeMenu(p, true);
 
+                    // Aura Particle
                 }  else if (NBTUtil.getItemTag(item, "PartlyFancy", "aura_particle") != null) {
 
                     e.setCancelled(true);
 
                     if (fp.particleEffect != null) {
-                        fp.stopParticle();
+                        fp.stopParticle(true);
                     }
 
                     AuraParticle aura = new AuraParticle(p, Particles.valueOf(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).toUpperCase().replaceAll(" ", "_")));
 
-                    fp.startParticle(aura);
+                    fp.startParticle(aura, true);
 
                     FancyMenuLoader.closeMenu(p, true);
 
-                    // PartlyFancy item that does not meet any checks previously (ex. border glass)
+                    // Wing Particle
                 } else if (NBTUtil.getItemTag(item, "PartlyFancy", "wings_particle") != null) {
 
                     e.setCancelled(true);
 
                     if (fp.particleEffect != null) {
-                        fp.stopParticle();
+                        fp.stopParticle(true);
                     }
 
-                    WingsParticle aura = new WingsParticle(p, Particles.valueOf(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).toUpperCase().replaceAll(" ", "_")));
+                    WingsParticle wing = new WingsParticle(p, Particles.valueOf(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).toUpperCase().replaceAll(" ", "_")));
 
-                    fp.startParticle(aura);
+                    fp.startParticle(wing, true);
 
                     FancyMenuLoader.closeMenu(p, true);
 
-                    // PartlyFancy item that does not meet any checks previously (ex. border glass)
+                    // Orb Particle
                 } else if (NBTUtil.getItemTag(item, "PartlyFancy", "orb_particle") != null) {
 
                     e.setCancelled(true);
 
                     if (fp.particleEffect != null) {
-                        fp.stopParticle();
+                        fp.stopParticle(true);
                     }
 
-                    OrbParticle aura = new OrbParticle(p, Particles.valueOf(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).toUpperCase().replaceAll(" ", "_")));
+                    OrbParticle orb = new OrbParticle(p, Particles.valueOf(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).toUpperCase().replaceAll(" ", "_")));
 
-                    fp.startParticle(aura);
+                    fp.startParticle(orb, true);
 
                     FancyMenuLoader.closeMenu(p, true);
 
-                    // PartlyFancy item that does not meet any checks previously (ex. border glass)
+                    // Can view own particles setting
+                } else if (NBTUtil.getItemTag(item, "PartlyFancy", "changeParticleViewSetting") != null) {
+
+                    e.setCancelled(true);
+
+                    fp.canSeeOwnParticles = !fp.canSeeOwnParticles;
+
+                    if (fp.canSeeOwnParticles) {
+                        fp.sendMessage(true, "&aYou can now see your own particles.");
+                    } else {
+                        fp.sendMessage(true,"&cYou can no longer see your own particles.");
+                    }
+
                 } else if (NBTUtil.getItemTag(item, "PartlyFancy", "close") != null) {
 
                     e.setCancelled(true);
+
+                    e.setCurrentItem(null);
+
+                    FancyMenuLoader.closeMenu(p, true);
+
+                } else if (NBTUtil.getItemTag(item, "PartlyFancy", "stopall") != null) {
+
+                    e.setCancelled(true);
+
+                    e.setCurrentItem(null);
+
+                    fp.stopAll();
+
                     FancyMenuLoader.closeMenu(p, true);
 
                     // PartlyFancy item that does not meet any checks previously (ex. border glass)

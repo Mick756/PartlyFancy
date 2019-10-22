@@ -2,11 +2,11 @@ package fancy.command;
 
 import fancy.FancyPlayer;
 import fancy.PartlyFancy;
-import fancy.menu.FancyMenuLoader;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
-public class CmdMenu implements FancyCommandLoader.FancyCommand {
+public class CmdPermissions implements FancyCommandLoader.FancyCommand {
 
 
     @Override
@@ -14,7 +14,11 @@ public class CmdMenu implements FancyCommandLoader.FancyCommand {
         FancyPlayer fancyPlayer = FancyPlayer.getFancyPlayer(player);
 
         if (player.hasPermission(permission())) {
-            FancyMenuLoader.openMenu(player, FancyMenuLoader.getFromId(FancyMenuLoader.FancyMenuIds.MAIN.getId()), true);
+            Bukkit.getPluginManager().getPermissions().stream().forEach(permission -> {
+                if (permission.getName().startsWith("fancy.")) {
+                    fancyPlayer.sendMessage(false, "&a" + permission.getName() + "&7: " + permission.getDescription());
+                }
+            });
             return 1;
         } else {
             fancyPlayer.sendMessage(true, PartlyFancy.getStringValue("message.command.no-permission",
@@ -25,11 +29,11 @@ public class CmdMenu implements FancyCommandLoader.FancyCommand {
 
     @Override
     public String[] subCommands() {
-        return new String[]{"menu", "m"};
+        return new String[]{"perms", "prms"};
     }
 
     @Override
     public Permission permission() {
-        return new Permission("fancy.command.menu", "PartlyFancy menu command permission.");
+        return new Permission("fancy.command.permissions", "PartlyFancy permissions command permission.");
     }
 }

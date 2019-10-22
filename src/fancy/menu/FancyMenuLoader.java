@@ -9,7 +9,9 @@ import fancy.menu.menus.particle.CrownMenu;
 import fancy.menu.menus.particle.OrbMenu;
 import fancy.menu.menus.particle.WingsMenu;
 import fancy.menu.themes.Rainbow;
+import fancy.menu.themes.Snake;
 import fancy.menu.themes.Solid;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.permissions.Permission;
@@ -25,8 +27,9 @@ public class FancyMenuLoader {
     static {
 
         //Themes
-        addTheme(new Solid(true));
-        addTheme(new Rainbow(true));
+        addTheme(new Solid());
+        addTheme(new Rainbow());
+        addTheme(new Snake());
 
         // Main Menus
         registerFancyMenu(new MainMenu());
@@ -39,6 +42,12 @@ public class FancyMenuLoader {
         registerFancyMenu(new WingsMenu());
         registerFancyMenu(new OrbMenu());
 
+
+        for (FancyMenu menu : menus) {
+
+            Bukkit.getPluginManager().addPermission(menu.permission());
+
+        }
     }
 
     /**
@@ -60,7 +69,7 @@ public class FancyMenuLoader {
             player.openInventory(inventory.getInventory());
             return true;
         } else {
-            player.sendMessage(PartlyFancy.getValue("message.menu.no-permission", "%player%-" + player.getDisplayName(), "%permission%-" + inventory.permission().getName()));
+            player.sendMessage(PartlyFancy.getStringValue("message.menu.no-permission", "%player%-" + player.getDisplayName(), "%permission%-" + inventory.permission().getName()));
         }
         return false;
     }
@@ -71,6 +80,8 @@ public class FancyMenuLoader {
         if (sound) {
             player.playSound(player.getLocation(), PartlyFancy.getSound("sound.inventory.close"), 2f, 1f);
         }
+
+        player.updateInventory();
     }
 
     public enum FancyMenuIds {

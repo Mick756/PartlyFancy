@@ -32,7 +32,7 @@ public class FancyPlayer {
         this.gadget = null;
         this.pet = null;
         this.playerUUID = p.getUniqueId();
-        this.canSeeOwnParticles = false;
+        this.canSeeOwnParticles = true;
         PartlyFancy.getFancyPlayers().put(this.playerUUID, this);
     }
 
@@ -40,33 +40,40 @@ public class FancyPlayer {
      * Start a cosmetic.
      * @param cosmetic A new FancyCosmetic
      */
-    public void startParticle(FancyCosmetic cosmetic) {
+    public void startParticle(FancyCosmetic cosmetic, boolean msg) {
         if (this.particleEffect == null) {
             if (cosmetic == null) {
-                sendMessage(PartlyFancy.getValue("message.cosmetic.invalid", "%player%-" + getPlayer().getDisplayName()));
+                if (msg) sendMessage(true, PartlyFancy.getStringValue("message.cosmetic.invalid", "%player%-" + getPlayer().getDisplayName()));
             } else {
                 this.particleEffect = ((Particle) cosmetic);
                 this.particleEffect.start();
             }
         } else {
-            sendMessage(PartlyFancy.getValue("message.cosmetic.already-in-use", "%player%-" + getPlayer().getDisplayName()));
+            if (msg) sendMessage(true, PartlyFancy.getStringValue("message.cosmetic.already-in-use", "%player%-" + getPlayer().getDisplayName()));
         }
     }
 
     /**
      * Stop a cosmetic.
      */
-    public void stopParticle() {
+    public void stopParticle(boolean msg) {
         if (this.particleEffect == null) {
-            sendMessage(PartlyFancy.getValue("message.cosmetic.turn-off-inactive", "%player%-" + getPlayer().getDisplayName()));
+            if (msg) sendMessage(true, PartlyFancy.getStringValue("message.cosmetic.turn-off-inactive", "%player%-" + getPlayer().getDisplayName()));
         } else {
             this.particleEffect.stop();
             this.particleEffect = null;
         }
     }
 
-    public void sendMessage(String message) {
-        getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    public void stopAll() {
+
+        stopParticle(false);
+
+        sendMessage(true, "&cYou turned off all your cosmetic abilities!");
+    }
+
+    public void sendMessage(boolean prefix, String message) {
+        getPlayer().sendMessage((prefix ? PartlyFancy.getPrefix() : "") + ChatColor.translateAlternateColorCodes('&', message));
     }
 
     public Player getPlayer() {

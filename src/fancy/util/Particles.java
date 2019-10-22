@@ -25,7 +25,7 @@ public enum Particles {
 
     HAPPY_VILLAGER(new String[] { "happyvillager", "happy-villager", "happy", "greensparks" }, ParticleEffect.VILLAGER_HAPPY, false, false, Material.EMERALD, "&7Show how happy you are."),
 
-    ANGRY_VILLAGER(new String[] { "angryvillager", "angry-villager", "angry" }, ParticleEffect.VILLAGER_ANGRY, false, false, Material.MAGMA_CREAM, "&7Or how angry..."),
+//    ANGRY_VILLAGER(new String[] { "angryvillager", "angry-villager", "angry" }, ParticleEffect.VILLAGER_ANGRY, false, false, Material.MAGMA_CREAM, "&7Or how angry..."),
 
     REDSTONE(new String[] { "redstone", "dust" }, ParticleEffect.REDSTONE, true, false, Material.REDSTONE, "&7A burst of color."),
 
@@ -43,7 +43,7 @@ public enum Particles {
 
 //    SLIME(null, ParticleEffect.SLIME, false, false, Material.SLIME_BALL, "&7Not sticky, but slimy."),
 
-//    SMOKE(null, ParticleEffect.SMOKE_NORMAL, false, false, Material.GUNPOWDER, "&7This kind isn't bad for you."),
+    SMOKE(null, ParticleEffect.SMOKE_NORMAL, false, false, Material.GUNPOWDER, "&7This kind isn't bad for you."),
 
     SPARKS(new String[] { "sparks", "fireworksparks", "firework", "fireworks", "spark" }, ParticleEffect.FIREWORKS_SPARK, false, true, Material.FIREWORK_ROCKET, "&7You're not shorting out."),
 
@@ -80,21 +80,25 @@ public enum Particles {
      * @param amt Amount of the particle to display. (If particle is spammy, amount fixed to 2)
      */
     public void display(FancyPlayer fp, Location loc, int amt) {
-        int amount = (this.spam ? 2 : amt);
 
+        int amount = (this.spam ? 2 : amt);
         List<Player> playersToShowTo = Bukkit.getOnlinePlayers().stream().collect(toCollection(ArrayList::new));
 
         if (!fp.canSeeOwnParticles) {
             playersToShowTo.remove(fp.getPlayer());
         }
 
-
         Random r = FancyUtil.RANDOM;
+
         if (this.colorable && this.effect != ParticleEffect.NOTE) {
+
             RegularColor c = new RegularColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
             this.effect.display(loc, 0, 0, 0, 0, amount, c, playersToShowTo);
+
         } else if (this.colorable && this.effect == ParticleEffect.NOTE) {
+
             this.effect.display(loc, 0, 0, 0, 0, amount, NoteColor.random(), playersToShowTo);
+
         } else {
             this.effect.display(loc, playersToShowTo);
         }
@@ -106,13 +110,19 @@ public enum Particles {
      * @param amt Amount of the particle to display. (If particle is spammy, amount fixed to 2)
      */
     public void display(Location loc, int amt) {
+
         int amount = (this.spam ? 2 : amt);
         Random r = FancyUtil.RANDOM;
+
         if (this.colorable && this.effect != ParticleEffect.NOTE) {
+
             RegularColor c = new RegularColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
             this.effect.display(loc, 0, 0, 0, 0, amount, c);
+
         } else if (this.colorable && this.effect == ParticleEffect.NOTE) {
+
             this.effect.display(loc, 0, 0, 0, 0, amount, NoteColor.random());
+
         } else {
             this.effect.display(loc);
         }
@@ -123,10 +133,14 @@ public enum Particles {
      * @param altName Alternate name to search for
      * @return the Particle if found, or null.
      */
-    public Particles getParticle(String altName) {
+    public static Particles getParticle(String altName) {
+
         for (Particles p : values()) {
+
             if (p.name().equalsIgnoreCase(altName)) return p;
+
             for (String alt : p.altNames) {
+
                 if (altName.equalsIgnoreCase(alt)) {
                     return p;
                 }

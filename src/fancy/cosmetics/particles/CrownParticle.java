@@ -24,7 +24,7 @@ public class CrownParticle implements Particle {
     private static double amount = radius * 60.0D;
     private static double inc = (Math.PI * 4) / amount;
     private static int i = 0;
-    public static int interval = 2;
+    private static int interval = 2;
 
 
     static {
