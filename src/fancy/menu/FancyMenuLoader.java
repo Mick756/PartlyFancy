@@ -12,6 +12,7 @@ import fancy.menu.themes.Rainbow;
 import fancy.menu.themes.Snake;
 import fancy.menu.themes.Solid;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.permissions.Permission;
@@ -63,13 +64,19 @@ public class FancyMenuLoader {
             player.closeInventory();
 
             if (sound) {
-                player.playSound(player.getLocation(), PartlyFancy.getSound("sound.inventory.open"), 2f, 1f);
+                player.playSound(player.getLocation(), PartlyFancy.getSound("sound.inventory.open"), 0.2f, 1f);
             }
 
             player.openInventory(inventory.getInventory());
             return true;
         } else {
-            player.sendMessage(PartlyFancy.getStringValue("message.menu.no-permission", "%player%-" + player.getDisplayName(), "%permission%-" + inventory.permission().getName()));
+            player.closeInventory();
+            player.sendMessage(PartlyFancy.getPrefix() + PartlyFancy.getStringValue("message.menu.no-permission", "%player%-" + player.getDisplayName(), "%permission%-" + inventory.permission().getName()));
+
+            if (sound) {
+                player.playSound(player.getLocation(), PartlyFancy.getSound("sound.inventory.no-permission"), 0.5f, 1f);
+            }
+
         }
         return false;
     }
@@ -78,7 +85,7 @@ public class FancyMenuLoader {
         player.closeInventory();
 
         if (sound) {
-            player.playSound(player.getLocation(), PartlyFancy.getSound("sound.inventory.close"), 2f, 1f);
+            player.playSound(player.getLocation(), PartlyFancy.getSound("sound.inventory.close"), 0.2f, 1f);
         }
 
         player.updateInventory();
@@ -114,7 +121,7 @@ public class FancyMenuLoader {
 
     public static FancyMenu getFromId(int id) {
         for (FancyMenu m : menus) {
-            if (m.inventoryId() == id) {
+            if (m.inventoryId().equals(id)) {
                 return m;
             }
         }

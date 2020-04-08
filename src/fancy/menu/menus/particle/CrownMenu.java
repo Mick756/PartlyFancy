@@ -39,13 +39,15 @@ public class CrownMenu implements FancyMenuLoader.FancyMenu {
         List<ItemStack> items = FancyUtil.generateParticleItems("crown_particle");
 
         int index = 0;
-        for (int i = 20; i < 34; i++) {
+        for (int i = 19; i < 35; i++) {
+
+            if (items.size() <= index) break;
 
             inv.setItem(i, items.get(index));
 
             index++;
-            if (i == 24) {
-                i = 28;
+            if (i == 25) {
+                i = 27;
             }
         }
 

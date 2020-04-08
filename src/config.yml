@@ -80,3 +80,4 @@ sound:
   inventory:
     open: 'BLOCK_CHEST_OPEN'
     close: 'BLOCK_CHEST_CLOSE'
+    no-permission: 'ENTITY_ENDERMAN_TELEPORT'

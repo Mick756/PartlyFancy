@@ -4,13 +4,11 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.sun.istack.internal.NotNull;
 import fancy.PartlyFancy;
-import fancy.util.particlelib.ParticleConstants;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.libs.org.apache.commons.codec.binary.Base64;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -66,6 +64,7 @@ public class NBTUtil {
 
         NBTClasses = new HashMap<>();
         try {
+
             NBTClasses.put(Byte.class, Class.forName("net.minecraft.server." + VERSION + ".NBTTagByte"));
             NBTClasses.put(String.class, Class.forName("net.minecraft.server." + VERSION + ".NBTTagString"));
             NBTClasses.put(Double.class, Class.forName("net.minecraft.server." + VERSION + ".NBTTagDouble"));
@@ -85,12 +84,15 @@ public class NBTUtil {
             methodCache.put("set", getNMSClass("NBTTagCompound").getMethod("set", String.class, getNMSClass("NBTBase")));
             methodCache.put("hasKey", getNMSClass("NBTTagCompound").getMethod("hasKey", String.class));
             methodCache.put("setIndex", getNMSClass("NBTTagList").getMethod("a", int.class, getNMSClass("NBTBase")));
-            if (VERSION.contains("1_14")) {
+            if (VERSION.contains("1_14") || VERSION.contains("1_15")) {
                 methodCache.put("getTypeId", getNMSClass("NBTBase").getMethod("getTypeId"));
                 methodCache.put("add", getNMSClass("NBTTagList").getMethod("add", int.class, getNMSClass("NBTBase")));
             } else {
                 methodCache.put("add", getNMSClass("NBTTagList").getMethod("add", getNMSClass("NBTBase")));
             }
+
+
+
 
             if (VERSION.contains("1_8")) {
                 methodCache.put("listRemove", getNMSClass("NBTTagList").getMethod("a", int.class));
@@ -105,11 +107,12 @@ public class NBTUtil {
             methodCache.put("asNMSCopy", getNMSClass("CraftItemStack").getMethod("asNMSCopy", ItemStack.class));
             methodCache.put("asBukkitCopy", getNMSClass("CraftItemStack").getMethod("asBukkitCopy", getNMSClass("ItemStack")));
 
+
             methodCache.put("getEntityHandle", getNMSClass("CraftEntity").getMethod("getHandle"));
             methodCache.put("getEntityTag", getNMSClass("Entity").getMethod("c", getNMSClass("NBTTagCompound")));
             methodCache.put("setEntityTag", getNMSClass("Entity").getMethod("f", getNMSClass("NBTTagCompound")));
 
-            if (VERSION.contains("1_12") || VERSION.contains("1_13") || VERSION.contains("1_14")) {
+            if (VERSION.contains("1_12") || VERSION.contains("1_13") || VERSION.contains("1_14") || VERSION.contains("1_15")) {
                 methodCache.put("setTileTag", getNMSClass("TileEntity").getMethod("load", getNMSClass("NBTTagCompound")));
             } else {
                 methodCache.put("setTileTag", getNMSClass("TileEntity").getMethod("a", getNMSClass("NBTTagCompound")));
@@ -118,12 +121,25 @@ public class NBTUtil {
             methodCache.put("getWorldHandle", getNMSClass("CraftWorld").getMethod("getHandle"));
 
             methodCache.put("setGameProfile", getNMSClass("TileEntitySkull").getMethod("setGameProfile", GameProfile.class));
+
+            if (VERSION.contains("1_15")) {
+
+                methodCache.put("constructTagByte", getNBTTag(Byte.class).getDeclaredMethod("a", byte.class));
+                methodCache.put("constructTagString", getNBTTag(String.class).getDeclaredMethod("a", String.class));
+                methodCache.put("constructTagDouble", getNBTTag(Double.class).getDeclaredMethod("a", double.class));
+                methodCache.put("constructTagInteger", getNBTTag(Integer.class).getDeclaredMethod("a", int.class));
+                methodCache.put("constructTagLong", getNBTTag(Long.class).getDeclaredMethod("a", long.class));
+                methodCache.put("constructTagFloat", getNBTTag(Float.class).getDeclaredMethod("a", float.class));
+                methodCache.put("constructTagShort", getNBTTag(Short.class).getDeclaredMethod("a", short.class));
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
-            if (VERSION.contains("1_12") || VERSION.contains("1_13") || VERSION.contains("1_14")) {
+            if (VERSION.contains("1_12") || VERSION.contains("1_13") || VERSION.contains("1_14") || VERSION.contains("1_15")) {
                 methodCache.put("getTileTag", getNMSClass("TileEntity").getMethod("save", getNMSClass("NBTTagCompound")));
             } else {
                 methodCache.put("getTileTag", getNMSClass("TileEntity").getMethod("b", getNMSClass("NBTTagCompound")));
@@ -132,19 +148,23 @@ public class NBTUtil {
             exception.printStackTrace();
         }
 
-        constructorCache = new HashMap<Class<?>, Constructor<?>>();
+        constructorCache = new HashMap<>();
         try {
-            constructorCache.put(getNBTTag(Byte.class), getNBTTag(Byte.class).getConstructor(byte.class));
-            constructorCache.put(getNBTTag(String.class), getNBTTag(String.class).getConstructor(String.class));
-            constructorCache.put(getNBTTag(Double.class), getNBTTag(Double.class).getConstructor(double.class));
-            constructorCache.put(getNBTTag(Integer.class), getNBTTag(Integer.class).getConstructor(int.class));
-            constructorCache.put(getNBTTag(Long.class), getNBTTag(Long.class).getConstructor(long.class));
-            constructorCache.put(getNBTTag(Float.class), getNBTTag(Float.class).getConstructor(float.class));
-            constructorCache.put(getNBTTag(Short.class), getNBTTag(Short.class).getConstructor(short.class));
-            constructorCache.put(getNBTTag(Class.forName("[B")), getNBTTag(Class.forName("[B")).getConstructor(Class.forName("[B")));
-            constructorCache.put(getNBTTag(Class.forName("[I")), getNBTTag(Class.forName("[I")).getConstructor(Class.forName("[I")));
 
-            constructorCache.put(getNMSClass("BlockPosition"), getNMSClass("BlockPosition").getConstructor(int.class, int.class, int.class));
+            if (!VERSION.contains("1_15")) {
+
+                constructorCache.put(getNBTTag(Byte.class), getNBTTag(Byte.class).getConstructor(byte.class));
+                constructorCache.put(getNBTTag(String.class), getNBTTag(String.class).getConstructor(String.class));
+                constructorCache.put(getNBTTag(Double.class), getNBTTag(Double.class).getConstructor(double.class));
+                constructorCache.put(getNBTTag(Integer.class), getNBTTag(Integer.class).getConstructor(int.class));
+                constructorCache.put(getNBTTag(Long.class), getNBTTag(Long.class).getConstructor(long.class));
+                constructorCache.put(getNBTTag(Float.class), getNBTTag(Float.class).getConstructor(float.class));
+                constructorCache.put(getNBTTag(Short.class), getNBTTag(Short.class).getConstructor(short.class));
+                constructorCache.put(getNBTTag(Class.forName("[B")), getNBTTag(Class.forName("[B")).getConstructor(Class.forName("[B")));
+                constructorCache.put(getNBTTag(Class.forName("[I")), getNBTTag(Class.forName("[I")).getConstructor(Class.forName("[I")));
+
+                constructorCache.put(getNMSClass("BlockPosition"), getNMSClass("BlockPosition").getConstructor(int.class, int.class, int.class));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -215,16 +235,6 @@ public class NBTUtil {
         }
     }
 
-    public static Object getMinecraftKey(String key) {
-        if (key == null)
-            return null;
-        try {
-            return ParticleConstants.MINECRAFT_KEY_CONSTRUCTOR.newInstance(key);
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
     public static Class<?> getCraftBukkitClass(String path) {
         try {
             return Class.forName("org.bukkit.craftbukkit." + PartlyFancy.bukkitVersion + "." + path);
@@ -267,31 +277,6 @@ public class NBTUtil {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return null;
-        }
-    }
-
-    public static Object getPlayerHandle(Player player) {
-        if (player == null || player.getClass() != ParticleConstants.CRAFT_PLAYER_CLASS)
-            return null;
-        try {
-            return ParticleConstants.CRAFT_PLAYER_GET_HANDLE_METHOD.invoke(player);
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
-    public static Object getPlayerConnection(Player target) {
-        try {
-            return readField(ParticleConstants.ENTITY_PLAYER_PLAYER_CONNECTION_FIELD, getPlayerHandle(target));
-        } catch (Exception ex) {
-            return null;
-        }
-    }
-
-    public static void sendPacket(Player player, Object packet) {
-        try {
-            ParticleConstants.PLAYER_CONNECTION_SEND_PACKET_METHOD.invoke(getPlayerConnection(player), packet);
-        } catch (Exception ignored) {
         }
     }
 
@@ -440,18 +425,22 @@ public class NBTUtil {
             return null;
         }
         try {
-            Object stack = null;
+            Object stack, tag = null;
             stack = getMethod("asNMSCopy").invoke(null, item);
-
-            Object tag = null;
 
             if (getMethod("hasTag").invoke(stack).equals(true)) {
                 tag = getMethod("getTag").invoke(stack);
             } else {
                 tag = getNMSClass("NBTTagCompound").newInstance();
-                Object count = getConstructor(getNBTTag(Integer.class)).newInstance(item.getAmount());
+                Object count, id;
+                if (VERSION.contains("1_15")) {
+                    count = getMethod("constructTagInt").invoke(item.getAmount());
+                    id = getMethod("constructTagString").invoke(item.getType().name().toLowerCase());
+                } else {
+                    count = getConstructor(getNBTTag(Integer.class)).newInstance(item.getAmount());
+                    id = getConstructor(getNBTTag(String.class)).newInstance(item.getType().name().toLowerCase());
+                }
                 getMethod("set").invoke(tag, "Count", count);
-                Object id = getConstructor(getNBTTag(String.class)).newInstance(item.getType().name().toLowerCase());
                 getMethod("set").invoke(tag, "id", id);
             }
 
@@ -931,7 +920,11 @@ public class NBTUtil {
             if (getNMSClass("NBTTagList").isInstance(value) || getNMSClass("NBTTagCompound").isInstance(value)) {
                 notCompound = value;
             } else {
-                notCompound = getConstructor(getNBTTag(value.getClass())).newInstance(value);
+                if (VERSION.contains("1_15")) {
+                    notCompound = getMethod("constructTag" + value.getClass().getSimpleName()).invoke(null, value);
+                } else {
+                    notCompound = getConstructor(getNBTTag(value.getClass())).newInstance(value);
+                }
             }
         } else {
             notCompound = null;

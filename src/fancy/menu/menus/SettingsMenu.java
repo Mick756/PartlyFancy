@@ -32,13 +32,6 @@ public class SettingsMenu implements FancyMenuLoader.FancyMenu {
     @Override
     public Inventory getInventory() {
 
-        inv.setItem(20,
-                NBTUtil.setItemTag(
-                        FancyUtil.createItemStack(Material.MAP, 1, "&aToggle Particles", null, "&7Click to toggle whether you can", "&7see your own particles."),
-                        "null",
-                        "PartlyFancy", "changeParticleViewSetting"
-                ));
-
         inv.setItem(48,
                 NBTUtil.setItemTag(
                         FancyUtil.createItemStack(Material.ARROW, 1, "&cGo Back", null, "&7Go back a menu.."),

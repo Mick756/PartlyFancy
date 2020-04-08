@@ -112,19 +112,6 @@ public class MenuEvents implements Listener {
 
                     FancyMenuLoader.closeMenu(p, true);
 
-                    // Can view own particles setting
-                } else if (NBTUtil.getItemTag(item, "PartlyFancy", "changeParticleViewSetting") != null) {
-
-                    e.setCancelled(true);
-
-                    fp.canSeeOwnParticles = !fp.canSeeOwnParticles;
-
-                    if (fp.canSeeOwnParticles) {
-                        fp.sendMessage(true, "&aYou can now see your own particles.");
-                    } else {
-                        fp.sendMessage(true,"&cYou can no longer see your own particles.");
-                    }
-
                 } else if (NBTUtil.getItemTag(item, "PartlyFancy", "close") != null) {
 
                     e.setCancelled(true);

@@ -6,15 +6,17 @@ import fancy.PartlyFancy;
 import fancy.cosmetics.Particle;
 import fancy.util.FancyUtil;
 import fancy.util.Particles;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class AuraParticle implements Particle {
 
@@ -105,7 +107,7 @@ public class AuraParticle implements Particle {
 
             for (Particles particle : getParticles()) {
                 if (particle != null) {
-                    particle.display(FancyPlayer.getFancyPlayer(this.getPlayer()), loc, 5);
+                    particle.display(FancyPlayer.getFancyPlayer(this.getPlayer()), loc);
                 }
             }
 

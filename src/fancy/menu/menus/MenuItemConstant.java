@@ -7,19 +7,9 @@ import org.bukkit.inventory.ItemStack;
 
 public enum MenuItemConstant {
 
-    CLOSE_MENU
-            (NBTUtil.setItemTag(
-            FancyUtil.createItemStack(Material.BARRIER, 1, "&cClose Menu", null, "&7Close this menu.."),
-            "null",
-            "PartlyFancy", "close")
-            ),
+    CLOSE_MENU (NBTUtil.setItemTag(FancyUtil.createItemStack(Material.BARRIER, 1, "&cClose Menu", null, "&7Close this menu.."), "null", "PartlyFancy", "close")),
 
-    TURN_OFF_ALL
-            (NBTUtil.setItemTag(
-            FancyUtil.createItemStack(Material.REDSTONE_BLOCK, 1, "&cTurn off Cosmetics", null, "&7Turn off all cosmetics.."),
-            "null",
-            "PartlyFancy", "stopall")
-            );
+    TURN_OFF_ALL (NBTUtil.setItemTag(FancyUtil.createItemStack(Material.REDSTONE_BLOCK, 1, "&cTurn off Cosmetics", null, "&7Turn off all cosmetics.."), "null", "PartlyFancy", "stopall"));
 
     private ItemStack stack;
     MenuItemConstant(ItemStack stack) {
