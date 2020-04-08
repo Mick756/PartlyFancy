@@ -20,20 +20,20 @@ public class WingsParticle implements Particle  {
 
     public static List<FancyPlayer> wingParticleUsers = new ArrayList<>();
 
-    private static int interval = 15;
+    private static int interval = 7;
 
     private static boolean X = true;
     private static boolean o = false;
     private static boolean[][] shape = { 
             { o, X, X, X, o, o, X, o, o, o, X, o, o, X, X, X, o, o },
-            { X, o, X, X, X, o, o, X, o, X, o, o, X, X, X, o, X, o },
-            { o, o, o, X, X, X, o, X, o, X, o, X, X, X, o, o, o, o },
-            { o, o, o, o, X, X, o, X, X, X, o, X, X, o, o, o, o, o },
+            { X, X, X, X, X, o, o, X, o, X, o, o, X, X, X, X, X, o },
+            { X, X, o, X, X, X, o, X, o, X, o, X, X, X, o, X, X, o },
+            { X, o, o, o, X, X, o, X, X, X, o, X, X, o, o, o, X, o },
             { o, o, o, o, o, X, X, X, X, X, X, X, o, o, o, o, o, o },
-            { o, o, o, o, o, X, X, X, X, X, X, X, o, o, o, o, o, o },
-            { o, o, X, o, o, X, X, o, o, o, X, X, o, o, X, o, o, o },
-            { o, o, X, o, X, X, o, o, o, o, o, X, X, o, X, o, o, o },
-            { o, o, o, X, X, o, o, o, o, o, o, X, X, X, o, o, o, o },
+            { o, X, o, o, o, X, X, X, X, X, X, X, o, o, o, X, o, o },
+            { o, X, X, o, o, X, X, X, o, X, X, X, o, o, X, X, o, o },
+            { o, X, X, X, X, X, X, o, o, o, X, X, X, X, X, X, o, o },
+            { o, o, X, X, X, X, o, o, o, o, o, X, X, X, X, o, o, o },
     };
 
     static {
@@ -119,7 +119,7 @@ public class WingsParticle implements Particle  {
 
                     for (Particles particle : getParticles()) {
                         if (particle != null) {
-                            particle.display(FancyPlayer.getFancyPlayer(this.getPlayer()), loc, 5);
+                            particle.display(FancyPlayer.getFancyPlayer(this.getPlayer()), loc);
                         }
                     }
 

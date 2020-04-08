@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
@@ -39,6 +40,8 @@ public class FancyUtil {
         }
 
         ItemMeta meta = itemStack.getItemMeta();
+
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
         if (meta != null) {
             // Display name
@@ -167,28 +170,37 @@ public class FancyUtil {
      * @param nbt_key Key specifying which particle effect. Ex. 'crown_particle'
      * @return        A list of all the items
      */
-    public static List<ItemStack> generateParticleItems(String nbt_key) {
+    public static List<ItemStack> generateParticleItems(String nbt_key, Particles... excludes) {
 
         List<ItemStack> items = new ArrayList<>();
         Object[] keys = new Object[]{"PartlyFancy", nbt_key};
 
         for (Particles particle : Particles.values()) {
 
-            String name;
-
-            if (particle.name().contains("_")) {
-
-                String[] split = particle.name().split("_");
-                name = (split[0].substring(0, 1).toUpperCase() + split[0].substring(1).toLowerCase()) + " " + (split[1].substring(0, 1).toUpperCase() + split[1].substring(1).toLowerCase());
-
-            } else {
-
-                name = (particle.name().substring(0, 1).toUpperCase() + particle.name().substring(1).toLowerCase());
+            boolean isExcluded = false;
+            for (Particles exp : excludes) {
+                if (exp.equals(particle)) {
+                    isExcluded = true;
+                }
             }
 
-            ItemStack stack = NBTUtil.setItemTag(createItemStack(particle.item, 1, "&b" + name, null, particle.description), particle.name(), keys);
-            items.add(stack);
+            if (!isExcluded) {
 
+                String name;
+
+                if (particle.name().contains("_")) {
+
+                    String[] split = particle.name().split("_");
+                    name = (split[0].substring(0, 1).toUpperCase() + split[0].substring(1).toLowerCase()) + " " + (split[1].substring(0, 1).toUpperCase() + split[1].substring(1).toLowerCase());
+
+                } else {
+
+                    name = (particle.name().substring(0, 1).toUpperCase() + particle.name().substring(1).toLowerCase());
+                }
+
+                ItemStack stack = NBTUtil.setItemTag(createItemStack(particle.item, 1, "&b" + name, null, particle.description), particle.name(), keys);
+                items.add(stack);
+            }
         }
         return items;
     }

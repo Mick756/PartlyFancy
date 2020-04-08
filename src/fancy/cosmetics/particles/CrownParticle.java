@@ -72,7 +72,7 @@ public class CrownParticle implements Particle {
 
     @Override
     public ParticleType getType() {
-        return ParticleType.AURA;
+        return ParticleType.CROWN;
     }
 
     @Override
@@ -113,7 +113,8 @@ public class CrownParticle implements Particle {
 
         for (Particles particle : getParticles()) {
             if (particle != null) {
-                particle.display(FancyPlayer.getFancyPlayer(this.getPlayer()), loc, 5);
+                if (particle.equals(Particles.ANGRY_VILLAGER)) loc.subtract(0, 0.5, 0);
+                particle.display(FancyPlayer.getFancyPlayer(this.getPlayer()), loc);
             }
         }
 

@@ -1,10 +1,12 @@
 package fancy.menu.menus.particle;
 
+import fancy.cosmetics.Particle;
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.FancyMenuTheme;
 import fancy.menu.menus.MenuItemConstant;
 import fancy.util.FancyUtil;
 import fancy.util.NBTUtil;
+import fancy.util.Particles;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -36,16 +38,18 @@ public class WingsMenu implements FancyMenuLoader.FancyMenu {
     @Override
     public Inventory getInventory() {
 
-        List<ItemStack> items = FancyUtil.generateParticleItems("wings_particle");
+        List<ItemStack> items = FancyUtil.generateParticleItems("wings_particle", Particles.ANGRY_VILLAGER, Particles.HEARTS, Particles.SPARKS, Particles.NOTES, Particles.WATER_DROPS, Particles.LAVA_DROPS, Particles.SLIME);
 
         int index = 0;
-        for (int i = 20; i < 34; i++) {
+        for (int i = 19; i < 35; i++) {
+
+            if (items.size() <= index) break;
 
             inv.setItem(i, items.get(index));
 
             index++;
-            if (i == 24) {
-                i = 28;
+            if (i == 25) {
+                i = 27;
             }
         }
 

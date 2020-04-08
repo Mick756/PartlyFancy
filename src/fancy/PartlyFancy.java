@@ -10,10 +10,12 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -25,7 +27,7 @@ import java.util.UUID;
 public class PartlyFancy extends JavaPlugin implements Listener {
 
     private static PartlyFancy instance;
-    private static Map<UUID, FancyPlayer> fancyPlayers;
+    private Map<UUID, FancyPlayer> fancyPlayers;
     private static final String configVersion = "0.0.1-BETA";
     // Bukkit version. Ex: 1_14_R1
     public static final String bukkitVersion = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
@@ -85,12 +87,11 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     }
 
     // Join event to register players and give item if enabled.
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e) {
-        Player p = e.getPlayer();
-
-
-    }
+//    @EventHandler
+//    public void onPlayerJoin(PlayerJoinEvent e) {
+//        Player p = e.getPlayer();
+//
+//    }
 
     // Quit event to save and unload player data if enabled.
     @EventHandler
@@ -127,7 +128,6 @@ public class PartlyFancy extends JavaPlugin implements Listener {
         String message = getInstance().getConfig().getString(path);
 
         if (message != null) {
-
             if (replacements.length == 0) {
 
                 return ChatColor.translateAlternateColorCodes('&', message);
@@ -141,7 +141,7 @@ public class PartlyFancy extends JavaPlugin implements Listener {
 
                     // Check if a proper find and replacement is found
                     if (split.length == 2) {
-                        message = message.replaceAll(split[0], split[1]);
+                        message = message.replace(split[0], split[1]);
                     }
                 }
                 return ChatColor.translateAlternateColorCodes('&', message);
@@ -189,14 +189,14 @@ public class PartlyFancy extends JavaPlugin implements Listener {
     }
 
     /**
-     * Send a quick message to the console.
+     * Send a message to the console.
      * @param message The message to send
      */
     public static void sendConsoleMessage(String message) {
         getInstance().getServer().getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
-    public static Map<UUID, FancyPlayer> getFancyPlayers() {
+    public Map<UUID, FancyPlayer> getFancyPlayers() {
         return fancyPlayers;
     }
 

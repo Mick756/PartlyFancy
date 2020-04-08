@@ -21,7 +21,6 @@ public class FancyPlayer {
     public Pet pet;
 
     //Settings
-    public boolean canSeeOwnParticles;
 
     /**
      * PartlyFancy's player object
@@ -32,8 +31,7 @@ public class FancyPlayer {
         this.gadget = null;
         this.pet = null;
         this.playerUUID = p.getUniqueId();
-        this.canSeeOwnParticles = true;
-        PartlyFancy.getFancyPlayers().put(this.playerUUID, this);
+        PartlyFancy.getInstance().getFancyPlayers().put(this.playerUUID, this);
     }
 
     /**
@@ -96,8 +94,8 @@ public class FancyPlayer {
      */
     public static FancyPlayer getFancyPlayer(UUID uuid) {
 
-        if (PartlyFancy.getFancyPlayers().containsKey(uuid)) {
-            return PartlyFancy.getFancyPlayers().get(uuid);
+        if (PartlyFancy.getInstance().getFancyPlayers().containsKey(uuid)) {
+            return PartlyFancy.getInstance().getFancyPlayers().get(uuid);
         } else {
 
             // Check if a new FancyPlayer can be created

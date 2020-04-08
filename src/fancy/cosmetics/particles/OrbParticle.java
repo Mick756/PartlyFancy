@@ -94,14 +94,14 @@ public class OrbParticle implements Particle {
             double angle = i * inc;
 
             double x = radius * Math.cos(angle);
-            double z = radius * Math.sin(angle);
+            double y = radius * Math.sin(angle);
 
-            Vector v = FancyUtil.rotateVectorDegree(new Vector(x, z + 1, 0), (i * 18)).multiply(1.3F);
+            Vector v = FancyUtil.rotateVectorDegree(new Vector(x, y + 0.75, 0), (i * 18)).multiply(1.3F);
             Location loc = getPlayer().getLocation().add(v);
 
             for (Particles particle : getParticles()) {
                 if (particle != null) {
-                    particle.display(FancyPlayer.getFancyPlayer(this.getPlayer()), loc, 5);
+                    particle.display(FancyPlayer.getFancyPlayer(this.getPlayer()), loc);
                 }
             }
         }
