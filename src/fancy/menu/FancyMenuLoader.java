@@ -61,7 +61,6 @@ public class FancyMenuLoader {
     public static boolean openMenu(Player player, FancyMenu inventory, boolean sound) {
 
         if (player.hasPermission(inventory.permission())) {
-            player.closeInventory();
 
             if (sound) {
                 player.playSound(player.getLocation(), PartlyFancy.getSound("sound.inventory.open"), 0.2f, 1f);
@@ -70,7 +69,6 @@ public class FancyMenuLoader {
             player.openInventory(inventory.getInventory());
             return true;
         } else {
-            player.closeInventory();
             player.sendMessage(PartlyFancy.getPrefix() + PartlyFancy.getStringValue("message.menu.no-permission", "%player%-" + player.getDisplayName(), "%permission%-" + inventory.permission().getName()));
 
             if (sound) {
