@@ -1,0 +1,99 @@
+
+
+## DO NOT TOUCH THIS. It will only break things!
+config-version: '0.0.1-BETA'
+
+## Displays in front of every message.
+prefix: '&9PartlyFancy&7&l >>&r '
+
+## Open the fancy menu instead of the help page when running '/partlyfancy' with no arguments.
+open-menu-on-default: true
+
+## Toggle if a player with an active gadget will take fall damage.
+fall-damage-with-gadget-active: false
+
+## Message Configuration
+## %player% - player name  %cosmetic% - cosmetic
+message:
+  command:
+    not-found: '&cThat command was not found! Type "&b/partlyfancy help&c" for help!'
+    invalid-usage: '&cThe command was entered incorrectly! Type "&b/partlyfancy help&c" for help!'
+    no-permission: '&cYou do not have permission to run this command!'
+    page-does-not-exist: '&cThat command page does not exist!'
+  cosmetic:
+    activated: '&eYou activated&b %cosmetic%&e!'
+    invalid: '&cSomething went wrong activating that cosmetic. Check the configuration.'
+    turn-off-inactive: '&cYou do not have an active cosmetic to turn off!'
+    turn-off-all: '&cYou turned off all your cosmetics!'
+    already-in-use: '&cYou already have a cosmetic of this type in use.'
+  gadget:
+    no-permission: '&cYou do not have permission to use this gadget!'
+    disabled: '&cThis gadget is currently disabled by server administrators.'
+    slot-taken: '&cThe slot (%slot%) for this gadget is taken.'
+    ender-bow-y-to-high: '&cThis area is restricted!'
+  menu:
+    no-permission: '&cYou do not have permission to use this menu!'
+    not-found: '&cA menu was not found corresponding the id %id%. Contact mod author about this error.'
+  default: '&cOops, something went wrong, please contact plugin author with stacktrace.'
+
+## Menu Configuration
+## Items: https://github.com/CryptoMorin/XSeries/blob/master/src/main/java/com/cryptomorin/xseries/XMaterial.java
+## Themes:
+## 'RAINBOW' - an array of items is required
+## 'SOLID' - a single item is required
+## 'SNAKE' - a single item is required
+menu:
+  main:
+    theme: 'RAINBOW'
+    items:
+      - 'BLUE_STAINED_GLASS_PANE'
+      - 'GREEN_STAINED_GLASS_PANE'
+      - 'PURPLE_STAINED_GLASS_PANE'
+  settings:
+    theme: 'SNAKE'
+    items: 'LIME_STAINED_GLASS_PANE'
+  particle:
+    theme: 'RAINBOW'
+    items:
+      - 'YELLOW_STAINED_GLASS_PANE'
+      - 'ORANGE_STAINED_GLASS_PANE'
+      - 'LIME_STAINED_GLASS_PANE'
+  crown:
+    theme: 'SOLID'
+    items: 'YELLOW_STAINED_GLASS_PANE'
+  aura:
+    theme: 'SOLID'
+    items: 'PURPLE_STAINED_GLASS_PANE'
+  wings:
+    theme: 'SOLID'
+    items: 'GREEN_STAINED_GLASS_PANE'
+  orb:
+    theme: 'SOLID'
+    items: 'LIME_STAINED_GLASS_PANE'
+  gadget:
+    page:
+      one:
+        theme: 'SOLID'
+        items: 'ORANGE_STAINED_GLASS_PANE'
+
+
+## Sound Configuration
+## Sounds: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+sound:
+  cosmetic:
+    activated: 'ENTITY_EXPERIENCE_ORB_PICKUP'
+  inventory:
+    open: 'BLOCK_CHEST_OPEN'
+    close: 'BLOCK_CHEST_CLOSE'
+    no-permission: 'ENTITY_ENDERMAN_TELEPORT'
+
+## Gadget Configuration
+## Cooldowns are in seconds and item slots are for the hotbar (0-8)
+gadget:
+  ender-bow:
+    disabled: false
+    max-y-allowed: 256
+    cooldown: 5
+    slot:
+      bow: 5
+      arrow: 6
