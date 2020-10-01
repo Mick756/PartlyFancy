@@ -1,0 +1,11 @@
+name: PartlyFancy
+main: fancy.PartlyFancy
+version: 0.0.3
+description: Give your players the feeling of what really matters-- Fanciness.
+prefix: PartlyFancy
+author: Mick756
+
+commands:
+  cosmetics:
+    description: Main base command of PartlyFancy.
+    aliases: [fancy, pf, partlyf, pfancy, partly]
