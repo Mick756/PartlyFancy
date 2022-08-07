@@ -1,5 +1,5 @@
-/.idea
+.idea
 /.out
-/target
+target
 dependency-reduced-pom.xml
 PartlyFancy.iml
