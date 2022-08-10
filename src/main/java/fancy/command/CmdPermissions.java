@@ -1,6 +1,7 @@
 package fancy.command;
 
 import fancy.FancyPlayer;
+import fancy.PartlyFancy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -14,12 +15,12 @@ public class CmdPermissions implements FancyCommandLoader.FancyCommand {
         if (player.hasPermission(permission())) {
             Bukkit.getPluginManager().getPermissions().forEach(permission -> {
                 if (permission.getName().startsWith("fancy.")) {
-                    fancyPlayer.sendMessage(false, "&a" + permission.getName() + "&7: " + permission.getDescription());
+                    fancyPlayer.sendMessage("&a" + permission.getName() + "&7: " + permission.getDescription());
                 }
             });
             return 1;
         } else {
-            fancyPlayer.sendMessage(true, fancy.PartlyFancy.getStringValue("message.command.no-permission", "%player%-" + player.getDisplayName(), "%perm%-" + permission().getName()));
+            fancyPlayer.sendMessageWithPrefix(PartlyFancy.getStringValue("message.command.no-permission", "%player%-" + player.getCustomName(), "%perm%-" + permission().getName()));
         }
         return 0;
     }

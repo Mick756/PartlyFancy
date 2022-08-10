@@ -1,5 +1,6 @@
 package fancy.menu.themes;
 
+import fancy.PartlyFancy;
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.FancyMenuTheme;
 import fancy.menu.themes.types.MultiColor;
@@ -31,8 +32,8 @@ public class Rainbow implements FancyMenuTheme, MultiColor, Cloneable {
 
         int[] slots = CosmeticUtil.getInventoryBorder(host.getInventory(), true);
 
-        task = new BukkitRunnable() {
-            Random r = new Random();
+        this.task = new BukkitRunnable() {
+            final Random r = new Random();
             
             @Override
             public void run() {
@@ -40,18 +41,18 @@ public class Rainbow implements FancyMenuTheme, MultiColor, Cloneable {
                 if (slots.length > 0) {
                     for (int slot : slots) {
                         
-                        host.getInventory().setItem(slot, items.get(r.nextInt(items.size())));
+                        host.getInventory().setItem(slot, items.get(this.r.nextInt(items.size())));
                     }
                 }
 
             }
-        }.runTaskTimerAsynchronously(fancy.PartlyFancy.getInstance(), 0, 15).getTaskId();
+        }.runTaskTimerAsynchronously(PartlyFancy.getInstance(), 0, 15).getTaskId();
     }
 
     @Override
     public void clear() {
-        Bukkit.getScheduler().cancelTask(task);
-        task = -1;
+        Bukkit.getScheduler().cancelTask(this.task);
+        this.task = -1;
     }
 
     @Override

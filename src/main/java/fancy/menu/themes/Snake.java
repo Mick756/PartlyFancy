@@ -1,5 +1,6 @@
 package fancy.menu.themes;
 
+import fancy.PartlyFancy;
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.FancyMenuTheme;
 import fancy.menu.themes.types.Static;
@@ -24,7 +25,9 @@ public class Snake implements FancyMenuTheme, Static, Cloneable {
 
     @Override
     public void apply() {
-        clear();
+        
+        this.clear();
+        
         int[] slots = CosmeticUtil.getInventoryBorder(this.host.getInventory(), true);
         task = new BukkitRunnable() {
             int pos_index = 0;
@@ -35,23 +38,23 @@ public class Snake implements FancyMenuTheme, Static, Cloneable {
                         host.getInventory().setItem(slot, null);
                     }
 
-                    for (int slot : positions[pos_index]) {
+                    for (int slot : positions[this.pos_index]) {
                         host.getInventory().setItem(slot, item);
                     }
                 }
 
-                if (pos_index >= positions.length - 1) {
-                    pos_index = 0;
-                } else pos_index++;
+                if (this.pos_index >= positions.length - 1) {
+                    this.pos_index = 0;
+                } else this.pos_index++;
             }
-        }.runTaskTimerAsynchronously(fancy.PartlyFancy.getInstance(), 0, 5).getTaskId();
+        }.runTaskTimerAsynchronously(PartlyFancy.getInstance(), 0, 5).getTaskId();
 
     }
 
     @Override
     public void clear() {
-        Bukkit.getScheduler().cancelTask(task);
-        task = -1;
+        Bukkit.getScheduler().cancelTask(this.task);
+        this.task = -1;
     }
 
     @Override
@@ -67,7 +70,7 @@ public class Snake implements FancyMenuTheme, Static, Cloneable {
 
     @Override
     public ItemStack item() {
-        return item;
+        return this.item;
     }
 
     @Override

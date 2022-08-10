@@ -1,6 +1,7 @@
 package fancy.command;
 
 import fancy.FancyPlayer;
+import fancy.PartlyFancy;
 import fancy.util.CosmeticUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -8,13 +9,14 @@ import org.bukkit.permissions.Permission;
 public class CmdHelp implements FancyCommandLoader.FancyCommand {
 
 
-    private String[] helpPageOne = {
+    private final String[] helpPageOne = {
             "&9----------------&e PartlyFancy Commands&9 ----------------",
             "&7[] optional argument - () alias - <> required argument",
             " ",
             "&e/fancy help(h) [page]&7 - Display the help pages.",
             "&e/fancy menu(m)&7 - Open the cosmetic menu.",
-            "&e/fancy permissions(perms)&7 - View a list of PartlyFancy permissions."
+            "&e/fancy permissions(perms)&7 - View a list of PartlyFancy permissions.",
+            "&e/fancy config(config) get|set <path> [value]&7 - Get or change a config value.&c Warning: Setting should only be used to change messages."
     };
 
     @Override
@@ -24,7 +26,7 @@ public class CmdHelp implements FancyCommandLoader.FancyCommand {
         if (player.hasPermission(permission())) {
             if (args.length == 1) {
                 for (String line : helpPageOne) {
-                    fancyPlayer.sendMessage(false, line);
+                    fancyPlayer.sendMessage(line);
                 }
                 return 1;
             } else {
@@ -32,16 +34,16 @@ public class CmdHelp implements FancyCommandLoader.FancyCommand {
                     int page = Integer.parseInt(args[1]);
                     if (page == 1) {
                         for (String line : helpPageOne) {
-                            fancyPlayer.sendMessage(false, line);
+                            fancyPlayer.sendMessage(line);
                         }
                     } else {
-                        fancyPlayer.sendMessage(true, fancy.PartlyFancy.getStringValue("message.command.page-does-not-exist", "%player%-" + player.getDisplayName()));
+                        fancyPlayer.sendMessageWithPrefix(PartlyFancy.getStringValue("message.command.page-does-not-exist", "%player%-" + player.getCustomName()));
                     }
                     return 1;
                 }
             }
         } else {
-            fancyPlayer.sendMessage(true, fancy.PartlyFancy.getStringValue("message.command.no-permission", "%player%-" + player.getDisplayName(), "%perm%-" + permission().getName()));
+            fancyPlayer.sendMessageWithPrefix(PartlyFancy.getStringValue("message.command.no-permission", "%player%-" + player.getCustomName(), "%perm%-" + permission().getName()));
         }
         return 0;
     }

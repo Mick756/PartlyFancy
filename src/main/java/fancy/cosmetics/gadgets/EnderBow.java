@@ -1,17 +1,24 @@
 package fancy.cosmetics.gadgets;
 
+import api.builders.ItemStackBuilder;
+import api.builders.misc.TaskUtils;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import fancy.FancyPlayer;
+import fancy.PartlyFancy;
 import fancy.cosmetics.Gadget;
-import fancy.util.CosmeticUtil;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EnderBow implements Gadget {
 
+    public static final List<FancyPlayer> COOLDOWNS = new ArrayList<>();
+    
     public EnderBow() {}
 
     private Player player;
@@ -22,27 +29,31 @@ public class EnderBow implements Gadget {
     @Override
     public ItemStack[] getGadgetItems() {
         
-        NBTItem bow = new NBTItem(CosmeticUtil.createItemStack(Material.BOW, 1, "&5Ender Bow (&eRight Click!&5)", null, "&7Shoot the bow and teleport", "&7to where the arrow lands!"));
+        NBTItem bow = new NBTItem(new ItemStackBuilder(Material.BOW).unbreakable().setDisplayName("&5Ender Bow (&eRight Click!&5)").addEnchantment(Enchantment.ARROW_INFINITE, 1).setLore("&7Shoot the bow and teleport", "&7to where the arrow lands!").build());
         bow.setString("action", "cancel");
-        bow.setString("gadgetitem", "ender-bow-bow");
-        NBTItem arrow = new NBTItem(CosmeticUtil.createItemStack(Material.ARROW, 1, "&5Ender Arrow", null));
-        arrow.setString("action", "cancel");
-        arrow.setString("gadgetitem", "ender-bow-arrow");
+        bow.setString("gadget-item", "ender-bow-bow");
         
-        return new ItemStack[]{
-                CosmeticUtil.addEnchantment(bow.getItem(), Enchantment.ARROW_INFINITE, 1),
-                CosmeticUtil.addEnchantment(arrow.getItem(), Enchantment.ARROW_INFINITE, 1)
-        };
+        NBTItem arrow = new NBTItem(new ItemStackBuilder(Material.ARROW).setDisplayName("&5Ender Arrow").addEnchantment(Enchantment.ARROW_INFINITE, 1).build());
+        arrow.setString("action", "cancel");
+        arrow.setString("gadget-item", "ender-bow-arrow");
+        
+        return new ItemStack[]{ bow.getItem(), arrow.getItem() };
     }
 
     @Override
     public void startCooldown() {
-
+        final FancyPlayer fancyPlayer = FancyPlayer.getFancyPlayer(this.player);
+        long cooldown = PartlyFancy.getIntValue("gadget.ender-bow.cooldown");
+        
+        COOLDOWNS.add(fancyPlayer);
+        TaskUtils.doSyncLater(PartlyFancy.getInstance(), () -> {
+            COOLDOWNS.remove(fancyPlayer);
+        }, cooldown * 20L);
     }
 
     @Override
     public int cooldownInSeconds() {
-        return fancy.PartlyFancy.getIntValue("gadget.ender-bow.cooldown");
+        return PartlyFancy.getIntValue("gadget.ender-bow.cooldown");
     }
 
     @Override
@@ -63,26 +74,33 @@ public class EnderBow implements Gadget {
     @Override
     public boolean start() {
         FancyPlayer fp = FancyPlayer.getFancyPlayer(this.getPlayer());
-        int bowSlot = fancy.PartlyFancy.getIntValue("gadget.ender-bow.slot.bow");
-        int arrowSlot = fancy.PartlyFancy.getIntValue("gadget.ender-bow.slot.arrow");
         ItemStack[] items = this.getGadgetItems();
         PlayerInventory playerInventory = this.getPlayer().getInventory();
+        
+        int bowSlot = PartlyFancy.getIntValue("gadget.ender-bow.slot.bow");
+        int arrowSlot = PartlyFancy.getIntValue("gadget.ender-bow.slot.arrow");
+        
         if (playerInventory.getItem(bowSlot) == null && playerInventory.getItem(arrowSlot) == null) {
+            
             playerInventory.setItem(bowSlot, items[0]);
             playerInventory.setItem(arrowSlot, items[1]);
         } else {
-            fp.sendMessage(true, fancy.PartlyFancy.getStringValue("message.gadget.slot-taken", "%slot%-" + bowSlot + " & " + arrowSlot));
+            
+            fp.sendMessageWithPrefix(PartlyFancy.getStringValue("message.gadget.slot-taken", "%slot%-" + bowSlot + " & " + arrowSlot));
             return false;
         }
+        
         return true;
     }
 
     @Override
     public boolean stop() {
-        int bowSlot = fancy.PartlyFancy.getIntValue("gadget.ender-bow.slot.bow");
-        int arrowSlot = fancy.PartlyFancy.getIntValue("gadget.ender-bow.slot.arrow");
+        int bowSlot = PartlyFancy.getIntValue("gadget.ender-bow.slot.bow");
+        int arrowSlot = PartlyFancy.getIntValue("gadget.ender-bow.slot.arrow");
+        
         this.getPlayer().getInventory().setItem(bowSlot, null);
         this.getPlayer().getInventory().setItem(arrowSlot, null);
+        
         return true;
     }
 

@@ -1,11 +1,9 @@
 package fancy.menu.themes;
 
-import de.tr7zw.changeme.nbtapi.NBTItem;
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.FancyMenuTheme;
 import fancy.menu.themes.types.Static;
 import fancy.util.CosmeticUtil;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class Solid implements FancyMenuTheme, Static, Cloneable {
@@ -23,7 +21,7 @@ public class Solid implements FancyMenuTheme, Static, Cloneable {
     @Override
     public void apply() {
 
-        clear();
+        this.clear();
 
         int[] slots = CosmeticUtil.getInventoryBorder(this.host.getInventory(), true);
 

@@ -9,7 +9,7 @@ import org.bukkit.permissions.Permission;
 
 public class SettingsMenu implements FancyMenuLoader.FancyMenu {
 
-    private Inventory inv;
+    private final Inventory inv;
 
     public SettingsMenu() {
         this.inv = Bukkit.createInventory(null, 54, this.getName());

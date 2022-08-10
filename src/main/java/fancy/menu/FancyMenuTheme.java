@@ -1,12 +1,11 @@
 package fancy.menu;
 
-import com.cryptomorin.xseries.XMaterial;
+import api.builders.ItemStackBuilder;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import fancy.PartlyFancy;
 import fancy.menu.themes.Solid;
 import fancy.menu.themes.types.MultiColor;
 import fancy.menu.themes.types.Static;
-import fancy.util.ItemStackBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -37,53 +36,49 @@ public interface FancyMenuTheme {
     }
 
     static FancyMenuTheme parseTheme(FancyMenuLoader.FancyMenu m, String path) {
-        FancyMenuTheme theme = getTheme(fancy.PartlyFancy.getStringValue(path + ".theme"));
+        FancyMenuTheme theme = getTheme(PartlyFancy.getStringValue(path + ".theme"));
         if (theme != null) {
             if (theme instanceof MultiColor) {
                 List<String> matNames = (List<String>) PartlyFancy.getListValue(path + ".items");
                 if (matNames != null) {
                     List<ItemStack> stacks = new ArrayList<>();
                     for (String matName : matNames) {
-                        XMaterial mat;
-    
+                        Material mat;
+                        
                         try {
-                            mat = XMaterial.valueOf(matName.toUpperCase());
+                            mat = Material.valueOf(matName.toUpperCase());
                         } catch (IllegalArgumentException ex) {
-                            PartlyFancy.getInstance().getLogger().severe("Error in configuration. At " + path + ".items is not a valid material.");
+                            PartlyFancy.getInstance().getLogger().severe("Error in configuration. " + path + ".items contains an invalid material.");
                             return null;
                         }
                         
-                        ItemStack stack = new ItemStackBuilder(mat.parseItem()).setDisplayName(" ").build();
-                        stack.setDurability(mat.getData());
-                        NBTItem item = new NBTItem(stack);
+                        NBTItem item = new NBTItem(new ItemStackBuilder(mat).setDisplayName(" ").build());
                         item.setString("action", "cancel");
                         
                         stacks.add(item.getItem());
                     }
+                    
                     return ((MultiColor) theme).setItems(stacks).setMenu(m);
                 }
             } else if (theme instanceof Static) {
                 String matName = PartlyFancy.getStringValue(path + ".items");
-                if (matName != null) {
-                    XMaterial mat;
-                    
-                    try {
-                        mat = XMaterial.valueOf(matName.toUpperCase());
-                    } catch (IllegalArgumentException ex) {
-                        PartlyFancy.getInstance().getLogger().severe("Error in configuration. At " + path + ".item is not a valid material.");
-                        return null;
-                    }
+                Material mat;
     
-                    ItemStack stack = new ItemStackBuilder(mat.parseItem()).setDisplayName(" ").build();
-                    stack.setDurability(mat.getData());
-                    NBTItem item = new NBTItem(stack);
-                    item.setString("action", "cancel");
-                    return ((Static) theme).setItem(item.getItem()).setMenu(m);
+                try {
+                    mat = Material.valueOf(matName.toUpperCase());
+                } catch (IllegalArgumentException ex) {
+                    PartlyFancy.getInstance().getLogger().severe("Error in configuration." + path + ".item contains an invalid material.");
+                    return null;
                 }
+    
+                NBTItem item = new NBTItem(new ItemStackBuilder(mat).setDisplayName(" ").build());
+                item.setString("action", "cancel");
+                
+                return ((Static) theme).setItem(item.getItem()).setMenu(m);
             }
         }
         
-        return new Solid().setItem(XMaterial.AIR.parseItem()).setMenu(m);
+        return new Solid().setItem(new ItemStack(Material.AIR)).setMenu(m);
     }
 
 }

@@ -1,5 +1,6 @@
 package fancy.menu.menus.particle;
 
+import api.builders.ItemStackBuilder;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.FancyMenuTheme;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class OrbMenu implements FancyMenuLoader.FancyMenu {
 
-    private Inventory inv;
+    private final Inventory inv;
 
     public OrbMenu() {
         this.inv = Bukkit.createInventory(null, 54, this.getName());
@@ -47,7 +48,7 @@ public class OrbMenu implements FancyMenuLoader.FancyMenu {
             }
         }
         
-        NBTItem back = new NBTItem(CosmeticUtil.createItemStack(Material.ARROW, 1, "&cGo Back", null, "&7Go back a menu.."));
+        NBTItem back = new NBTItem(new ItemStackBuilder(Material.ARROW).setDisplayName("&cGo Back").setLore("&7Go back a menu..").build());
         back.setInteger("inventory", FancyMenuLoader.FancyMenuIds.PARTICLE.getId());
         this.inv.setItem(48, back.getItem());
         

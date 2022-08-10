@@ -1,10 +1,10 @@
 package fancy.menu.menus.gadget;
 
+import api.builders.ItemStackBuilder;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.FancyMenuTheme;
 import fancy.menu.menus.MenuItemConstant;
-import fancy.util.CosmeticUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -32,7 +32,7 @@ public class GadgetMenu implements FancyMenuLoader.FancyMenu {
 
     @Override
     public Inventory getInventory() {
-        NBTItem enderBow = new NBTItem(CosmeticUtil.createItemStack(Material.BOW, 1, "&5Ender Bow", null, "&7A magical bow that quickly", "&7fires a ender pearl,", "&7not an arrow.", " ", "&aClick to select!"));
+        NBTItem enderBow = new NBTItem(new ItemStackBuilder(Material.BOW).setDisplayName("&5Ender Bow").setLore("&7A magical bow that quickly", "&7fires a ender pearl,", "&7not an arrow.", " ", "&aClick to select!").build());
         enderBow.setString("gadget", "enderbow");
         this.inv.setItem(20, enderBow.getItem());
         

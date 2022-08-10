@@ -1,17 +1,17 @@
 package fancy.menu;
 
-import com.cryptomorin.xseries.XMaterial;
+import api.builders.ItemStackBuilder;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import fancy.menu.menus.MenuItemConstant;
-import fancy.util.CosmeticUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.permissions.Permission;
 
 public class MainMenu implements FancyMenuLoader.FancyMenu {
 
-    private Inventory inv;
+    private final Inventory inv;
 
     public MainMenu() {
         this.inv = Bukkit.createInventory(null, 54, this.getName());
@@ -31,11 +31,11 @@ public class MainMenu implements FancyMenuLoader.FancyMenu {
     @Override
     public Inventory getInventory() {
         
-        NBTItem particlesItem = new NBTItem(CosmeticUtil.createItemStack(XMaterial.BREWING_STAND.parseItem().getType(), 1, "&bParticle Effects", null, "&7Open up the particle effects menu."));
+        NBTItem particlesItem = new NBTItem(new ItemStackBuilder(Material.BREWING_STAND).setDisplayName("&bParticle Effects").setLore("&7Open up the particle effects menu.").build());
         particlesItem.setInteger("inventory", FancyMenuLoader.FancyMenuIds.PARTICLE.getId());
         this.inv.setItem(20, particlesItem.getItem());
         
-        NBTItem gadgetsItem = new NBTItem(CosmeticUtil.createItemStack(XMaterial.PISTON.parseItem().getType(), 1, "&bGadgets", null, "&7Open up the gadgets menu."));
+        NBTItem gadgetsItem = new NBTItem(new ItemStackBuilder(Material.PISTON).setDisplayName("&bGadgets").setLore("&7Open up the gadgets menu.").build());
         gadgetsItem.setInteger("inventory", FancyMenuLoader.FancyMenuIds.GADGET_PAGE_ONE.getId());
         this.inv.setItem(22, gadgetsItem.getItem());
         
