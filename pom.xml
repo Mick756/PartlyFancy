@@ -63,6 +63,12 @@
             <version>master-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -80,6 +86,10 @@
                         <relocation>
                             <pattern>api.builders</pattern>
                             <shadedPattern>fancy.util.builders</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>fancy.bstats</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

@@ -14,7 +14,6 @@ import java.util.UUID;
 public class FancyPlayer {
 
     private final @Getter UUID playerUUID;
-    
     private @Getter Particle particleEffect;
     private @Getter Gadget gadget;
     private @Getter Pet pet;

@@ -28,15 +28,15 @@ public enum Particles {
 
     private final @Getter String[] altNames;
     private final @Getter Particle effect;
-    private final @Getter boolean colorable;
+    private final @Getter boolean color;
     private final @Getter boolean spam;
     private final @Getter Material item;
     private final @Getter String[] description;
     
-    Particles(String[] altNames, Particle effect, boolean colorable, boolean spam, Material item, String... description) {
+    Particles(String[] altNames, Particle effect, boolean color, boolean spam, Material item, String... description) {
         this.altNames = altNames;
         this.effect = effect;
-        this.colorable = colorable;
+        this.color = color;
         this.spam = spam;
         this.item = item;
         this.description = description;
@@ -45,10 +45,12 @@ public enum Particles {
     public void display(Location loc) {
         Object data = null;
         
-        if (colorable && this.effect.equals(Particle.REDSTONE)) {
+        if (color && this.effect.equals(Particle.REDSTONE)) {
             Random r = PartlyFancy.getRandom();
+            
             data = new Particle.DustOptions(Color.fromBGR(r.nextInt(255), r.nextInt(255), r.nextInt(255)), 1);
         }
+        
         if (this.effect.equals(Particle.NOTE)) {
             loc.getWorld().spawnParticle(Particle.NOTE, loc.getX(),loc.getY(),loc.getZ(), 0, PartlyFancy.getRandom().nextInt(24), 0.0d, 0.0d, 0.1d);
         } else {
@@ -57,15 +59,18 @@ public enum Particles {
     }
 
     public static Particles getParticle(String altName) {
+        
         for (Particles p : values()) {
             if (p.name().equalsIgnoreCase(altName)) return p;
             if (p.altNames == null) continue;
+            
             for (String alt : p.altNames) {
                 if (altName.equalsIgnoreCase(alt)) {
                     return p;
                 }
             }
         }
+        
         return null;
     }
 }
