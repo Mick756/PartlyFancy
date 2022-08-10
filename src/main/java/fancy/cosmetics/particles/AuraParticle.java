@@ -1,8 +1,9 @@
 package fancy.cosmetics.particles;
 
+import api.builders.ItemStackBuilder;
 import fancy.FancyPlayer;
+import fancy.PartlyFancy;
 import fancy.cosmetics.Particle;
-import fancy.util.CosmeticUtil;
 import fancy.util.Particles;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,30 +19,34 @@ public class AuraParticle implements Particle {
 
     public static List<FancyPlayer> auraParticleUsers = new ArrayList<>();
 
-    private static int interval = 3;
-    private static double radius = 0.7D;
-    private static double amount = radius * 30.0D;
-    private static double inc = (Math.PI * 2) / amount;
+    private static final int interval = 3;
+    private static final double radius = 0.7D;
+    private static final double amount = radius * 30.0D;
+    private static final double inc = (Math.PI * 2) / amount;
+    
     private static int i = 0;
 
     static {
         new BukkitRunnable() {
             @Override
             public void run() {
+                
                 if (auraParticleUsers.size() > 0) {
                     for (FancyPlayer fp : auraParticleUsers) {
                         fp.getParticleEffect().run(i);
                     }
                 }
+                
                 if (i >= amount - 1.0D) {
                     i = 0;
                 } else i += 1;
+                
             }
-        }.runTaskTimer(fancy.PartlyFancy.getInstance(), 0, interval);
+        }.runTaskTimer(PartlyFancy.getInstance(), 0, interval);
     }
 
     private Player player;
-    private Particles[] effects;
+    private final Particles[] effects;
     
     public AuraParticle(Player player, Particles... effects) {
         this.player = player;
@@ -54,7 +59,7 @@ public class AuraParticle implements Particle {
     }
 
     @Override
-    public Particle.ParticleType getType() {
+    public ParticleType getType() {
         return ParticleType.AURA;
     }
 
@@ -81,17 +86,21 @@ public class AuraParticle implements Particle {
 
     @Override
     public void run(double... step) {
+        
         double angle = step[0] * inc;
         double x = radius * Math.cos(angle);
         double z = radius * Math.sin(angle);
         double y = 2.35;
+        
         while (y > 0) {
             Location loc = getPlayer().getLocation().add(new Vector(x, y, z));
+            
             for (Particles particle : getParticles()) {
                 if (particle != null) {
                     particle.display(loc);
                 }
             }
+            
             y -= .25;
         }
     }
@@ -104,6 +113,6 @@ public class AuraParticle implements Particle {
     }
 
     public static ItemStack item() {
-        return CosmeticUtil.createItemStack(Material.GOLDEN_CARROT, 1, "&bAura Particle", null, "&7Be covered by your own power.");
+        return new ItemStackBuilder(Material.GOLDEN_CARROT).setDisplayName("&bAura Particle").setLore("&7Be covered by your own power.").build();
     }
 }

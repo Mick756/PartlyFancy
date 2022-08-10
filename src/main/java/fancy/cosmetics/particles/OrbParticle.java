@@ -1,6 +1,8 @@
 package fancy.cosmetics.particles;
 
+import api.builders.ItemStackBuilder;
 import fancy.FancyPlayer;
+import fancy.PartlyFancy;
 import fancy.cosmetics.Particle;
 import fancy.util.CosmeticUtil;
 import fancy.util.Particles;
@@ -18,14 +20,16 @@ public class OrbParticle implements Particle {
 
     public static List<FancyPlayer> orbParticleUsers = new ArrayList<>();
 
-    private static double radius = 1.2D;
-    private static double amount = radius * 30.0D;
-    private static double inc = (Math.PI * 4) / amount;
-    private static int interval = 15;
+    private static final double radius = 1.2D;
+    private static final double amount = radius * 30.0D;
+    private static final double inc = (Math.PI * 4) / amount;
+    private static final int interval = 15;
+    
     static {
         new BukkitRunnable() {
             @Override
             public void run() {
+                
                 if (orbParticleUsers.size() > 0) {
                     for (FancyPlayer fp : orbParticleUsers) {
                         fp.getParticleEffect().run(-1);
@@ -33,11 +37,11 @@ public class OrbParticle implements Particle {
                 }
             }
 
-        }.runTaskTimer(fancy.PartlyFancy.getInstance(), 0, interval);
+        }.runTaskTimer(PartlyFancy.getInstance(), 0, interval);
     }
 
     private Player player;
-    private Particles[] effects;
+    private final Particles[] effects;
 
     public OrbParticle(Player player, Particles... effects) {
         this.player = player;
@@ -78,11 +82,14 @@ public class OrbParticle implements Particle {
     @Override
     public void run(double... step) {
         for (int i = 0; i < 180; i++) {
+            
             double angle = i * inc;
             double x = radius * Math.cos(angle);
             double y = radius * Math.sin(angle);
+            
             Vector v = CosmeticUtil.rotateVectorDegree(new Vector(x, y + 0.75, 0), (i * 18)).multiply(1.3F);
             Location loc = getPlayer().getLocation().add(v);
+            
             for (Particles particle : getParticles()) {
                 if (particle != null) {
                     particle.display(loc);
@@ -98,6 +105,6 @@ public class OrbParticle implements Particle {
     }
 
     public static ItemStack item() {
-        return CosmeticUtil.createItemStack(Material.REDSTONE, 1, "&bOrb Particle", null, "&7Just to make sure...");
+        return new ItemStackBuilder(Material.REDSTONE).setDisplayName("&bOrb Particle").setLore("&7Just to make sure...").build();
     }
 }

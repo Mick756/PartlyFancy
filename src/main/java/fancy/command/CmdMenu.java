@@ -1,6 +1,7 @@
 package fancy.command;
 
 import fancy.FancyPlayer;
+import fancy.PartlyFancy;
 import fancy.menu.FancyMenuLoader;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -15,7 +16,7 @@ public class CmdMenu implements FancyCommandLoader.FancyCommand {
             FancyMenuLoader.openMenu(player, FancyMenuLoader.getFromId(FancyMenuLoader.FancyMenuIds.MAIN.getId()), true);
             return 1;
         } else {
-            fancyPlayer.sendMessage(true, fancy.PartlyFancy.getStringValue("message.command.no-permission", "%player%-" + player.getDisplayName(), "%perm%-" + permission().getName()));
+            fancyPlayer.sendMessageWithPrefix(PartlyFancy.getStringValue("message.command.no-permission", "%player%-" + player.getCustomName(), "%perm%-" + permission().getName()));
         }
         return 0;
     }

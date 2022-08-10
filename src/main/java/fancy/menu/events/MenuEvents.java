@@ -24,8 +24,7 @@ public class MenuEvents implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
-        if (e.getWhoClicked() instanceof Player) {
-            Player p = (Player) e.getWhoClicked();
+        if (e.getWhoClicked() instanceof Player p) {
             FancyPlayer fp = FancyPlayer.getFancyPlayer(p);
             if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
                 ItemStack item = e.getCurrentItem();
@@ -48,7 +47,7 @@ public class MenuEvents implements Listener {
                     }
                 } else {
     
-                    if (gadget != null && gadget != "") {
+                    if (gadget != null && !gadget.equals("")) {
                         e.setCancelled(true);
                         if (fp.getGadget() != null) {
                             fp.stopGadget(true);
@@ -60,49 +59,39 @@ public class MenuEvents implements Listener {
                         return;
                     }
                     
-                    if (action != null && action != "") {
+                    if (action != null && !action.equals("")) {
                         switch (action) {
-                            case "close":
+                            case "close" -> {
                                 e.setCancelled(true);
                                 e.setCurrentItem(null);
                                 FancyMenuLoader.closeMenu(p, true);
-                                break;
-                            case "stopall":
+                            }
+                            case "stopall" -> {
                                 e.setCancelled(true);
                                 e.setCurrentItem(null);
                                 fp.stopAll(true);
                                 FancyMenuLoader.closeMenu(p, true);
-                                break;
-                            case "cancel":
-                                e.setCancelled(true);
-                                break;
+                            }
+                            case "cancel" -> e.setCancelled(true);
                         }
                         return;
                     }
                     
-                    if (particleId != null && particleId != "") {
+                    if (particleId != null && !particleId.equals("")) {
+                        e.setCancelled(true);
                         Particles particles = Particles.valueOf(ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).toUpperCase().replaceAll(" ", "_"));
                         if (fp.getParticleEffect() != null) {
                             fp.stopParticle(true);
                         }
-                        e.setCancelled(true);
-                        Particle cosmetic = null;
                         
-                        switch (particleId) {
-                            case "crown_particle":
-                                cosmetic = new CrownParticle(p, particles);
-                                break;
-                            case "aura_particle":
-                                cosmetic = new AuraParticle(p, particles);
-                                break;
-                            case "wings_particle":
-                                cosmetic = new WingsParticle(p, particles);
-                                break;
-                            case "orb_particle":
-                                cosmetic = new OrbParticle(p, particles);
-                                break;
-                        }
-                        
+                        Particle cosmetic = switch (particleId) {
+                            case "crown_particle" -> new CrownParticle(p, particles);
+                            case "aura_particle" -> new AuraParticle(p, particles);
+                            case "wings_particle" -> new WingsParticle(p, particles);
+                            case "orb_particle" -> new OrbParticle(p, particles);
+                            default -> null;
+                        };
+    
                         if (cosmetic != null) {
                             fp.startCosmetic(cosmetic, true);
                         }

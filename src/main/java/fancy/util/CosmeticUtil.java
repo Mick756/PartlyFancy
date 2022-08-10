@@ -1,48 +1,18 @@
 package fancy.util;
 
+import api.builders.ItemStackBuilder;
 import de.tr7zw.changeme.nbtapi.NBTItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CosmeticUtil {
-    
-    public static ItemStack createItemStack(Material material, Integer amount, String name, String... lore) {
-        ItemStack itemStack = new ItemStack(material, amount);
-        ItemMeta meta = itemStack.getItemMeta();
-        if (name != null && name.length() != 0) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-        }
-        if (lore != null && lore.length != 0) {
-            List<String> loreLines = new ArrayList<>();
-            Arrays.asList(lore).forEach(line -> {
-                if (line != null) {
-                    loreLines.add(ChatColor.translateAlternateColorCodes('&', line));
-                }
-            });
-            meta.setLore(loreLines);
-        }
-        itemStack.setItemMeta(meta);
-        return itemStack;
-    }
-    
-    public static ItemStack addEnchantment(ItemStack stack, Enchantment enchantment, Integer level) {
-        level = (level == null || level < 1 || level > 255) ? 1 : level;
-        if (stack != null && enchantment != null) {
-            stack.addUnsafeEnchantment(enchantment, level);
-        }
-        return stack;
-    }
 
     public static boolean isInteger(String input) {
         try {
@@ -99,8 +69,7 @@ public class CosmeticUtil {
                 } else {
                     name = (particle.name().substring(0, 1).toUpperCase() + particle.name().substring(1).toLowerCase());
                 }
-                ItemStack stack = createItemStack(particle.getItem().parseMaterial().get(), 1, "&b" + name, particle.getDescription());
-                stack.setDurability(particle.getItem().getData());
+                ItemStack stack = new ItemStackBuilder(particle.getItem()).setDisplayName("&b" + name).setLore(particle.getDescription()).build();
                 NBTItem nbt = new NBTItem(stack);
                 nbt.setString("particle", nbt_key);
                 items.add(nbt.getItem());
@@ -133,7 +102,7 @@ public class CosmeticUtil {
         return to.subtract(from);
     }
 
-    private static double deg_to_rad = Math.PI/180;
+    private static final double deg_to_rad = Math.PI/180;
     public static Vector rotateVectorDegree(Vector v, double degrees) {
         return rotateVectorRadians(v, degrees * deg_to_rad);
     }

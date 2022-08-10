@@ -1,39 +1,39 @@
 package fancy.util;
 
-import com.cryptomorin.xseries.XMaterial;
 import fancy.PartlyFancy;
 import lombok.Getter;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 
 import java.util.Random;
 
 public enum Particles {
 
-    FLAMES(new String[] {"flame", "fire"}, Particle.FLAME, false, false, XMaterial.BLAZE_POWDER, "&7Not angry, just heated.", " ", " ", "&aClick to select!"),
-    HAPPY_VILLAGER(new String[] {"happyvillager", "happy-villager", "happy", "greensparks"}, Particle.VILLAGER_HAPPY, false, false, XMaterial.EMERALD, "&7Show how happy you are.", " ", " ", "&aClick to select!"),
-    ANGRY_VILLAGER(new String[] {"angryvillager", "angry-villager", "angry"}, Particle.VILLAGER_ANGRY, false, false, XMaterial.MAGMA_CREAM, "&7Or how angry...", " ", " ", "&aClick to select!"),
-    REDSTONE(new String[] {"redstone", "dust"}, Particle.REDSTONE, true, false, XMaterial.REDSTONE, "&7A burst of color.", " ", " ", "&aClick to select!"),
-    MOB_SPELL(new String[] {"spell", "bubbles"}, Particle.SPELL_MOB, true, false, XMaterial.POTION, "&7Like a rainbow bubble bath.", " ", " ", "&aClick to select!"),
-    CRITS(new String[] {"crit"}, Particle.CRIT, false, false, XMaterial.WOODEN_SWORD, "&7Wow, don't be so critical.", " ", " ", "&aClick to select!"),
-    HEARTS(new String[] {"heart"}, Particle.HEART, false, true, XMaterial.ARROW, "&7You give me love kernels.", " ", " ", "&aClick to select!"),
-    LAVA_DROPS(new String[] {"lava", "lava-drops", "lavadrops", "lavadrop", "lava-drop"}, Particle.DRIP_LAVA, false, true, XMaterial.LAVA_BUCKET, "&7Droplet like its hot.", " ", " ", "&aClick to select!"),
-    MAGIC_CRITS(new String[] {"magicscrits", "magic-crits", "magic_crits", "mcrits"}, Particle.CRIT_MAGIC, false, false, XMaterial.DIAMOND_SWORD, "&7How shiny these are.", " ", " ", "&aClick to select!"),
-    NOTES(new String[] {"note", "noteblock"}, Particle.NOTE, true, false, XMaterial.NOTE_BLOCK, "&7You like.. music?", " ", " ", "&aClick to select!"),
-    SLIME(null, Particle.SLIME, false, false, XMaterial.SLIME_BALL, "&7Not sticky, but slimy.", " ", " ", "&aClick to select!"),
-    SMOKE(null, Particle.SMOKE_NORMAL, false, false, XMaterial.GUNPOWDER, "&7This kind isn't bad for you.", " ", " ", "&aClick to select!"),
-    SPARKS(new String[] {"sparks", "fireworksparks", "firework", "fireworks", "spark"}, Particle.FIREWORKS_SPARK, false, true, XMaterial.FIREWORK_ROCKET, "&7You're not shorting out.", " ", " ", "&aClick to select!"),
-    WATER_DROPS(new String[] {"water", "water-drops", "waterdrops", "waterdrop", "water-drop"}, Particle.DRIP_WATER, false, true, XMaterial.WATER_BUCKET, "&7Water from above... so rain?", " ", " ", "&aClick to select!");
+    FLAMES(new String[] {"flame", "fire"}, Particle.FLAME, false, false, Material.BLAZE_POWDER, "&7Not angry, just heated.", " ", " ", "&aClick to select!"),
+    HAPPY_VILLAGER(new String[] {"happyvillager", "happy-villager", "happy", "greensparks"}, Particle.VILLAGER_HAPPY, false, false, Material.EMERALD, "&7Show how happy you are.", " ", " ", "&aClick to select!"),
+    ANGRY_VILLAGER(new String[] {"angryvillager", "angry-villager", "angry"}, Particle.VILLAGER_ANGRY, false, false, Material.MAGMA_CREAM, "&7Or how angry...", " ", " ", "&aClick to select!"),
+    REDSTONE(new String[] {"redstone", "dust"}, Particle.REDSTONE, true, false, Material.REDSTONE, "&7A burst of color.", " ", " ", "&aClick to select!"),
+    MOB_SPELL(new String[] {"spell", "bubbles"}, Particle.SPELL_MOB, true, false, Material.POTION, "&7Like a rainbow bubble bath.", " ", " ", "&aClick to select!"),
+    CRITS(new String[] {"crit"}, Particle.CRIT, false, false, Material.WOODEN_SWORD, "&7Wow, don't be so critical.", " ", " ", "&aClick to select!"),
+    HEARTS(new String[] {"heart"}, Particle.HEART, false, true, Material.ARROW, "&7You give me love kernels.", " ", " ", "&aClick to select!"),
+    LAVA_DROPS(new String[] {"lava", "lava-drops", "lavadrops", "lavadrop", "lava-drop"}, Particle.DRIP_LAVA, false, true, Material.LAVA_BUCKET, "&7Droplet like its hot.", " ", " ", "&aClick to select!"),
+    MAGIC_CRITS(new String[] {"magicscrits", "magic-crits", "magic_crits", "mcrits"}, Particle.CRIT_MAGIC, false, false, Material.DIAMOND_SWORD, "&7How shiny these are.", " ", " ", "&aClick to select!"),
+    NOTES(new String[] {"note", "noteblock"}, Particle.NOTE, true, false, Material.NOTE_BLOCK, "&7You like.. music?", " ", " ", "&aClick to select!"),
+    SLIME(null, Particle.SLIME, false, false, Material.SLIME_BALL, "&7Not sticky, but slimy.", " ", " ", "&aClick to select!"),
+    SMOKE(null, Particle.SMOKE_NORMAL, false, false, Material.GUNPOWDER, "&7This kind isn't bad for you.", " ", " ", "&aClick to select!"),
+    SPARKS(new String[] {"sparks", "fireworksparks", "firework", "fireworks", "spark"}, Particle.FIREWORKS_SPARK, false, true, Material.FIREWORK_ROCKET, "&7You're not shorting out.", " ", " ", "&aClick to select!"),
+    WATER_DROPS(new String[] {"water", "water-drops", "waterdrops", "waterdrop", "water-drop"}, Particle.DRIP_WATER, false, true, Material.WATER_BUCKET, "&7Water from above... so rain?", " ", " ", "&aClick to select!");
 
-    private @Getter String[] altNames;
-    private @Getter Particle effect;
-    private @Getter boolean colorable;
-    private @Getter boolean spam;
-    private @Getter XMaterial item;
-    private @Getter String[] description;
+    private final @Getter String[] altNames;
+    private final @Getter Particle effect;
+    private final @Getter boolean colorable;
+    private final @Getter boolean spam;
+    private final @Getter Material item;
+    private final @Getter String[] description;
     
-    Particles(String[] altNames, Particle effect, boolean colorable, boolean spam, XMaterial item, String... description) {
+    Particles(String[] altNames, Particle effect, boolean colorable, boolean spam, Material item, String... description) {
         this.altNames = altNames;
         this.effect = effect;
         this.colorable = colorable;

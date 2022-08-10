@@ -1,10 +1,10 @@
 package fancy;
 
-import lombok.Getter;
 import fancy.cosmetics.FancyCosmetic;
 import fancy.cosmetics.Gadget;
 import fancy.cosmetics.Particle;
 import fancy.cosmetics.Pet;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -29,9 +29,10 @@ public class FancyPlayer {
     
     public void startCosmetic(FancyCosmetic cosmetic, boolean msg) {
         if (cosmetic == null && msg) {
-            sendMessage(true, PartlyFancy.getStringValue("message.cosmetic.invalid", "%player%-" + getPlayer().getDisplayName()));
+            sendMessageWithPrefix(PartlyFancy.getStringValue("message.cosmetic.invalid", "%player%-" + this.getPlayer().getCustomName()));
             return;
         }
+        
         boolean activated = true;
         boolean alreadyInUse = true;
         
@@ -54,13 +55,14 @@ public class FancyPlayer {
                 activated = this.pet.start();
             }
         }
+        
         if (msg) {
             if (alreadyInUse) {
-                sendMessage(true, PartlyFancy.getStringValue("message.cosmetic.already-in-use", "%player%-" + getPlayer().getDisplayName()));
+                sendMessageWithPrefix(PartlyFancy.getStringValue("message.cosmetic.already-in-use", "%player%-" + this.getPlayer().getCustomName()));
                 return;
             }
             if (activated) {
-                sendMessage(true, PartlyFancy.getStringValue("message.cosmetic.activated", "%cosmetic%-" + cosmetic.name()));
+                sendMessageWithPrefix(PartlyFancy.getStringValue("message.cosmetic.activated", "%cosmetic%-" + cosmetic.name()));
                 this.getPlayer().playSound(this.getPlayer().getLocation(), PartlyFancy.getSound("sound.cosmetic.activated"), 0.5f, 1f);
             }
         }
@@ -69,7 +71,7 @@ public class FancyPlayer {
     public void stopParticle(boolean msg) {
         if (this.particleEffect == null) {
             if (msg) {
-                sendMessage(true, PartlyFancy.getStringValue("message.cosmetic.turn-off-inactive", "%player%-" + getPlayer().getDisplayName()));
+                sendMessageWithPrefix(PartlyFancy.getStringValue("message.cosmetic.turn-off-inactive", "%player%-" + getPlayer().getCustomName()));
             }
         } else {
             this.particleEffect.stop();
@@ -80,7 +82,7 @@ public class FancyPlayer {
     public void stopGadget(boolean msg) {
         if (this.gadget == null) {
             if (msg) {
-                sendMessage(true, PartlyFancy.getStringValue("message.cosmetic.turn-off-inactive", "%player%-" + getPlayer().getDisplayName()));
+                sendMessageWithPrefix(PartlyFancy.getStringValue("message.cosmetic.turn-off-inactive", "%player%-" + getPlayer().getCustomName()));
             }
         } else {
             this.gadget.stop();
@@ -93,12 +95,16 @@ public class FancyPlayer {
         stopGadget(false);
         //stopPet(false);
         if (msg) {
-            sendMessage(true, PartlyFancy.getStringValue("message.cosmetic.turn-off-all", "%player%-" + getPlayer().getDisplayName()));
+            sendMessageWithPrefix(PartlyFancy.getStringValue("message.cosmetic.turn-off-all", "%player%-" + getPlayer().getCustomName()));
         }
     }
-
-    public void sendMessage(boolean prefix, String message) {
-        getPlayer().sendMessage((prefix ? PartlyFancy.getPrefix() : "") + ChatColor.translateAlternateColorCodes('&', message));
+    
+    public void sendMessage(String message) {
+        getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    }
+    
+    public void sendMessageWithPrefix(String message) {
+        getPlayer().sendMessage(PartlyFancy.getPrefix() + ChatColor.translateAlternateColorCodes('&', message));
     }
 
     public Player getPlayer() {
@@ -115,13 +121,13 @@ public class FancyPlayer {
         } else {
             Player player = Bukkit.getPlayer(uuid);
             if (player == null) {
-                PartlyFancy.sendConsoleMessage("&cPlayer with UUID of " + uuid.toString() + " was not found to be online.");
+                PartlyFancy.sendConsoleMessage("&cPlayer with UUID of " + uuid + " was not found to be online.");
                 return null;
             } else {
                 try {
                     return new FancyPlayer(player);
                 } catch (NullPointerException ex) {
-                    PartlyFancy.sendConsoleMessage("&cPlayer with UUID of " + uuid.toString() + " was not found to be online.");
+                    PartlyFancy.sendConsoleMessage("&cPlayer with UUID of " + uuid + " was not found to be online.");
                     return null;
                 }
             }

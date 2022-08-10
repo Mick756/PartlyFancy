@@ -73,14 +73,14 @@ public final class ReflectionUtils {
 	}
 
 	public enum PackageType {
-		MINECRAFT_SERVER("net.minecraft.server." + getServerVersion()),
-		CRAFTBUKKIT("org.bukkit.craftbukkit." + getServerVersion()),
+		MINECRAFT_SERVER("net.minecraft.server." + getServerVersion());
+//		CRAFTBUKKIT("org.bukkit.craftbukkit." + getServerVersion()),
 //		CRAFTBUKKIT_BLOCK(CRAFTBUKKIT, "block"),
 //		CRAFTBUKKIT_CHUNKIO(CRAFTBUKKIT, "chunkio"),
 //		CRAFTBUKKIT_COMMAND(CRAFTBUKKIT, "command"),
 //		CRAFTBUKKIT_CONVERSATIONS(CRAFTBUKKIT, "conversations"),
 //		CRAFTBUKKIT_ENCHANTMENS(CRAFTBUKKIT, "enchantments"),
-		CRAFTBUKKIT_ENTITY(CRAFTBUKKIT, "entity");
+//		CRAFTBUKKIT_ENTITY(CRAFTBUKKIT, "entity");
 //		CRAFTBUKKIT_EVENT(CRAFTBUKKIT, "event"),
 //		CRAFTBUKKIT_GENERATOR(CRAFTBUKKIT, "generator"),
 //		CRAFTBUKKIT_HELP(CRAFTBUKKIT, "help"),

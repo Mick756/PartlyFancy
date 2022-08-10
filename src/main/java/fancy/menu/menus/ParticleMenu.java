@@ -14,7 +14,7 @@ import org.bukkit.permissions.Permission;
 
 public class ParticleMenu implements FancyMenuLoader.FancyMenu {
 
-    private Inventory inv;
+    private final Inventory inv;
 
     public ParticleMenu() {
         this.inv = Bukkit.createInventory(null, 54, this.getName());

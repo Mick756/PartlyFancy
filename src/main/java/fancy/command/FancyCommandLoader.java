@@ -10,15 +10,13 @@ import java.util.List;
 
 public class FancyCommandLoader {
     
-    private static List<FancyCommand> commands = new ArrayList<>();
+    private static final List<FancyCommand> commands = new ArrayList<>();
 
     static {
         
-        addFancyCommand(new CmdHelp(), new CmdPermissions(), new CmdMenu());
+        addFancyCommand(new CmdHelp(), new CmdPermissions(), new CmdMenu(), new CmdConfig());
         
-        commands.forEach(command -> {
-            Bukkit.getPluginManager().addPermission(command.permission());
-        });
+        commands.forEach(command -> Bukkit.getPluginManager().addPermission(command.permission()));
     }
     
     public static int runCommand(Player player, String... args) {

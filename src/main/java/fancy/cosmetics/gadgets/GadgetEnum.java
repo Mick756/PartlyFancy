@@ -3,9 +3,10 @@ package fancy.cosmetics.gadgets;
 import fancy.cosmetics.Gadget;
 
 public enum GadgetEnum {
+    
     ENDERBOW(new EnderBow());
 
-    private Gadget gadget;
+    private final Gadget gadget;
     GadgetEnum(Gadget g) {
         this.gadget = g;
     }
