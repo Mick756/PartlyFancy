@@ -24,21 +24,17 @@ public class Solid implements FancyMenuTheme, Static, Cloneable {
         this.clear();
 
         int[] slots = CosmeticUtil.getInventoryBorder(this.host.getInventory(), true);
-
-        if (slots.length > 0) {
-            for (int slot : slots) {
-                this.host.getInventory().setItem(slot, this.item);
-            }
+        
+        for (int slot : slots) {
+            this.host.getInventory().setItem(slot, this.item);
         }
     }
 
     @Override
     public void clear() {
         int[] slots = CosmeticUtil.getInventoryBorder(this.host.getInventory(), true);
-        if (slots.length > 0) {
-            for (int slot : slots) {
-                this.host.getInventory().setItem(slot, null);
-            }
+        for (int slot : slots) {
+            this.host.getInventory().setItem(slot, null);
         }
     }
 
@@ -74,6 +70,7 @@ public class Solid implements FancyMenuTheme, Static, Cloneable {
         try {
             return super.clone();
         } catch (Exception ex) {
+            ex.printStackTrace();
             return null;
         }
 

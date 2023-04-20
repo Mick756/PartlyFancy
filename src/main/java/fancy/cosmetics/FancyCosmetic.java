@@ -3,7 +3,7 @@ package fancy.cosmetics;
 import org.bukkit.entity.Player;
 
 public interface FancyCosmetic {
-
+    
     /**
      * @return Player of cosmetic
      */

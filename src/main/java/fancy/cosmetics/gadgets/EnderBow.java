@@ -20,11 +20,7 @@ public class EnderBow implements Gadget {
     public static final List<FancyPlayer> COOLDOWNS = new ArrayList<>();
     
     public EnderBow() {}
-
     private Player player;
-    public EnderBow(Player player) {
-        this.player = player;
-    }
 
     @Override
     public ItemStack[] getGadgetItems() {
@@ -46,9 +42,7 @@ public class EnderBow implements Gadget {
         long cooldown = PartlyFancy.getIntValue("gadget.ender-bow.cooldown");
         
         COOLDOWNS.add(fancyPlayer);
-        TaskUtils.doSyncLater(PartlyFancy.getInstance(), () -> {
-            COOLDOWNS.remove(fancyPlayer);
-        }, cooldown * 20L);
+        TaskUtils.doAsyncLater(PartlyFancy.getInstance(), () -> COOLDOWNS.remove(fancyPlayer), cooldown * 20L);
     }
 
     @Override

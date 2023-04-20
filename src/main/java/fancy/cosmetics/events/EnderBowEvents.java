@@ -30,6 +30,7 @@ public class EnderBowEvents implements Listener {
             FancyPlayer fp = FancyPlayer.getFancyPlayer((Player) e.getEntity());
             
             if (fp.getGadget() != null && fp.getGadget() instanceof EnderBow && gadget != null && gadget.equals("ender-bow-bow")) {
+                e.setConsumeItem(false);
                 
                 if (EnderBow.COOLDOWNS.contains(fp)) {
                     e.setCancelled(true);

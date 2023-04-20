@@ -20,19 +20,23 @@ public class FancyCommandLoader {
     }
     
     public static int runCommand(Player player, String... args) {
+        
         for (FancyCommand command : commands) {
+            
             for (String sub_command : command.subCommands()) {
+                
                 if (sub_command.equalsIgnoreCase(args[0])) {
                     return command.run(player, args);
                 }
             }
         }
+        
         return -1;
     }
 
     public static void addFancyCommand(FancyCommand... fancyCommands) {
-        Collections.addAll(commands, fancyCommands);
         
+        Collections.addAll(commands, fancyCommands);
     }
 
     public interface FancyCommand {

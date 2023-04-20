@@ -33,7 +33,9 @@ public class Snake implements FancyMenuTheme, Static, Cloneable {
             int pos_index = 0;
             @Override
             public void run() {
+                
                 if (slots.length > 0) {
+                    
                     for (int slot : slots) {
                         host.getInventory().setItem(slot, null);
                     }
@@ -53,6 +55,7 @@ public class Snake implements FancyMenuTheme, Static, Cloneable {
 
     @Override
     public void clear() {
+        
         Bukkit.getScheduler().cancelTask(this.task);
         this.task = -1;
     }
@@ -86,9 +89,11 @@ public class Snake implements FancyMenuTheme, Static, Cloneable {
 
     @Override
     public Object clone() {
+
         try {
             return super.clone();
         } catch (Exception ex) {
+            ex.printStackTrace();
             return null;
         }
     }
