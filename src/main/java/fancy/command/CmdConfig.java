@@ -12,6 +12,10 @@ public class CmdConfig implements FancyCommandLoader.FancyCommand {
 	public int run(Player player, String[] args) {
 		FancyPlayer fancyPlayer = FancyPlayer.getFancyPlayer(player);
 		
+		if (!(args.length > 2)) {
+			return 0;
+		}
+		
 		if (player.hasPermission(permission())) {
 			String path = args[2];
 			YamlConfiguration yml = (YamlConfiguration) PartlyFancy.getInstance().getConfig();
@@ -29,10 +33,10 @@ public class CmdConfig implements FancyCommandLoader.FancyCommand {
 						fancyPlayer.sendMessageWithPrefix(PartlyFancy.getStringValue("message.command.config.value", "%player%-" + player.getCustomName(), "%path%-" + path, "%value%-" + get));
 						return 1;
 					}
-				} else if (args.length >= 4) {
+				} else {
 					if (args[1].equalsIgnoreCase("set")) {
 						
-						String value = condenseArgs(args, 3);
+						String value = condenseArgs(args);
 						yml.set(path, value);
 						PartlyFancy.getInstance().saveConfig();
 						PartlyFancy.getInstance().reloadConfig();
@@ -43,12 +47,13 @@ public class CmdConfig implements FancyCommandLoader.FancyCommand {
 				}
 			}
 		}
+		
 		return 0;
 	}
 	
-	private String condenseArgs(String[] args, int startIndex) {
+	private String condenseArgs(String[] args) {
 		StringBuilder s = new StringBuilder();
-		for (int i = startIndex; i < args.length; i++) {
+		for (int i = 3; i < args.length; i++) {
 			s.append(args[i]);
 			
 			if (i != args.length - 1) {

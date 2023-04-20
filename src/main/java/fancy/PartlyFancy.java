@@ -3,6 +3,7 @@ package fancy;
 import api.builders.Globals;
 import fancy.command.FancyCommandLoader;
 import fancy.cosmetics.events.EnderBowEvents;
+import fancy.cosmetics.events.GadgetEvents;
 import fancy.menu.FancyMenuLoader;
 import fancy.menu.events.MenuEvents;
 import lombok.Getter;
@@ -35,30 +36,30 @@ public class PartlyFancy extends JavaPlugin implements Listener {
 		instance = this;
 		fancyPlayers = new HashMap<>();
 		
-		log("&eLoading&b PartlyFancy&c v" + getVersion() + "&e...");
+		log("&9PartlyFancy&7 >>&r &eLoading&b PartlyFancy&c v" + getVersion() + "&e...");
 	}
 	
 	@Override
 	public void onEnable() {
-		log("&eEnabling&b PartlyFancy&c v" + getVersion() + "&e...");
-		registerListeners(this, new MenuEvents(), new EnderBowEvents());
+		log("&9PartlyFancy&7 >>&r &eEnabling&b PartlyFancy&c v" + getVersion() + "&e...");
+		registerListeners(this, new MenuEvents(), new EnderBowEvents(), new GadgetEvents());
 		
-		log("&eGenerating&b PartlyFancy&e config&c v" + configVersion + "&e...");
+		log("&9PartlyFancy&7 >>&r &eGenerating&b PartlyFancy&e config&c v" + configVersion + "&e...");
 		generateConfig();
 		
-		log("&eInitializing&b PartlyFancy&e menus...");
+		log("&9PartlyFancy&7 >>&r &eInitializing&b PartlyFancy&e menus...");
 		FancyMenuLoader.initialize();
 		
-		log("&eInitializing&6 bStats&e for&b PartlyFancy&e.");
+		log("&9PartlyFancy&7 >>&r &eInitializing&6 bStats&e for&b PartlyFancy&e.");
 		new Metrics(this, 16081);
 	}
 	
 	@Override
 	public void onDisable() {
-		log("&eStop all cosmetics of any&b online&e players.");
+		log("&9PartlyFancy&7 >>&r &eStop all cosmetics of any&b online&e players.");
 		fancyPlayers.forEach((uuid, fancyPlayer) -> fancyPlayer.stopAll(false));
 		
-		log("&eUnloaded&b PartlyFancy&c v" + getVersion() + "&c...");
+		log("&9PartlyFancy&7 >>&r &eUnloaded&b PartlyFancy&c v" + getVersion() + "&c...");
 	}
 	
 	@Override
@@ -130,16 +131,13 @@ public class PartlyFancy extends JavaPlugin implements Listener {
 	public static String getStringValue(String path, String... replacements) {
 		String message = getInstance().getConfig().getString(path);
 		
-		if (message != null) {
+		if (message != null || (replacements != null && replacements.length != 0)) {
 			
-			if (replacements.length != 0) {
+			for (String replacement : replacements) {
+				String[] split = replacement.split("-", 2);
 				
-				for (String replacement : replacements) {
-					String[] split = replacement.split("-", 2);
-					
-					if (split.length == 2) {
-						message = message.replace(split[0], split[1]);
-					}
+				if (split.length == 2) {
+					message = message.replace(split[0], split[1]);
 				}
 			}
 			
@@ -193,20 +191,23 @@ public class PartlyFancy extends JavaPlugin implements Listener {
 		
 		if (!f.exists()) {
 			saveDefaultConfig();
-			log("&eNew&b config.yml&e has been created.");
+			log("&9PartlyFancy&7 >>&r &eNew&b config.yml&e has been created.");
 		} else {
 			String ver = getConfig().getString("config-version");
 			
 			if (ver != null && !ver.equalsIgnoreCase(configVersion)) {
 				boolean renamed = f.renameTo(new File(getDataFolder(), "config.yml.old"));
+				
 				if (renamed) {
 					
 					saveDefaultConfig();
-					log("&cOld&b PartlyFancy&e config was changed to&c 'config.yml.old'&e.&c (REASON: OUTDATED)");
+					log("&9PartlyFancy&7 >>&r &cOld&b PartlyFancy&e config was changed to&c 'config.yml.old'&e.&c (REASON: OUTDATED)");
 				} else {
 					log("&4PartlyFancy&l >>&r&e Error creating the new config file. It is recommended you rename the old one to allow the creation of a new config.yml");
 				}
 			}
+			
+			log("&9PartlyFancy&7 >>&r&b config.yml&c v" + ver + "&e has been loaded.");
 		}
 	}
 	

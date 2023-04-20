@@ -22,18 +22,14 @@ import java.util.List;
 
 public class FancyMenuLoader {
 	
-	private static boolean init = false;
+	protected static boolean init = false;
 	
 	public static List<FancyMenu> menus = new ArrayList<>();
-	public static List<FancyMenuTheme> themes = new ArrayList<>();
+	public static FancyMenuTheme[] themes = new FancyMenuTheme[]{new Solid(), new Rainbow(), new Snake()};
 	
 	public static void initialize() {
 		
 		if (init) return;
-		
-		addTheme(new Solid());
-		addTheme(new Rainbow());
-		addTheme(new Snake());
 		
 		registerFancyMenu(new MainMenu());
 		registerFancyMenu(new ParticleMenu());
@@ -96,17 +92,15 @@ public class FancyMenuLoader {
 		menus.add(m);
 	}
 	
-	static void addTheme(FancyMenuTheme theme) {
-		themes.add(theme);
-	}
-	
 	public static FancyMenu getFromId(int id) {
 		for (FancyMenu m : menus) {
+			
 			if (m.inventoryId().equals(id)) {
 				return m;
 			}
 		}
-		return null;
+		
+		return getFromId(FancyMenuIds.MAIN.getId());
 	}
 	
 	public interface FancyMenu {

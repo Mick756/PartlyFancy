@@ -2,7 +2,6 @@ package fancy.util;
 
 import api.builders.ItemStackBuilder;
 import de.tr7zw.changeme.nbtapi.NBTItem;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -28,28 +27,36 @@ public class CosmeticUtil {
         int invSize = inv.getSize();
         
         switch (invSize) {
-            case 9:
+            case 9 -> {
                 return new int[]{0, 8};
-            case 18:
+            }
+            case 18 -> {
                 return new int[]{0, 8, 9, 17};
-            case 27:
+            }
+            case 27 -> {
                 if (!omit) {
                     return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
                 } else return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 24, 25, 26};
-            case 36:
+            }
+            case 36 -> {
                 if (!omit) {
                     return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
                 } else return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 28, 29, 33, 34, 35};
-            case 45:
+            }
+            case 45 -> {
                 if (!omit) {
                     return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
                 } else return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 42, 43, 44};
-            case 54:
+            }
+            case 54 -> {
                 if (!omit) {
                     return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53};
-                } else return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 51, 52, 53};
-            default:
+                } else
+                    return new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 51, 52, 53};
+            }
+            default -> {
                 return new int[]{};
+            }
         }
     }
     

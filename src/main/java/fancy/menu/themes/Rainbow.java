@@ -37,14 +37,12 @@ public class Rainbow implements FancyMenuTheme, MultiColor, Cloneable {
             
             @Override
             public void run() {
-
-                if (slots.length > 0) {
-                    for (int slot : slots) {
-                        
-                        host.getInventory().setItem(slot, items.get(this.r.nextInt(items.size())));
-                    }
+                
+                for (int slot : slots) {
+                    
+                    host.getInventory().setItem(slot, items.get(this.r.nextInt(items.size())));
                 }
-
+                
             }
         }.runTaskTimerAsynchronously(PartlyFancy.getInstance(), 0, 15).getTaskId();
     }
@@ -87,6 +85,7 @@ public class Rainbow implements FancyMenuTheme, MultiColor, Cloneable {
         try {
             return super.clone();
         } catch (Exception ex) {
+            ex.printStackTrace();
             return null;
         }
 

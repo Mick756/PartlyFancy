@@ -27,6 +27,7 @@ public interface FancyMenuTheme {
     FancyMenuTheme newInstance();
 
     static FancyMenuTheme getTheme(String value) {
+        
         for (FancyMenuTheme theme : FancyMenuLoader.themes) {
             if (theme.name().equalsIgnoreCase(value)) {
                 return theme.newInstance();
@@ -37,6 +38,7 @@ public interface FancyMenuTheme {
 
     static FancyMenuTheme parseTheme(FancyMenuLoader.FancyMenu m, String path) {
         FancyMenuTheme theme = getTheme(PartlyFancy.getStringValue(path + ".theme"));
+        
         if (theme != null) {
             if (theme instanceof MultiColor) {
                 List<String> matNames = (List<String>) PartlyFancy.getListValue(path + ".items");

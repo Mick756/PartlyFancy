@@ -93,6 +93,7 @@ public class Snake implements FancyMenuTheme, Static, Cloneable {
         try {
             return super.clone();
         } catch (Exception ex) {
+            ex.printStackTrace();
             return null;
         }
     }
